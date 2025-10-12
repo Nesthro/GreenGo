@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = "National Museum of Fine Arts";
+}
+
+<div class="museum-detail-container">
+    <!-- Header Section -->
+    <div class="museum-header">
+        <div class="header-left">
+            <h1 class="museum-title">National Museum of Fine Arts</h1>
+        </div>
+
+        <div class="header-right">
+            <button class="btn-icon" title="Save"><i class="fas fa-bookmark"></i></button>
+            <button class="btn-icon" title="Share"><i class="fas fa-share-alt"></i></button>
+        </div>
+    </div>
+
+    <!-- Image Gallery (new layout matching your Figma/screenshot) -->
+    <div class="image-gallery">
+        <div class="main-image">
+            <img src="~/Content/images/national-museum-exterior.jpg" alt="National Museum Exterior" />
+        </div>
+
+        <div class="side-gallery">
+            <div class="side-top">
+                <img src="~/Content/images/national-museum-interior1.jpg" alt="Interior Top" />
+            </div>
+
+            <div class="side-bottom">
+                <div class="bottom-left">
+                    <img src="~/Content/images/national-museum-interior2.jpg" alt="Interior Bottom Left" />
+                </div>
+                <div class="bottom-right see-all-wrapper">
+                    <img src="~/Content/images/national-museum-portrait.jpg" alt="Bottom Right" />
+                    <a href="#" class="see-all-btn">See all photos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Section -->
+    <section>
+        <h2 class="section-title">Overview</h2>
+        <p>The National Museum of Fine Arts, located in Ermita, Manila, is one of the country’s most treasured cultural institutions. It houses an extensive collection of artworks, including paintings, sculptures, and other pieces that celebrate the nation’s artistic heritage. The museum is a beacon for education, learning, and appreciation of Filipino identity.</p>
+        <p><strong>Free Entrance</strong></p>
+    </section>
+
+    <!-- Highlights Section -->
+    <section>
+        <h3 class="section-title">Highlights</h3>
+        <ul>
+            <li>Timeless masterpieces crafted by towering art visionaries.</li>
+            <li>Rich collection of classical, modern, and contemporary art.</li>
+            <li>Historical and cultural significance woven into every canvas and sculpture.</li>
+            <li>Perfect destination for students, history buffs, and art explorers.</li>
+            <li>Just steps from “Spoliarium” — the museum’s most famous and powerful artwork.</li>
+        </ul>
+    </section>
+
+    <!-- Location Section -->
+    <section>
+        <h3 class="section-title">Location</h3>
+        <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 100%; height: 360px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.313991289029!2d120.97919921478925!3d14.586921281997019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca1cdbb3a885%3A0x9fbb1a52ff90dd43!2sNational%20Museum%20of%20Fine%20Arts!5e0!3m2!1sen!2sph!4v1696580033273!5m2!1sen!2sph"
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section>
+        <h3 class="section-title">Customer Reviews</h3>
+        <div class="review">
+            <p><strong>5.0 ★★★★★</strong> – Take your kids! Such a beautiful place to explore. It’s rich and moving! I love its artwork and its memorable atmosphere. Would recommend, and don’t forget to see an artwork by Luna to grasp the grand scale.</p>
+            <small>– T.M., via Ohto</small>
+        </div>
+        <div class="review">
+            <p><strong>5.0 ★★★★★</strong> – I didn’t know this kind of beautiful place existed. It was absolutely lifelike emotion all throughout. The museum has excellent lighting, staff, and it’s free to explore looking for great art finds.</p>
+            <small>– T.M., via Ohto</small>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section>
+        <h3 class="section-title">You might also like…</h3>
+        <div class="recommendations" style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div style="width: 220px;">
+                <img src="~/Content/images/rizal-park.jpg" alt="Rizal Park, Manila" style="width:100%; border-radius:8px;" />
+                <p><strong>Rizal Park, Manila</strong><br /><small>Historical Monument of Rizal Park</small><br />⭐ 4.5 (8.2k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/national-museum-anthro.jpg" alt="National Museum of Anthropology" style="width:100%; border-radius:8px;" />
+                <p><strong>National Museum of Anthropology</strong><br /><small>Ethnographic & Cultural Gallery</small><br />⭐ 4.7 (4.1k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/okada-art.jpg" alt="Okada: Shape of Art" style="width:100%; border-radius:8px;" />
+                <p><strong>Okada: Shape of Art</strong><br /><small>Art Exhibit in Manila</small><br />⭐ 4.2 (1.4k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/museum-pops.jpg" alt="Museum Pop Art" style="width:100%; border-radius:8px;" />
+                <p><strong>Museum Pop Art</strong><br /><small>Modern Art Showcase</small><br />⭐ 4.4 (2.3k)</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    /* container */
+    .museum-detail-container {
+        max-width: 1250px;
+        margin: 28px auto;
+        padding: 12px 18px;
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        color: #222;
+    }
+
+    /* Header - title left, icons right (same baseline) */
+    .museum-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        gap: 12px;
+    }
+
+    .header-left {
+        flex: 1;
+    }
+
+    .header-right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .museum-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0a2447;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    /* small icon buttons */
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .15s ease;
+    }
+
+        .btn-icon i {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .btn-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(10, 36, 71, 0.06);
+            border-color: #d0d0d0;
+        }
+
+    /* ===== Gallery layout matching screenshot ===== */
+    .image-gallery {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        align-items: start;
+        margin-bottom: 28px;
+    }
+
+    /* Left main panorama */
+    .main-image img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        box-shadow: 0 6px 20px rgba(10, 36, 71, 0.06);
+    }
+
+    /* Right column structure */
+    .side-gallery {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 10px;
+        height: 100%;
+    }
+
+    /* top tall image */
+    .side-top img {
+        width: 100%;
+        height: 224px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        box-shadow: 0 6px 18px rgba(10, 36, 71, 0.05);
+    }
+
+    /* bottom two thumbnails */
+    .side-bottom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+        .side-bottom img {
+            width: 100%;
+            height: 108px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+    /* overlay "See all photos" */
+    .see-all-wrapper {
+        position: relative;
+    }
+
+    .see-all-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(13, 43, 79, 0.9);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        box-shadow: 0 6px 18px rgba(10, 36, 71, 0.12);
+        transition: transform .12s ease;
+    }
+
+        .see-all-btn:hover {
+            transform: translateY(-2px);
+        }
+
+    .image-gallery img {
+        transition: transform .25s ease;
+    }
+
+        .image-gallery img:hover {
+            transform: scale(1.02);
+        }
+
+    /* section title */
+    .section-title {
+        margin-top: 6px;
+        margin-bottom: 12px;
+    }
+</style>

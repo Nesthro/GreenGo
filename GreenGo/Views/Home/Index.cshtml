@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Home - GreenGo";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100%;
+        overflow: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f8f9f5;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 60px;
+        flex-shrink: 0;
+    }
+
+    .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .logo-text {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2d3e1f;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+    }
+
+        .nav-link {
+            text-decoration: none;
+            color: #4a5d35;
+            font-weight: 700;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+            .nav-link:hover,
+            .nav-link.active {
+                color: #5d7d2b;
+            }
+
+    .auth-buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .btn-login {
+        background: #7a9b1a;
+        color: white;
+    }
+
+    .btn-login:hover {
+        background: #6a8915;
+    }
+
+    .btn-signup {
+        background: #2d3e1f;
+        color: white;
+    }
+
+    .btn-signup:hover {
+        background: #1f2b15;
+    }
+
+    .hero-section {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        justify-content: center;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 60px;
+    }
+
+    .hero-content h1 {
+        font-size: 56px;
+        color: #2d3e1f;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 25px;
+    }
+
+    .hero-content h1 .green-text {
+        color: #8fb91c;
+    }
+
+    .hero-content p {
+        color: #4a5d3a;
+        font-size: 17px;
+        line-height: 1.7;
+        margin-bottom: 40px;
+        max-width: 500px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 20px;
+    }
+
+    .btn-primary {
+        background: #7a9b1a;
+        color: white;
+        padding: 16px 40px;
+        font-size: 16px;
+    }
+
+    .btn-primary:hover {
+        background: #6a8915;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(122, 155, 26, 0.3);
+    }
+
+    .btn-secondary {
+        background: white;
+        color: #2d3e1f;
+        border: 2px solid #2d3e1f;
+        padding: 14px 40px;
+        font-size: 16px;
+    }
+
+    .btn-secondary:hover {
+        background: #f5f5f5;
+        transform: translateY(-2px);
+    }
+
+    .hero-image-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .hero-image {
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+    }
+
+    .footer {
+        text-align: center;
+        padding: 15px;
+        color: #666;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+</style>
+
+</head>
+<body>
+    <div class="header">
+        <div class="logo-section">
+            <img src="~/Content/Images/logo.jpg" alt="GreenGo Logo" class="logo" />
+            <span class="logo-text">GreenGo</span>
+        </div>
+
+        <div class="nav-menu">
+            <a href="@Url.Action("Index", "Home")" class="nav-link active">Home</a>
+            <a href="@Url.Action("Categories", "Home")" class="nav-link">Categories</a>
+            <a href="#" class="nav-link">Reservation</a>
+            <a href="#" class="nav-link">About Us</a>
+            <a href="#" class="nav-link">Tips</a>
+        </div>
+
+        <div class="auth-buttons">
+            <a href="@Url.Action("Login", "Account")" class="btn btn-login">Login</a>
+            <a href="@Url.Action("Register", "Account")" class="btn btn-signup">Sign Up</a>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Discover the <span class="green-text">Green</span> Side of National Capital Region</h1>
+            <p>Plan your next adventure across the NCR's parks, museums, and cultural landmarks – all in one eco-friendly travel platform.</p>
+
+            <div class="hero-buttons">
+                <a href="@Url.Action("Home", "Home")" class="btn btn-primary">Start Exploring</a>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+
+        <div class="hero-image-container">
+            <img src="@Url.Content("~/Content/Images/welcomepageimg.png")"
+                 alt="People planning travel"
+                 class="hero-image" />
+        </div>
+    </div>
+
+    <div class="footer">
+        <p> 2025 Green Go NCR – Eco Travel Hub</p>
+    </div>
+</body>
+</html>

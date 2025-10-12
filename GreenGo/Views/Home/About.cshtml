@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "About GreenGo";
+}
+
+<style>
+
+    .about-section {
+        padding: 40px 0;
+        text-align: center;
+    }
+
+    .about-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .hero-banner {
+        position: relative;
+        height: 400px;
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        margin-bottom: 50px;
+        color: white;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.2); /* Slight dark overlay */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .hero-overlay h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .hero-overlay p {
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+    /* Section Headings */
+    .about-section h2 {
+        font-size: 2.2em;
+        color: #333;
+        margin-bottom: 40px;
+    }
+
+    /* What is GreenGo Section */
+    .what-is-greengo p {
+        font-size: 1.1em;
+        line-height: 1.6;
+        color: #555;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+
+    .greengo-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 40px;
+        text-align: left;
+        font-size: 1.1em;
+        color: #333;
+    }
+
+        .greengo-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+            .greengo-list li:before {
+                content: '•'; /* Simple bullet */
+                font-size: 1.5em;
+                color: #79a81e; /* Green accent color */
+                position: absolute;
+                left: 0;
+                top: -2px;
+            }
+
+    /* What we Promise Section */
+    .promise-section {
+        background-color: #f7fff3; /* Light green background */
+        padding: 50px 0;
+    }
+
+    .promise-cards {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+    }
+
+    .promise-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 25px;
+        width: 280px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+        .promise-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .promise-card .icon img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .promise-card .icon {
+            font-size: 2.5em;
+            color: #79a81e; /* Green accent color */
+            margin-bottom: 15px;
+        }
+
+        .promise-card h3 {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .promise-card p {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.5;
+            text-align: center;
+        }
+</style>
+
+
+<div class="hero-banner" style="background-image: url('@Url.Content("~/Content/Images/about.jpg")');">
+    <div class="hero-overlay">
+        <h1>Looking for green escape?</h1>
+        <p>You're in the right place.</p>
+    </div>
+</div>
+
+
+<div class="about-section what-is-greengo">
+    <div class="about-content">
+        <h2>What is GreenGo?</h2>
+        <p>
+            **GreenGo is how can you explore Eco-friendly destinations within NCR.**
+        </p>
+        <p>
+            Whether you're searching for a relaxing park, a nature-inspired activity, or a museum visit, GreenGo NCR helps you discover sustainable and mindful travel options. Some destinations are free, others may require reservations or tickets — and we make it simple to manage them all in one place.
+        </p>
+
+        <ul class="greengo-list">
+            <li>Discover parks, museums, and outdoor activities 🌿</li>
+            <li>Book guided tours and reserve spots easily 🎫</li>
+            <li>Manage payments for ticketed destinations 💳</li>
+            <li>Bookmark places you've visited or want to explore again 📌</li>
+        </ul>
+
+        <p style="font-weight: bold; margin-bottom: 0;">Traveling green has never been this easy.</p>
+    </div>
+</div>
+
+<div class="about-section promise-section">
+    <div class="about-content">
+        <h2>What we promise</h2>
+        <div class="promise-cards">
+            <div class="promise-card">
+                <div class="icon">
+                    <img src="~/Content/Images/simplicity.png" alt="Simplicity" />
+                </div>
+                <h3>Simplicity</h3>
+                <p>
+                    From discovering to booking, GreenGo makes eco-travel easy and hassle-free.
+                </p>
+            </div>
+
+            <div class="promise-card">
+                <div class="icon">
+                    <img src="~/Content/Images/authenticity.png" alt="Authenticity" />
+                </div>
+                <h3>Authenticity</h3>
+                <p>
+                    Our curated destinations highlight real, sustainable experiences in NCR.
+                </p>
+            </div>
+
+            <div class="promise-card">
+                <div class="icon">
+                    <img src="~/Content/Images/discovery.png" alt="Discovery" />
+                </div>
+                <h3>Discovery</h3>
+                <p>
+                    We're always on the lookout for new hidden green escapes for you to enjoy.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* The footer with copyright is assumed to be in your Shared Layout. *@

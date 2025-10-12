@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - GreenGo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #fff;
+            padding: 15px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a2447;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #f0f0f0;
+            border-radius: 25px;
+            padding: 8px 18px;
+            width: 320px;
+            gap: 10px;
+        }
+
+            .search-bar input {
+                border: none;
+                background: transparent;
+                outline: none;
+                width: 100%;
+                color: #333;
+                font-size: 14px;
+            }
+
+        .search-icon {
+            color: #777;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #444;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+            .nav-link:hover {
+                color: #8fb91c;
+            }
+
+        .btn-signup-header {
+            border: 1.5px solid #8fb91c;
+            color: #8fb91c;
+            background: #fff;
+            padding: 8px 22px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+            .btn-signup-header:hover {
+                background: #8fb91c;
+                color: #fff;
+            }
+
+        .btn-login-header {
+            background: #8fb91c;
+            color: white;
+            padding: 8px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+            .btn-login-header:hover {
+                background: #7da619;
+            }
+
+        /* ===== MAIN CONTENT ===== */
+        .body-content {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Header -->
+    <div class="header">
+        <div class="left-section">
+            <div class="logo-section">
+                <img src="~/Content/Images/logo.jpg" alt="GreenGo Logo" class="logo" />
+                <span class="logo-text">GreenGo</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search destinations or activities" />
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
+        </div>
+        <div class="nav-menu">
+            <a href="@Url.Action("Index", "Home")" class="nav-link">Home</a>
+            <a href="@Url.Action("Categories", "Home")" class="nav-link">Categories</a>
+            <a href="@Url.Action("About", "Home")" class="nav-link">About Us</a>
+            <a href="@Url.Action("Contact", "Home")" class="nav-link">Contact Us</a>
+            <a href="@Url.Action("Tips", "Home")" class="nav-link">Tips</a>
+            <a href="@Url.Action("Register", "Account")" class="btn-signup-header">Sign Up</a>
+            <a href="@Url.Action("Login", "Account")" class="btn-login-header">Log In</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

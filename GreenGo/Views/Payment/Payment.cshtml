@@ -1,0 +1,554 @@
+﻿@{
+    ViewBag.Title = "Complete Payment";
+}
+
+<style>
+    /* ------------------------------------------------------------------ */
+    /* Shared Layout Styles (for consistency with previous step) */
+    /* ------------------------------------------------------------------ */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .sidebar {
+        width: 300px;
+        padding: 20px;
+        background-color: #f9f9f9; /* Changed background for contrast */
+        border-radius: 6px;
+    }
+
+    .main-content {
+        flex-grow: 1;
+        padding-right: 30px;
+    }
+
+    .header-progress {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+        .header-progress .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-progress .step-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+            .header-progress .step-icon.active {
+                background-color: #4CAF50; /* Green for active/completed */
+            }
+
+            .header-progress .step-icon.current {
+                background-color: #333; /* Darker for current/pay step */
+            }
+
+            .header-progress .step-icon.inactive {
+                background-color: #adb5bd; /* Lighter grey for inactive */
+            }
+
+            /* SVG for checkmark */
+            .header-progress .step-icon.active svg {
+                fill: white;
+            }
+
+        .header-progress .step-label {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .header-progress .step:last-child .step-label {
+            color: #333; /* Darker for the current step label */
+            font-weight: bold;
+        }
+
+        .header-progress .progress-line {
+            position: absolute;
+            height: 4px;
+            background-color: #e0e0e0;
+            width: calc(100% - 60px);
+            left: 30px;
+            top: 15px;
+            z-index: 0;
+        }
+
+        .header-progress .progress-line-fill {
+            height: 100%;
+            /* 100% fill for the line, as both previous steps are done */
+            width: 100%;
+            background-color: #4CAF50;
+        }
+
+    /* Sidebar/Summary Styles */
+    .sidebar h3 {
+        margin-top: 0;
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .sidebar-details strong {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+    }
+
+    .sidebar-details span {
+        display: block;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .sidebar-details hr {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 20px 0;
+    }
+
+    .sidebar-summary div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .sidebar-summary .total {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Payment Step Styles (from previous iteration) */
+    /* ------------------------------------------------------------------ */
+
+    h2 {
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 1.8em;
+    }
+
+    .payment-options-container {
+        /* Removed border and padding here to match the image for the final payment section */
+        margin-bottom: 30px;
+    }
+
+    .security-notice {
+        background-color: #f7ffe6;
+        border: 1px solid #c9e89d;
+        color: #3d7900;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95em;
+    }
+
+        .security-notice svg {
+            fill: #4CAF50;
+            width: 20px;
+            height: 20px;
+        }
+
+    .payment-option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee; /* Kept for visual separation of payment methods */
+    }
+
+        .payment-option:last-of-type {
+            border-bottom: none;
+        }
+
+        .payment-option label {
+            font-weight: bold;
+            color: #333;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+    .card-form-container {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        margin-top: 15px;
+        background-color: #fff;
+    }
+
+        .card-form-container label {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .card-form-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Important for full width */
+        }
+
+    .card-form-group {
+        display: flex;
+        gap: 20px;
+    }
+
+        .card-form-group > div {
+            flex-basis: 50%;
+        }
+
+    .save-card-checkbox {
+        margin-top: 10px;
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .footer-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .footer-total {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .terms-payment {
+        font-size: 0.8em;
+        color: #777;
+        margin-top: 10px;
+    }
+
+        .terms-payment a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+    .pay-button {
+        background-color: #79a81e; /* Color matching the screenshot */
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1em;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+        .pay-button:hover {
+            background-color: #6a961a;
+        }
+
+    /* Specific adjustment for radio input alignment */
+    .radio-input-group {
+        padding-top: 15px;
+    }
+
+        /* Fix the radio button style to be vertically centered */
+        .radio-input-group input[type="radio"] {
+            transform: scale(1.1); /* Slightly enlarge for prominence */
+            margin-right: 10px;
+        }
+
+    /* Style the radio option when selected */
+    input[type="radio"]:checked + label {
+        color: #333;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Modal Styles */
+    /* ------------------------------------------------------------------ */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure it's on top of everything */
+        visibility: hidden; /* Hidden by default */
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s ease;
+    }
+
+        .modal-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 350px; /* Fixed width as per screenshot */
+        position: relative;
+    }
+
+    .modal-close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        color: #aaa;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+        .modal-close-button:hover {
+            color: #555;
+        }
+
+    .modal-icon {
+        width: 80px;
+        height: 80px;
+        background-color: #fff; /* Main icon background */
+        border-radius: 50%;
+        margin: -70px auto 20px; /* Negative margin to float it above */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border: 2px solid #ddd; /* Border to match screenshot */
+    }
+
+        .modal-icon img {
+            width: 60px; /* Size of the inner image */
+            height: 60px;
+            object-fit: contain;
+        }
+
+    .modal-content h3 {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .modal-button {
+        background-color: #333;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+        text-decoration: none; /* For anchor tags */
+        display: inline-block;
+        margin-top: 15px;
+    }
+
+        .modal-button:hover {
+            background-color: #555;
+        }
+</style>
+
+
+<div class="container">
+    <div class="main-content">
+        <div class="header-progress">
+            <div class="progress-line">
+                <div class="progress-line-fill"></div>
+            </div>
+            <div class="step">
+                <div class="step-icon active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                    </svg>
+                </div>
+                <span class="step-label">Choose Booking</span>
+            </div>
+            <div class="step">
+                <div class="step-icon active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                    </svg>
+                </div>
+                <span class="step-label">Enter Info</span>
+            </div>
+            <div class="step">
+                <div class="step-icon current">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="white">
+                        <path d="M6.5 13a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v5z" />
+                        <path d="M9.5 5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V5z" />
+                        <path d="M4.646 1.646a.5.5 0 0 1 .708 0L8 3.293l2.646-1.647a.5.5 0 1 1 .708.708L8.707 4l2.647 1.646a.5.5 0 0 1-.708.708L8 4.707l-2.646 1.647a.5.5 0 0 1-.708-.708L7.293 4 4.646 2.354a.5.5 0 0 1 0-.708zM14 8h-1a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h1v1.5a.5.5 0 0 0 1 0V4h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-1zM2 8H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h1v-1.5a.5.5 0 0 0-1 0V12h1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z" />
+                    </svg>
+                </div>
+                <span class="step-label">Pay</span>
+            </div>
+        </div>
+
+        <h2>Complete Payment</h2>
+
+        <form action="@Url.Action("ProcessPayment", "Payment")" method="post">
+            <div class="security-notice">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock" viewBox="0 0 16 16">
+                    <path d="M5.338 1.11L1.5 4v6.699c.046.208.118.411.218.608 1.206 2.446 4.312 3.619 6.284 3.424zM8 2.223 2.146 5.253A10 10 0 0 0 2 10.025V4.499l6-3z" />
+                    <path fill-rule="evenodd" d="M10 5a2 2 0 0 0-2 2v1h4V7a2 2 0 0 0-2-2z" />
+                    <path d="M15.011 3.51a.5.5 0 0 0-.486-.486c-.055-.005-.11-.005-.164-.005H9.5a.5.5 0 0 0-.5.5v4.5a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5V4a.5.5 0 0 0-.5-.5z" />
+                </svg>
+                All card information is fully **encrypted, secure, and protected**
+            </div>
+
+            <div class="payment-options-container">
+                <div class="radio-input-group">
+                    <input type="radio" id="gCash" name="PaymentMethod" value="GCash" />
+                    <label for="gCash">GCash</label>
+                </div>
+                <div class="radio-input-group">
+                    <input type="radio" id="creditDebit" name="PaymentMethod" value="CreditDebit" checked />
+                    <label for="creditDebit">Credit/Debit Card</label>
+                </div>
+
+                <div id="cardDetailsForm" class="card-form-container">
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" id="cardNumber" name="CardNumber" placeholder=" " required />
+                    </div>
+                    <div class="card-form-group">
+                        <div>
+                            <label for="expiryDate">Expiration date</label>
+                            <input type="text" id="expiryDate" name="ExpiryDate" placeholder="MM/YY" required />
+                        </div>
+                        <div>
+                            <label for="securityCode">Security code</label>
+                            <input type="text" id="securityCode" name="SecurityCode" placeholder=" " required />
+                        </div>
+                    </div>
+                    <div class="save-card-checkbox">
+                        <input type="checkbox" id="saveCard" name="SaveCard" value="true" />
+                        <label for="saveCard" style="font-weight: normal; margin-left: 0;">Save card details</label>
+                    </div>
+                </div>
+
+                <div class="footer-actions">
+                    <div class="payment-info">
+                        <div class="footer-total">
+                            ₱530.00
+                        </div>
+                        <p class="terms-payment">
+                            By clicking "Pay now", you agree that you have read and
+                            understood our <a href="#">Terms & Conditions</a> and <a href="#">Cancellation policy</a>
+                        </p>
+                    </div>
+                    <button type="submit" class="pay-button">Pay</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="sidebar">
+        <h3>National Museum of Fine Arts</h3>
+        <div class="sidebar-details">
+            <strong>Single Ticket</strong>
+            <span>Planned participation date</span>
+            <span>09 Sep 2025</span>
+            <span>Quantity</span>
+            <span>University student x 1</span>
+            <hr />
+        </div>
+        <div class="sidebar-summary">
+            <div class="total">
+                <span>Total</span>
+                <span>₱530.00</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Payment Success Modal Markup *@
+<div id="paymentSuccessModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close-button" onclick="closeModal()">&times;</button>
+        <div class="modal-icon">
+            <img src="https://via.placeholder.com/60x60/FFD700/000000?text=%F0%9F%8E%89" alt="Confetti Icon" />
+        </div>
+        <h3>Payment Successful!</h3>
+        <a href="@Url.Action("Index", "Home")" class="modal-button">Go back to Home</a>
+    </div>
+</div>
+
+<script>
+    // JavaScript to handle showing/hiding the modal
+    function showModal() {
+        document.getElementById('paymentSuccessModal').classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('paymentSuccessModal').classList.remove('show');
+    }
+
+    // Check if payment was successful on page load
+    window.onload = function() {
+        @if (ViewBag.PaymentSuccess != null && ViewBag.PaymentSuccess)
+        {
+            <text>
+                showModal();
+            </text>
+        }
+
+        // Optional: JavaScript to hide/show card form based on radio selection
+        var creditDebitRadio = document.getElementById('creditDebit');
+        var gCashRadio = document.getElementById('gCash');
+        var cardDetailsForm = document.getElementById('cardDetailsForm');
+
+        function toggleCardForm() {
+            if (creditDebitRadio.checked) {
+                cardDetailsForm.style.display = 'block';
+            } else {
+                cardDetailsForm.style.display = 'none';
+            }
+        }
+
+        creditDebitRadio.addEventListener('change', toggleCardForm);
+        gCashRadio.addEventListener('change', toggleCardForm);
+
+        // Initial check
+        toggleCardForm();
+    };
+</script>

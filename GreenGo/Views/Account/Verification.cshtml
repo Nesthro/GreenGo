@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "Verification - GreenGo";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 40px 20px;
+        }
+
+        .form-wrapper {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0a2447;
+            margin-bottom: 15px;
+        }
+
+        .form-description {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .code-input {
+            width: 65px;
+            height: 65px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            border: 1.5px solid #dcdcdc;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+            .code-input:focus {
+                border-color: #8fb91c;
+            }
+
+        .timer {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            background: #8fb91c;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .btn-submit:hover {
+                background: #7da619;
+            }
+
+        .resend-text {
+            margin-top: 25px;
+            color: #555;
+            font-size: 13px;
+        }
+
+            .resend-text a {
+                color: #0a2447;
+                text-decoration: none;
+                font-weight: 500;
+                cursor: pointer;
+            }
+
+                .resend-text a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="form-wrapper">
+            <h1 class="form-title">Verification</h1>
+            <p class="form-description">Enter your 4-digit code that you received on your email.</p>
+
+            <form id="verificationForm">
+                <div class="code-inputs">
+                    <input type="text" maxlength="1" class="code-input" id="code1" />
+                    <input type="text" maxlength="1" class="code-input" id="code2" />
+                    <input type="text" maxlength="1" class="code-input" id="code3" />
+                    <input type="text" maxlength="1" class="code-input" id="code4" />
+                </div>
+
+                <div class="timer" id="timer">00:30</div>
+
+                <button type="submit" class="btn-submit">CONTINUE</button>
+
+                <p class="resend-text">
+                    If you didn't receive a code? <a id="resendLink">Resend</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const codeInputs = document.querySelectorAll('.code-input');
+
+        codeInputs.forEach((input, index) => {
+            input.addEventListener('input', function(e) {
+                if (e.target.value.length === 1 && index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    codeInputs[index - 1].focus();
+                }
+            });
+        });
+
+        let timeLeft = 30;
+        const timerElement = document.getElementById('timer');
+
+        const countdown = setInterval(function() {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `0${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                timerElement.textContent = '00:00';
+            }
+        }, 1000);
+
+        document.getElementById('resendLink').addEventListener('click', function() {
+            timeLeft = 30;
+            alert('Code resent! (Frontend only)');
+        });
+
+        document.getElementById('verificationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const code1 = document.getElementById('code1').value;
+            const code2 = document.getElementById('code2').value;
+            const code3 = document.getElementById('code3').value;
+            const code4 = document.getElementById('code4').value;
+
+            if (code1 && code2 && code3 && code4) {
+                alert('Code verified! (Frontend only)');
+                window.location.href = '@Url.Action("NewPassword", "Account")';
+            } else {
+                alert('Please enter all 4 digits');
+            }
+        });
+    </script>
+</body>
+</html>
