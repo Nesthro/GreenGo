@@ -21,5 +21,9 @@ namespace GreenGo.Controllers
         {
             return View("~/Views/ParksDesc/Arroceros.cshtml");
         }
+        public ActionResult Riverbanks()
+        {
+            return View("~/Views/ParksDesc/Riverbanks.cshtml");
+        }
     }
 }

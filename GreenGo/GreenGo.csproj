@@ -201,6 +201,9 @@
     <Content Include="Content\Images\yuchengco-museum-interior1.jpg" />
     <Content Include="Content\Images\yuchengco-museum-interior2.jpg" />
     <Content Include="Content\Images\yuchengco-museum.jpg" />
+    <Content Include="Content\Parks\marikina-river-park.jpg" />
+    <Content Include="Content\Parks\riverbanks-amphitheater.jpg" />
+    <Content Include="Content\Parks\riverbanks-walkway.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -248,13 +251,11 @@
     <Content Include="Views\MuseumDesc\YuchengcoMuseum.cshtml" />
     <Content Include="Views\Payment\EnterInfo.cshtml" />
     <Content Include="Views\Payment\Payment.cshtml" />
-
     <Content Include="Views\ParksDesc\Arroceros.cshtml" />
-
     <Content Include="Views\Home\MuseumTopAttractions.cshtml" />
     <Content Include="Views\Home\ParksTopAttractions.cshtml" />
     <Content Include="Views\Home\Cities.cshtml" />
-
+    <Content Include="Views\ParksDesc\Riverbanks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

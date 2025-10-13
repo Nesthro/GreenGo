@@ -186,6 +186,12 @@
             color: #6C9A4B;
             font-size: 1em;
         }
+        .attraction-link {
+            text-decoration: none; /* removes underline */
+            color: inherit; /* keeps the text color from the card */
+            display: block; /* makes the whole card clickable */
+        }
+
     </style>
 
 </head>
@@ -213,21 +219,24 @@
 
         <div class="attractions-grid">
 
-            <div class="attraction-card">
-                <div class="card-image-container">
-                    <img src="~/Content/Images/marikina-river-park.jpg" alt="Marikina River Park" class="card-image">
-                </div>
-                <div class="card-details">
-                    <p class="card-location">Marikina, Metro Manila</p>
-                    <h3 class="card-title">Marikina River Park</h3>
-                    <div class="card-rating">
-                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
-                        <span class="rating-value">4.6</span>
-                        <span class="review-count">(243)</span>
+            <a href="@Url.Action("Riverbanks", "ParksDesc")" class="attraction-link">
+                <div class="attraction-card">
+                    <div class="card-image-container">
+                        <img src="~/Content/Images/marikina-river-park.jpg" alt="Marikina River Park" class="card-image">
                     </div>
-                    <p class="card-price">Free entrance</p>
+                    <div class="card-details">
+                        <p class="card-location">Marikina, Metro Manila</p>
+                        <h3 class="card-title">Marikina River Park</h3>
+                        <div class="card-rating">
+                            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                            <span class="rating-value">4.6</span>
+                            <span class="review-count">(243)</span>
+                        </div>
+                        <p class="card-price">Free entrance</p>
+                    </div>
                 </div>
-            </div>
+            </a>
+
 
             <div class="attraction-card">
                 <div class="card-image-container">
