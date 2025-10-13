@@ -194,6 +194,9 @@
     <Content Include="Views\MuseumDesc\YuchengcoMuseum.cshtml" />
     <Content Include="Views\Payment\EnterInfo.cshtml" />
     <Content Include="Views\Payment\Payment.cshtml" />
+    <Content Include="Views\Home\MuseumTopAttractions.cshtml" />
+    <Content Include="Views\Home\ParksTopAttractions.cshtml" />
+    <Content Include="Views\Home\Cities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

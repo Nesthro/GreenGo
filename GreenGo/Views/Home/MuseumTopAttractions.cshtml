@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Attractions 4x2 Grid</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f8f8f8;
+        }
+
+        .top-attractions-section {
+            padding: 20px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .header-controls-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        .controls-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* --- Filter Pills --- */
+        .filter-pills {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-pill {
+            padding: 8px 18px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+            .filter-pill.active {
+                background-color: #6C9A4B;
+                border-color: #6C9A4B;
+                color: white;
+                font-weight: 500;
+            }
+
+        /* --- Sort Dropdown --- */
+        .sort-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9em;
+            color: #666;
+            position: relative;
+        }
+
+        .sort-select {
+            padding: 5px 25px 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            appearance: none;
+            background-color: white;
+            cursor: pointer;
+            min-width: 100px;
+            color: #333;
+        }
+
+        .dropdown-arrow {
+            position: absolute;
+            right: 5px;
+            pointer-events: none;
+            color: #6C9A4B;
+            font-size: 0.7em;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* --- Attractions Grid (4x2 layout) --- */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* --- Attraction Card --- */
+        .attraction-card {
+            background-color: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            transform: translateY(0);
+        }
+
+            .attraction-card:hover {
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+                transform: translateY(-6px);
+            }
+
+        .card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+            .card-link:hover {
+                transform: scale(1.02);
+                transition: transform 0.2s ease;
+            }
+
+
+        .card-image-container {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .attraction-card:hover .card-image {
+            transform: scale(1.08);
+        }
+
+        .card-details {
+            padding: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .attraction-card:hover .card-details {
+            background-color: #f9f9f9;
+        }
+
+        .card-location {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .card-rating {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .stars {
+            color: #FFC107;
+            letter-spacing: -1px;
+            margin-right: 5px;
+        }
+
+        .rating-value {
+            font-weight: bold;
+            color: #333;
+            margin-right: 5px;
+        }
+
+        .review-count {
+            color: #999;
+        }
+
+        .card-price {
+            font-weight: bold;
+            color: #6C9A4B;
+            font-size: 1em;
+        }
+    </style>
+
+</head>
+<body>
+
+    <section class="top-attractions-section">
+        <div class="header-controls-row">
+            <h1 class="page-title">Top Attractions</h1>
+            <div class="controls-group">
+                <div class="filter-pills">
+                    <button class="filter-pill active">Museum</button>
+                    <button class="filter-pill" onclick="window.location.href='@Url.Action("ParksTopAttractions", "Home")'">Parks</button>
+
+
+                </div>
+                <div class="sort-dropdown">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by" class="sort-select">
+                        <option value="featured" selected>Featured</option>
+                        <option value="rating">Rating</option>
+                        <option value="price">Price</option>
+                    </select>
+                    <span class="dropdown-arrow">&#9660;</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="attractions-grid">
+
+            <a href="@Url.Action("NationalMuseum", "MuseumDesc")" class="card-link">
+                <div class="attraction-card">
+                    <div class="card-image-container">
+                        <img src="~/Content/Images/national-museum.jpg" alt="National Museum of Fine Arts" class="card-image" />
+                    </div>
+                    <div class="card-details">
+                        <p class="card-location">Manila, Metro Manila</p>
+                        <h3 class="card-title">National Museum of Fine Arts</h3>
+                        <div class="card-rating">
+                            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                            <span class="rating-value">4.8</span>
+                            <span class="review-count">(243)</span>
+                        </div>
+                        <p class="card-price">Free entrance</p>
+                    </div>
+                </div>
+            </a>
+
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/anthropology.jpg" alt="National Museum of Anthropology" class="card-image">
+                </div>
+                <div class="card-details">
+                    <p class="card-location">Manila, Metro Manila</p>
+                    <h3 class="card-title">National Museum of Anthropology</h3>
+                    <div class="card-rating">
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(243)</span>
+                    </div>
+                    <p class="card-price">Free entrance</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/yuchengco-museum-interior2.jpg" alt="Yuchengco Museum" class="card-image">
+                </div>
+                <div class="card-details">
+                    <p class="card-location">Makati City, Metro Manila</p>
+                    <h3 class="card-title">Yuchengco Museum</h3>
+                    <div class="card-rating">
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(243)</span>
+                    </div>
+                    <p class="card-price">₱ 200</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/museo.jpg" alt="Museo ng Pag-Asa" class="card-image">
+                </div>
+                <div class="card-details">
+                    <p class="card-location">Santa Mesa, Quezon City</p>
+                    <h3 class="card-title">Museo ng Pag-Asa</h3>
+                    <div class="card-rating">
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(243)</span>
+                    </div>
+                    <p class="card-price">₱ 100</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/mindmuseum.jpg" alt="The Mind Museum" class="card-image">
+                </div>
+                <div class="card-details">
+                    <p class="card-location">Rizal Park, Manila</p>
+                    <h3 class="card-title">The Mind Museum</h3>
+                    <div class="card-rating">
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(243)</span>
+                    </div>
+                    <p class="card-price">₱ 750</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/dessertmuseum.jpg" alt="The Dessert Museum" class="card-image">
+                </div>
+                <div class="card-details">
+                    <p class="card-location">Coral Way, Pasay City</p>
+                    <h3 class="card-title">The Dessert Museum</h3>
+                    <div class="card-rating">
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(243)</span>
+                    </div>
+                    <p class="card-price">₱ 699</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/artinislandmuseum.jpg" alt="Art in Island" class="card-image">
+                </div>
+                <div class="card-details">
+                    <p class="card-location">Cubao, Quezon City</p>
+                    <h3 class="card-title">Art in Island</h3>
+                    <div class="card-rating">
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(243)</span>
+                    </div>
+                    <p class="card-price">₱ 850</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/clockmuseum.jpg" alt="Manila Clock Tower Museum" class="card-image">
+                </div>
+                <div class="card-details">
+                    <p class="card-location">Ermita, Manila</p>
+                    <h3 class="card-title">Manila Clock Tower Museum</h3>
+                    <div class="card-rating">
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(243)</span>
+                    </div>
+                    <p class="card-price">₱ 100</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

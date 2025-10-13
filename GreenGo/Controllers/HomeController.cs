@@ -39,6 +39,21 @@ namespace GreenGo.Controllers
             return View();
         }
 
+        public ActionResult MuseumTopAttractions()
+        {
+            return View();
+        }
+
+        public ActionResult ParksTopAttractions()
+        {
+            return View();
+        }
+
+        public ActionResult Cities()
+        {
+            return View();
+        }
+
 
     }
 }
