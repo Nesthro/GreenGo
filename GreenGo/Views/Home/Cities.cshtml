@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore all Cities in NCR</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f8f8f8;
+        }
+
+        .top-attractions-section {
+            padding: 20px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .header-controls-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        .controls-group {
+            /* flex-direction changed to column for city list page since controls are removed */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 0;
+        }
+
+        /* --- Filter Pills (Removed, but keeping class for minimal style changes) --- */
+        .filter-pills, .sort-dropdown {
+            display: none; /* Hide controls not needed for a city list */
+        }
+
+        /* --- Attractions Grid (UPDATED to 4x4 layout for 16 cities) --- */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        /* --- Attraction Card (Now a City Card) --- */
+        .attraction-card {
+            background-color: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            transform: translateY(0);
+        }
+
+            .attraction-card:hover {
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+                transform: translateY(-6px);
+            }
+
+        .card-image-container {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .attraction-card:hover .card-image {
+            transform: scale(1.08);
+        }
+
+        .card-details {
+            padding: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .attraction-card:hover .card-details {
+            background-color: #f9f9f9;
+        }
+
+        .card-location {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        /* City Title is now primary, no location needed */
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        /* Replacing price/rating with tours count */
+        .card-stats {
+            font-weight: bold;
+            color: #6C9A4B;
+            font-size: 1em;
+        }
+
+        .card-rating, .card-price, .card-location {
+            display: none; /* Hide museum-specific elements */
+        }
+    </style>
+
+</head>
+<body>
+
+    <section class="top-attractions-section">
+        <div class="header-controls-row">
+            <h1 class="page-title">Explore all Cities in NCR</h1>
+            <div class="controls-group">
+                <div class="filter-pills"></div>
+                <div class="sort-dropdown"></div>
+            </div>
+        </div>
+
+        <div class="attractions-grid">
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/Images/manila-city.jpg" alt="Manila City Skyline" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Manila City</h3>
+                    <p class="card-stats">100+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/quezon-city.jpg" alt="Quezon City Memorial Circle" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Quezon City</h3>
+                    <p class="card-stats">100+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/makati-city-building.jpg" alt="Makati City Business District" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Makati City</h3>
+                    <p class="card-stats">100+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/pasay-city-mall.jpg" alt="Pasay City Seaside" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Pasay City</h3>
+                    <p class="card-stats">100+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/taguig-bgc.jpg" alt="Taguig City BGC" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Taguig City</h3>
+                    <p class="card-stats">80+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/pasig-city-placeholder.jpg" alt="Pasig City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Pasig City</h3>
+                    <p class="card-stats">50+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/mandaluyong-city-placeholder.jpg" alt="Mandaluyong City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Mandaluyong City</h3>
+                    <p class="card-stats">40+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/paranaque-city-placeholder.jpg" alt="Parañaque City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Parañaque City</h3>
+                    <p class="card-stats">30+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/caloocan-placeholder.jpg" alt="Caloocan City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Caloocan City</h3>
+                    <p class="card-stats">45+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/laspinas-placeholder.jpg" alt="Las Piñas City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Las Piñas City</h3>
+                    <p class="card-stats">35+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/malabon-placeholder.jpg" alt="Malabon City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Malabon City</h3>
+                    <p class="card-stats">15+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/marikina-placeholder.jpg" alt="Marikina City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Marikina City</h3>
+                    <p class="card-stats">30+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/muntinlupa-placeholder.jpg" alt="Muntinlupa City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Muntinlupa City</h3>
+                    <p class="card-stats">25+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/navotas-placeholder.jpg" alt="Navotas City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Navotas City</h3>
+                    <p class="card-stats">10+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/sanjuan-placeholder.jpg" alt="San Juan City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">San Juan City</h3>
+                    <p class="card-stats">20+ Tours</p>
+                </div>
+            </div>
+
+            <div class="attraction-card">
+                <div class="card-image-container">
+                    <img src="~/Content/images/valenzuela-placeholder.jpg" alt="Valenzuela City" class="card-image">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Valenzuela City</h3>
+                    <p class="card-stats">18+ Tours</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
