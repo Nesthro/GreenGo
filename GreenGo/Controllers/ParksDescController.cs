@@ -17,6 +17,9 @@ namespace GreenGo.Controllers
         {
             return View();
         }
-
+        public ActionResult Arroceros()
+        {
+            return View("~/Views/ParksDesc/Arroceros.cshtml");
+        }
     }
 }

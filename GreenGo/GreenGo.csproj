@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -45,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -112,15 +114,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MuseumDescController.cs" />
     <Compile Include="Controllers\ParksDescController.cs" />
@@ -147,6 +145,62 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\css\description-page.css" />
+    <Content Include="Content\Images\about.jpg" />
+    <Content Include="Content\Images\arroceros-forest.jpg" />
+    <Content Include="Content\Images\arroceros-garden.jpg" />
+    <Content Include="Content\Images\arroceros-main.jpg" />
+    <Content Include="Content\Images\arroceros-trees.jpg" />
+    <Content Include="Content\Images\arroceros-walkway.jpg" />
+    <Content Include="Content\Images\authenticity.png" />
+    <Content Include="Content\Images\bgwelcome.png" />
+    <Content Include="Content\Images\bike-illustration.png" />
+    <Content Include="Content\Images\biking.jpg" />
+    <Content Include="Content\Images\discovery.png" />
+    <Content Include="Content\Images\energy-icon.png" />
+    <Content Include="Content\Images\Fishing.jpg" />
+    <Content Include="Content\Images\intramuros.jpg" />
+    <Content Include="Content\Images\la-mesa-eco-park.jpg" />
+    <Content Include="Content\Images\lamesa-main.jpg" />
+    <Content Include="Content\Images\lamesa-path.jpg" />
+    <Content Include="Content\Images\lamesa-picnic.jpg" />
+    <Content Include="Content\Images\lamesa-top.jpg" />
+    <Content Include="Content\Images\lamesa.jpg" />
+    <Content Include="Content\Images\leave-icon.png" />
+    <Content Include="Content\Images\logo.jpg" />
+    <Content Include="Content\Images\manila-cathedral.jpg" />
+    <Content Include="Content\Images\manila-city.jpg" />
+    <Content Include="Content\Images\manila-ocean-park.jpg" />
+    <Content Include="Content\Images\national-museum-exterior.jpg" />
+    <Content Include="Content\Images\national-museum-interior1.jpg" />
+    <Content Include="Content\Images\national-museum-interior2.jpg" />
+    <Content Include="Content\Images\national-museum-portrait.jpg" />
+    <Content Include="Content\Images\national-museum.jpg" />
+    <Content Include="Content\Images\nature-icon.png" />
+    <Content Include="Content\Images\ncr-hero.jpg" />
+    <Content Include="Content\Images\paco-park.jpg" />
+    <Content Include="Content\Images\pasay-city.jpg" />
+    <Content Include="Content\Images\plan-icon.png" />
+    <Content Include="Content\Images\quezon-city.jpg" />
+    <Content Include="Content\Images\quezon-memorial.jpg" />
+    <Content Include="Content\Images\reco-park.jpg" />
+    <Content Include="Content\Images\reusable-icon.png" />
+    <Content Include="Content\Images\rizal-park.jpg" />
+    <Content Include="Content\Images\shared-ride-icon.png" />
+    <Content Include="Content\Images\simplicity.png" />
+    <Content Include="Content\Images\swimming-pool.jpg" />
+    <Content Include="Content\Images\taguig-city.jpg" />
+    <Content Include="Content\Images\up-diliman.jpg" />
+    <Content Include="Content\Images\welcomepageimg.png" />
+    <Content Include="Content\Images\whyus1.png" />
+    <Content Include="Content\Images\whyus2.png" />
+    <Content Include="Content\Images\whyus3.png" />
+    <Content Include="Content\Images\whyus4.png" />
+    <Content Include="Content\Images\yuchengco-museum-exterior.jpg" />
+    <Content Include="Content\Images\yuchengco-museum-gallery.jpg" />
+    <Content Include="Content\Images\yuchengco-museum-interior1.jpg" />
+    <Content Include="Content\Images\yuchengco-museum-interior2.jpg" />
+    <Content Include="Content\Images\yuchengco-museum.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -194,10 +248,12 @@
     <Content Include="Views\MuseumDesc\YuchengcoMuseum.cshtml" />
     <Content Include="Views\Payment\EnterInfo.cshtml" />
     <Content Include="Views\Payment\Payment.cshtml" />
+    <Content Include="Views\ParksDesc\Arroceros.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Categories\" />
     <Folder Include="Views\Parks\" />
   </ItemGroup>
   <ItemGroup>
@@ -255,11 +311,12 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

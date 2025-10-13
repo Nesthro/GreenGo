@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Arroceros Forest Park";
+}
+
+<div class="museum-detail-container">
+    <!-- Header Section -->
+    <div class="museum-header">
+        <div class="header-left">
+            <h1 class="museum-title">Arroceros Forest Park</h1>
+        </div>
+
+        <div class="header-right">
+            <button class="btn-icon" title="Save"><i class="fas fa-bookmark"></i></button>
+            <button class="btn-icon" title="Share"><i class="fas fa-share-alt"></i></button>
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+        <div class="main-image">
+            <img src="~/Content/images/arroceros-main.jpg" alt="Arroceros Forest Park Main View" />
+        </div>
+
+        <div class="side-gallery">
+            <div class="side-top">
+                <img src="~/Content/images/arroceros-walkway.jpg" alt="Arroceros Walkway" />
+            </div>
+
+            <div class="side-bottom">
+                <div class="bottom-left">
+                    <img src="~/Content/images/arroceros-trees.jpg" alt="Arroceros Trees" />
+                </div>
+                <div class="bottom-right see-all-wrapper">
+                    <img src="~/Content/images/arroceros-garden.jpg" alt="Arroceros Garden" />
+                    <a href="#" class="see-all-btn">See all photos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Section -->
+    <section>
+        <h2 class="section-title">Overview</h2>
+        <p>
+            The Arroceros Forest Park, often called the “Last Lung of Manila,” is a lush green oasis located along Antonio Villegas Street near the Pasig River.
+            This urban forest spans around 2.2 hectares and is home to more than 60 species of trees and over 8,000 ornamental plants.
+            It serves as a peaceful escape amid the bustling city and provides an important habitat for birds and other wildlife.
+        </p>
+        <p><strong>Free Entrance</strong></p>
+    </section>
+
+    <!-- Highlights Section -->
+    <section>
+        <h3 class="section-title">Highlights</h3>
+        <ul>
+            <li>Known as the “Last Lung of Manila” for its dense forest cover.</li>
+            <li>Over 60 species of trees and thousands of ornamental plants.</li>
+            <li>Features walking paths, gazebos, and open green spaces.</li>
+            <li>Ideal for nature lovers, photographers, and families seeking peace in the city.</li>
+            <li>Managed with the help of environmental advocates and local volunteers.</li>
+        </ul>
+    </section>
+
+    <!-- Location Section -->
+    <section>
+        <h3 class="section-title">Location</h3>
+        <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 100%; height: 360px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.238358081274!2d120.98026417481243!3d14.589794677384117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca1ce0a4b66f%3A0x3b0a2e7ccdc582e7!2sArroceros%20Forest%20Park!5e0!3m2!1sen!2sph!4v1696580033273!5m2!1sen!2sph"
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section>
+        <h3 class="section-title">Visitor Reviews</h3>
+        <div class="review">
+            <p><strong>4.9 ★★★★★</strong> – A peaceful green space in the heart of Manila. Perfect spot to take a breather, meditate, or just enjoy nature. It’s a must-visit for those who love the environment.</p>
+            <small>– J.D., via Google Reviews</small>
+        </div>
+        <div class="review">
+            <p><strong>4.8 ★★★★★</strong> – The “Last Lung of Manila” truly lives up to its name! So refreshing and clean. The trees and chirping birds make you forget you’re still in the city.</p>
+            <small>– M.L., via Ohto</small>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section>
+        <h3 class="section-title">You might also like…</h3>
+        <div class="recommendations" style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div style="width: 220px;">
+                <img src="~/Content/images/rizal-park.jpg" alt="Rizal Park, Manila" style="width:100%; border-radius:8px;" />
+                <p><strong>Rizal Park, Manila</strong><br /><small>Historical Monument of Rizal Park</small><br />⭐ 4.5 (8.2k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/paco-park.jpg" alt="Paco Park" style="width:100%; border-radius:8px;" />
+                <p><strong>Paco Park</strong><br /><small>Heritage Garden & Event Venue</small><br />⭐ 4.6 (5.4k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/intramuros.jpg" alt="Intramuros" style="width:100%; border-radius:8px;" />
+                <p><strong>Intramuros</strong><br /><small>Historic Walled City</small><br />⭐ 4.8 (12.3k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/la-mesa-eco-park.jpg" alt="La Mesa Eco Park" style="width:100%; border-radius:8px;" />
+                <p><strong>La Mesa Eco Park</strong><br /><small>Nature Park in Quezon City</small><br />⭐ 4.7 (6.9k)</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ✅ Reuse the same CSS from your original template -->
+<link rel="stylesheet" href="~/Content/css/description-page.css" />
+
+
