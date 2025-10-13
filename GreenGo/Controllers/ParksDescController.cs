@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,10 +17,49 @@ namespace GreenGo.Controllers
         {
             return View();
         }
+
+
+        public ActionResult MarikinaRiverPark()
+        {
+            return View();
+        }
+
+        public ActionResult OrtigasPark()
+        {
+            return View();
+        }
+
+        public ActionResult WashingtonSycipPark()
+        {
+            return View();
+        }
+
+        public ActionResult ValenzuelaCityPeoplesPark()
+        {
+            return View();
+        }
+
+        public ActionResult NinoyAquinoParks()
+        {
+            return View();
+        }
+
+        public ActionResult PasigRAVEPark()
+        {
+            return View();
+        }
+
+        public ActionResult KalikasanGardenPark()
+        {
+            return View();
+        }
+
+
         public ActionResult Arroceros()
         {
             return View("~/Views/ParksDesc/Arroceros.cshtml");
         }
+
         public ActionResult Riverbanks()
         {
             return View("~/Views/ParksDesc/Riverbanks.cshtml");

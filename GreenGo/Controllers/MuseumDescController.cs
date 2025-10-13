@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,6 +21,36 @@ namespace GreenGo.Controllers
         {
             return View("~/Views/MuseumDesc/YuchengcoMuseum.cshtml");
         }
+
+        public ActionResult AnthropologyMuseum()
+        {
+            return View("~/Views/MuseumDesc/AnthropologyMuseum.cshtml");
+        }
+
+        public ActionResult MuseoNgPagAsa()
+        {
+            return View("~/Views/MuseumDesc/MuseoNgPagAsa.cshtml");
+        }
+
+        public ActionResult TheMindMuseum()
+        {
+            return View("~/Views/MuseumDesc/TheMindMuseum.cshtml");
+        }
+
+        public ActionResult DessertMuseum()
+        {
+            return View("~/Views/MuseumDesc/DessertMuseum.cshtml");
+        }
+
+        public ActionResult ManilaClockTowerMuseum()
+        {
+            return View("~/Views/MuseumDesc/ManilaClockTowerMuseum.cshtml");
+        }
+            public ActionResult ArtInIsland()
+        {
+            return View("~/Views/MuseumDesc/ArtInIsland.cshtml");
+        }
+
 
     }
 }

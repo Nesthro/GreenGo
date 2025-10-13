@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "National Museum of Anthropology";
+}
+
+<div class="museum-detail-container">
+    <!-- Header Section -->
+    <div class="museum-header">
+        <div class="header-left">
+            <h1 class="museum-title">National Museum of Anthropology</h1>
+        </div>
+
+        <div class="header-right">
+            <button class="btn-icon" title="Save"><i class="fas fa-bookmark"></i></button>
+            <button class="btn-icon" title="Share"><i class="fas fa-share-alt"></i></button>
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+        <div class="main-image">
+            <img src="~/Content/images/anthropology.jpg" alt="National Museum of Anthropology Exterior" />
+        </div>
+
+        <div class="side-gallery">
+            <div class="side-top">
+                <img src="~/Content/images/anthropology-interior1.jpg" alt="Anthropology Interior 1" />
+            </div>
+
+            <div class="side-bottom">
+                <div class="bottom-left">
+                    <img src="~/Content/images/anthropology-exhibit1.jpg" alt="Anthropology Exhibit 1" />
+                </div>
+                <div class="bottom-right see-all-wrapper">
+                    <img src="~/Content/images/anthropology-gallery.jpg" alt="Anthropology Gallery" />
+                    <a href="#" class="see-all-btn">See all photos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Section -->
+    <section>
+        <h2 class="section-title">Overview</h2>
+        <p>The <strong>National Museum of Anthropology</strong>, located in Rizal Park, Manila, is one of the four main museums of the National Museum complex. It showcases the Philippines’ rich ethnographic, archaeological, and cultural heritage. Visitors can explore centuries of traditions, craftsmanship, and the diverse ways of life that shape the Filipino identity.</p>
+        <p>Inside, the museum features extensive collections of artifacts representing the pre-colonial period, indigenous communities, and ethnolinguistic groups across the archipelago.</p>
+        <p><strong>Free Entrance</strong></p>
+    </section>
+
+    <!-- Highlights Section -->
+    <section>
+        <h3 class="section-title">Highlights</h3>
+        <ul>
+            <li>Displays the famous “San Diego Shipwreck” collection and ancient burial jars.</li>
+            <li>Features detailed dioramas and exhibits about the lives of different Philippine ethnic groups.</li>
+            <li>Home to the "Baybayin Gallery" — exploring ancient Philippine scripts and language heritage.</li>
+            <li>Showcases cultural artifacts such as textiles, tools, and traditional ornaments.</li>
+            <li>Perfect destination for history enthusiasts, researchers, and students interested in Filipino culture.</li>
+        </ul>
+    </section>
+
+    <!-- Location Section -->
+    <section>
+        <h3 class="section-title">Location</h3>
+        <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 100%; height: 360px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.312486412322!2d120.9813812147893!3d14.586963681996829!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ca1cda1d2fd5%3A0x3ed33c97e85e99b2!2sNational%20Museum%20of%20Anthropology!5e0!3m2!1sen!2sph!4v1696652345678!5m2!1sen!2sph"
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section>
+        <h3 class="section-title">Customer Reviews</h3>
+        <div class="review">
+            <p><strong>5.0 ★★★★★</strong> – A must-visit for anyone curious about Philippine history and culture. The exhibits are beautifully curated, and the staff are very knowledgeable and welcoming.</p>
+            <small>– A.L., via Ohto</small>
+        </div>
+        <div class="review">
+            <p><strong>4.9 ★★★★★</strong> – A truly fascinating experience! The diversity of artifacts and the stories behind them make you appreciate how rich and unique Filipino heritage is.</p>
+            <small>– R.C., via Ohto</small>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section>
+        <h3 class="section-title">You might also like…</h3>
+        <div class="recommendations" style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div style="width: 220px;">
+                <img src="~/Content/images/national-museum-finearts.jpg" alt="National Museum of Fine Arts" style="width:100%; border-radius:8px;" />
+                <p><strong>National Museum of Fine Arts</strong><br /><small>Classic Filipino Art Collection</small><br />⭐ 4.8 (7.4k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/museum-naturalhistory.jpg" alt="National Museum of Natural History" style="width:100%; border-radius:8px;" />
+                <p><strong>National Museum of Natural History</strong><br /><small>Science & Biodiversity Exhibits</small><br />⭐ 4.7 (6.1k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/ayalamuseum.jpg" alt="Ayala Museum" style="width:100%; border-radius:8px;" />
+                <p><strong>Ayala Museum</strong><br /><small>Modern Filipino Art & Culture</small><br />⭐ 4.6 (5.3k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/rizal-park.jpg" alt="Rizal Park" style="width:100%; border-radius:8px;" />
+                <p><strong>Rizal Park</strong><br /><small>Historic National Park</small><br />⭐ 4.5 (8.2k)</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    /* same styles retained from previous layout */
+    .museum-detail-container {
+        max-width: 1250px;
+        margin: 28px auto;
+        padding: 12px 18px;
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        color: #222;
+    }
+
+    .museum-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        gap: 12px;
+    }
+
+    .header-left {
+        flex: 1;
+    }
+
+    .header-right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .museum-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0a2447;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .15s ease;
+    }
+
+        .btn-icon i {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .btn-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(10, 36, 71, 0.06);
+            border-color: #d0d0d0;
+        }
+
+    .image-gallery {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        align-items: start;
+        margin-bottom: 28px;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        box-shadow: 0 6px 20px rgba(10, 36, 71, 0.06);
+    }
+
+    .side-gallery {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 10px;
+        height: 100%;
+    }
+
+    .side-top img {
+        width: 100%;
+        height: 224px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        box-shadow: 0 6px 18px rgba(10, 36, 71, 0.05);
+    }
+
+    .side-bottom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+        .side-bottom img {
+            width: 100%;
+            height: 108px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+    .see-all-wrapper {
+        position: relative;
+    }
+
+    .see-all-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(13, 43, 79, 0.9);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        box-shadow: 0 6px 18px rgba(10, 36, 71, 0.12);
+        transition: transform .12s ease;
+    }
+
+        .see-all-btn:hover {
+            transform: translateY(-2px);
+        }
+
+    .image-gallery img {
+        transition: transform .25s ease;
+    }
+
+        .image-gallery img:hover {
+            transform: scale(1.02);
+        }
+
+    .section-title {
+        margin-top: 6px;
+        margin-bottom: 12px;
+    }
+</style>
