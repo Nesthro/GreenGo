@@ -1,0 +1,226 @@
+﻿@{
+    ViewBag.Title = "Museo ng Pag-asa";
+}
+
+<div class="museum-detail-container">
+    <!-- Header Section -->
+    <div class="museum-header">
+        <div class="header-left">
+            <h1 class="museum-title">Museo ng Pag-asa</h1>
+        </div>
+
+        <div class="header-right">
+            <button class="btn-icon" title="Save"><i class="fas fa-bookmark"></i></button>
+            <button class="btn-icon" title="Share"><i class="fas fa-share-alt"></i></button>
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+        <div class="main-image">
+            <img src="~/Content/images/museo-exterior.jpg" alt="Museo ng Pag-asa Exterior" />
+        </div>
+
+        <div class="side-gallery">
+            <div class="side-top">
+                <img src="~/Content/images/museo-interior1.jpg" alt="Museum Interior 1" />
+            </div>
+
+            <div class="side-bottom">
+                <div class="bottom-left">
+                    <img src="~/Content/images/museo-interior2.jpg" alt="Museum Interior 2" />
+                </div>
+                <div class="bottom-right see-all-wrapper">
+                    <img src="~/Content/images/museo-gallery.jpg" alt="Museum Gallery" />
+                    <a href="#" class="see-all-btn">See all photos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Section -->
+    <section>
+        <h2 class="section-title">Overview</h2>
+        <p>The <strong>Museo ng Pag-asa</strong>, located in San Juan City, is a vibrant museum dedicated to showcasing the journey, vision, and volunteer movement that emerged during the 2022 national elections. The museum celebrates hope, unity, and the power of collective civic engagement, featuring exhibits, artworks, and memorabilia that highlight the spirit of service and good governance.</p>
+        <p><strong>Free Entrance</strong> – Admission is free to the public, but visitors are encouraged to schedule their visit in advance through the museum’s official channels.</p>
+    </section>
+
+    <!-- Highlights Section -->
+    <section>
+        <h3 class="section-title">Highlights</h3>
+        <ul>
+            <li>Exhibits showcasing the 2022 people’s campaign and stories of volunteerism.</li>
+            <li>Interactive installations and multimedia displays promoting civic participation.</li>
+            <li>Artworks and memorabilia symbolizing hope, reform, and the Filipino spirit.</li>
+            <li>Peaceful and inspiring atmosphere perfect for reflection and learning.</li>
+            <li>Free entrance with organized visit scheduling through online registration.</li>
+        </ul>
+    </section>
+
+    <!-- Location Section -->
+    <section>
+        <h3 class="section-title">Location</h3>
+        <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 100%; height: 360px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.9918019525444!2d121.028845674928!3d14.599047477708402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7c46d5dbd67%3A0x4c7d7d39ecffb4a1!2sMuseo%20ng%20Pag-Asa!5e0!3m2!1sen!2sph!4v1697832513412!5m2!1sen!2sph"
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Visitor Reviews -->
+    <section>
+        <h3 class="section-title">Visitor Reviews</h3>
+        <div class="review">
+            <p><strong>5.0 ★★★★★</strong> – Truly a place of hope! The museum reflects the unity and perseverance of Filipinos who strive for a better nation. Every corner tells a story of passion and service.</p>
+            <small>– A.G., via Google Reviews</small>
+        </div>
+        <div class="review">
+            <p><strong>4.9 ★★★★★</strong> – Peaceful and inspiring. It’s a must-visit for anyone who wants to be reminded of the true meaning of leadership and volunteerism.</p>
+            <small>– J.P., via Google Reviews</small>
+        </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section>
+        <h3 class="section-title">You might also like…</h3>
+        <div class="recommendations" style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div style="width: 220px;">
+                <img src="~/Content/images/yuchengco-museum.jpg" alt="Yuchengco Museum" style="width:100%; border-radius:8px;" />
+                <p><strong>Yuchengco Museum</strong><br /><small>Modern Art & Cultural Exhibits</small><br />⭐ 4.6 (2.8k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/national-museum.jpg" alt="National Museum of Fine Arts" style="width:100%; border-radius:8px;" />
+                <p><strong>National Museum of Fine Arts</strong><br /><small>Home of Spoliarium & Classic Works</small><br />⭐ 4.8 (5.6k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/ayala-museum.jpg" alt="Ayala Museum" style="width:100%; border-radius:8px;" />
+                <p><strong>Ayala Museum</strong><br /><small>Interactive Art & History Displays</small><br />⭐ 4.7 (4.2k)</p>
+            </div>
+            <div style="width: 220px;">
+                <img src="~/Content/images/museum-anthropology.jpg" alt="National Museum of Anthropology" style="width:100%; border-radius:8px;" />
+                <p><strong>National Museum of Anthropology</strong><br /><small>Ethnographic & Cultural Heritage</small><br />⭐ 4.7 (3.9k)</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Styles remain the same -->
+<style>
+    .museum-detail-container {
+        max-width: 1250px;
+        margin: 28px auto;
+        padding: 12px 18px;
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        color: #222;
+    }
+
+    .museum-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        gap: 12px;
+    }
+
+    .museum-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0a2447;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .15s ease;
+    }
+
+        .btn-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(10, 36, 71, 0.06);
+            border-color: #d0d0d0;
+        }
+
+    .image-gallery {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        align-items: start;
+        margin-bottom: 28px;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        box-shadow: 0 6px 20px rgba(10, 36, 71, 0.06);
+    }
+
+    .side-gallery {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 10px;
+        height: 100%;
+    }
+
+    .side-top img {
+        width: 100%;
+        height: 224px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+    }
+
+    .side-bottom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+        .side-bottom img {
+            width: 100%;
+            height: 108px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+    .see-all-wrapper {
+        position: relative;
+    }
+
+    .see-all-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(13, 43, 79, 0.9);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+
+        .see-all-btn:hover {
+            transform: translateY(-2px);
+        }
+
+    .section-title {
+        margin-top: 6px;
+        margin-bottom: 12px;
+    }
+</style>
