@@ -3,98 +3,290 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<main class="contact-section" style="font-family: 'Poppins', sans-serif;">
-    <div class="container" style="text-align: center; padding: 60px 0;">
-        <h2 style="font-size: 32px; font-weight: 600; color: #000;">Contact Us</h2>
-        <p style="color: #555; margin-top: 5px;">Any question or remarks? Just write us a message!</p>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
 
-        <div style="
-            background-color: #A6C437;
-            border-radius: 12px;
-            width: 360px;
-            margin: 40px auto;
-            padding: 40px 30px;
-            text-align: left;
-            color: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            position: relative;
-        ">
-            <h3 style="font-size: 18px; margin-bottom: 10px; font-weight: 600;">Contact Information</h3>
-            <p style="color: #e7e7e7; margin-bottom: 30px;">Say something to start a live chat!</p>
+    .contact-section {
+        background-color: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
 
-            <div style="margin-bottom: 15px;">
-                <i class="fa fa-phone" style="margin-right: 10px;"></i> +1079 3456 789
+    .contact-container {
+        text-align: center;
+        padding: 80px 20px 100px;
+        flex: 1;
+    }
+
+        .contact-container h2 {
+            font-size: 36px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .contact-container > p {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 50px;
+        }
+
+    .contact-info-card {
+        background: linear-gradient(135deg, #a8c842 0%, #99b838 100%);
+        border-radius: 16px;
+        width: 340px;
+        margin: 0 auto;
+        padding: 45px 35px;
+        text-align: left;
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .contact-info-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .contact-info-card > p {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 35px;
+            font-size: 14px;
+        }
+
+    .contact-detail {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+
+        .contact-detail i {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 18px;
+        }
+
+    .social-icons {
+        margin-top: 35px;
+        display: flex;
+        gap: 15px;
+    }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            transition: opacity 0.3s;
+        }
+
+            .social-icons a:hover {
+                opacity: 0.7;
+            }
+
+    /* Decorative circles on bottom right */
+    .circle-decoration {
+        position: absolute;
+        bottom: -40px;
+        right: -40px;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle at 30% 30%, rgba(90, 110, 40, 0.6), rgba(60, 80, 30, 0.8));
+        border-radius: 50%;
+        z-index: 1;
+    }
+
+        .circle-decoration::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle at 30% 30%, rgba(110, 130, 50, 0.5), rgba(70, 90, 35, 0.7));
+            border-radius: 50%;
+        }
+
+    /* Footer */
+    .contact-footer {
+        background-color: #4a5d3a;
+        color: white;
+        padding: 50px 20px;
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        max-width: 1100px;
+        margin: auto;
+        gap: 40px;
+    }
+
+    .footer-column {
+        min-width: 200px;
+    }
+
+        .footer-column h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            line-height: 2;
+        }
+
+            .footer-column ul li a {
+                color: rgba(255, 255, 255, 0.85);
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.3s;
+            }
+
+                .footer-column ul li a:hover {
+                    color: #a8c842;
+                }
+
+    .footer-social {
+        margin-top: 15px;
+        display: flex;
+        gap: 12px;
+    }
+
+        .footer-social a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+            .footer-social a:hover {
+                color: #a8c842;
+            }
+
+    .newsletter-form {
+        margin-top: 15px;
+    }
+
+        .newsletter-form input {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+            width: 180px;
+            font-size: 14px;
+        }
+
+        .newsletter-form button {
+            padding: 10px 18px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 6px;
+            background-color: #a8c842;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+            .newsletter-form button:hover {
+                background-color: #99b838;
+            }
+
+        .newsletter-form p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+</style>
+
+<main class="contact-section">
+    <div class="contact-container">
+        <h2>Contact Us</h2>
+        <p>Any question or remarks? Just write us a message!</p>
+
+        <div class="contact-info-card">
+            <h3>Contact Information</h3>
+            <p>Say something to start a live chat!</p>
+
+            <div class="contact-detail">
+                <i class="fa fa-phone"></i>
+                <span>+1079 3456 789</span>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <i class="fa fa-envelope" style="margin-right: 10px;"></i> greengo@gmail.com
+            <div class="contact-detail">
+                <i class="fa fa-envelope"></i>
+                <span>greengo@gmail.com</span>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <i class="fa fa-map-marker" style="margin-right: 10px;"></i> 673 Quirino Hwy, Novaliches, Quezon City, Metro Manila
+            <div class="contact-detail">
+                <i class="fa fa-map-marker"></i>
+                <span>673 Quirino Hwy, Novaliches, Quezon City, Metro Manila</span>
             </div>
 
-            <div style="margin-top: 30px;">
-                <a href="#" style="color: white; margin-right: 10px;"><i class="fa fa-facebook"></i></a>
-                <a href="#" style="color: white; margin-right: 10px;"><i class="fa fa-twitter"></i></a>
-                <a href="#" style="color: white; margin-right: 10px;"><i class="fa fa-instagram"></i></a>
-                <a href="#" style="color: white;"><i class="fa fa-linkedin"></i></a>
+            <div class="social-icons">
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-linkedin"></i></a>
             </div>
 
-            <div style="
-                position: absolute;
-                bottom: -20px;
-                right: -20px;
-                background: radial-gradient(circle at center, #6A8C24 60%, #3E5C1C 100%);
-                width: 120px;
-                height: 120px;
-                border-radius: 50%;
-                z-index: -1;
-            "></div>
+            <div class="circle-decoration"></div>
         </div>
     </div>
 
-    <footer style="background-color: #3E5C1C; color: white; padding: 50px 0;">
-        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 1100px; margin: auto;">
-            <div style="width: 220px;">
-                <p style="font-size: 14px;">Travel helps companies manage payments easily.</p>
-                <div style="margin-top: 15px;">
-                    <a href="#" style="color: white; margin-right: 10px;"><i class="fa fa-linkedin"></i></a>
-                    <a href="#" style="color: white; margin-right: 10px;"><i class="fa fa-facebook"></i></a>
-                    <a href="#" style="color: white; margin-right: 10px;"><i class="fa fa-twitter"></i></a>
-                    <a href="#" style="color: white;"><i class="fa fa-instagram"></i></a>
+    <footer class="contact-footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <p>Travel helps companies manage payments easily.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
                 </div>
             </div>
 
-            <div>
-                <h4 style="font-weight: 600;">Company</h4>
-                <ul style="list-style: none; padding: 0; line-height: 1.8;">
-                    <li><a href="#" style="color: white; text-decoration: none;">About Us</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Careers</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Sustainability</a></li>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Sustainability</a></li>
                 </ul>
             </div>
 
-            <div>
-                <h4 style="font-weight: 600;">Destinations</h4>
-                <ul style="list-style: none; padding: 0; line-height: 1.8;">
-                    <li><a href="#" style="color: white; text-decoration: none;">Manila</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Pasay City</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Quezon City</a></li>
-                    <li><a href="#" style="color: white; text-decoration: none;">Taguig</a></li>
+            <div class="footer-column">
+                <h4>Destinations</h4>
+                <ul>
+                    <li><a href="#">Manila</a></li>
+                    <li><a href="#">Pasay City</a></li>
+                    <li><a href="#">Quezon City</a></li>
+                    <li><a href="#">Taguig</a></li>
                 </ul>
             </div>
 
-            <div>
-                <h4 style="font-weight: 600;">Join Our Newsletter</h4>
-                <form style="margin-top: 10px;">
-                    <input type="email" placeholder="Your email" required
-                           style="padding: 8px 10px; border-radius: 6px; border: none; outline: none; width: 180px;">
-                    <button type="submit"
-                            style="padding: 8px 15px; margin-left: 5px; border: none; border-radius: 6px; background-color: #A6C437; color: white; cursor: pointer;">
-                        Subscribe
-                    </button>
-                    <p style="font-size: 12px; color: #ccc; margin-top: 8px;">* We’ll send you weekly updates for your better travel packages.</p>
+            <div class="footer-column">
+                <h4>Join Our Newsletter</h4>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit">Subscribe</button>
+                    <p>* We'll send you weekly updates for your better travel packages.</p>
                 </form>
             </div>
         </div>

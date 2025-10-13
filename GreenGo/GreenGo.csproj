@@ -256,6 +256,7 @@
     <Content Include="Views\Home\ParksTopAttractions.cshtml" />
     <Content Include="Views\Home\Cities.cshtml" />
     <Content Include="Views\ParksDesc\Riverbanks.cshtml" />
+    <Content Include="Views\Home\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
