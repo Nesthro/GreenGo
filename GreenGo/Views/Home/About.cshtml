@@ -3,249 +3,307 @@
 }
 
 <style>
+    /* Base Styles */
     body {
         margin: 0;
         padding: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        scroll-behavior: smooth;
+        background-color: #fafafa;
     }
 
-    .about-section {
-        padding: 60px 20px;
-        text-align: center;
+    h1, h2, h3 {
+        letter-spacing: 0.5px;
     }
 
-    .about-content {
-        max-width: 900px;
-        margin: 0 auto;
+    p {
+        line-height: 1.7;
     }
 
+    /* Hero Section */
     .hero-banner {
         position: relative;
-        height: 400px;
+        height: 450px;
         background-size: cover;
-        background-position: top center;
-        background-repeat: no-repeat;
+        background-position: center;
         color: white;
-        text-align: center;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 0;
+        overflow: hidden;
+        animation: fadeIn 1s ease-out;
     }
 
     .hero-overlay {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.2);
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        text-align: center;
+        padding: 20px;
+        animation: fadeSlideIn 1.2s ease-in-out;
     }
 
-        .hero-overlay h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 400;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero-overlay p {
-            font-size: 1.2em;
-            font-style: italic;
-            font-weight: 300;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-    /* What is GreenGo Section */
-    .what-is-greengo {
-        background-color: #f5f9e9;
-        padding: 60px 20px;
+    .hero-overlay h1 {
+        font-size: 2.8em;
+        margin-bottom: 10px;
+        font-weight: 600;
     }
 
-        .what-is-greengo h2 {
-            font-size: 2em;
-            color: #333;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
+    .hero-overlay p {
+        font-size: 1.3em;
+        font-style: italic;
+        font-weight: 300;
+        color: #f0f0f0;
+    }
 
-        .what-is-greengo p {
-            font-size: 1.05em;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    /* About Section */
+    .about-section {
+        padding: 70px 20px;
+        text-align: center;
+        background: #ffffff;
+        transition: background 0.3s ease;
+    }
+
+    .about-section:hover {
+        background: #f7fdf3;
+    }
+
+    .about-content {
+        max-width: 1000px;
+        margin: 0 auto;
+        animation: fadeIn 1s ease;
+    }
+
+    .what-is-greengo h2 {
+        font-size: 2.2em;
+        margin-bottom: 25px;
+        color: #507d2a;
+    }
+
+    .what-is-greengo p {
+        font-size: 1.1em;
+        color: #444;
+        margin-bottom: 20px;
+    }
 
     .greengo-list {
         list-style: none;
         padding: 0;
-        margin: 30px 0;
+        margin: 30px auto;
+        max-width: 650px;
         text-align: left;
-        font-size: 1.05em;
-        color: #333;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
     }
 
-        .greengo-list li {
-            margin-bottom: 12px;
-            padding-left: 25px;
-            position: relative;
-            line-height: 1.6;
-        }
-
-            .greengo-list li:before {
-                content: '•';
-                font-size: 1.5em;
-                color: #79a81e;
-                position: absolute;
-                left: 0;
-                top: -3px;
-            }
-
-    /* What we Promise Section */
-    .promise-section {
-        background-color: #ffffff;
-        padding: 60px 20px 80px;
-    }
-
-        .promise-section h2 {
-            font-size: 2em;
-            color: #333;
-            margin-bottom: 50px;
-            font-weight: 500;
-        }
-
-    .promise-cards {
-        display: flex;
-        justify-content: center;
-        gap: 60px;
-        flex-wrap: wrap;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    .promise-card {
-        background: transparent;
-        padding: 20px;
-        width: 240px;
-        text-align: center;
+    .greengo-list li {
+        margin-bottom: 15px;
+        padding-left: 35px;
+        position: relative;
         transition: transform 0.3s ease;
     }
 
-        .promise-card:hover {
-            transform: translateY(-5px);
-        }
+    .greengo-list li:before {
+        content: '🌱';
+        position: absolute;
+        left: 0;
+        top: -2px;
+        font-size: 1.4em;
+    }
 
-        .promise-card .icon {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80px;
-        }
+    .greengo-list li:hover {
+        transform: translateX(8px);
+        color: #6fa524;
+    }
 
-            .promise-card .icon img {
-                width: 70px;
-                height: 70px;
-                object-fit: contain;
-            }
+    /* Promise Section */
+    .promise-section {
+        background: #f5f9ef;
+        padding: 80px 20px;
+    }
 
-        .promise-card h3 {
-            font-size: 1.4em;
-            color: #333;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
+    .promise-section h2 {
+        font-size: 2.2em;
+        color: #4a5d3a;
+        margin-bottom: 40px;
+        position: relative;
+    }
 
-        .promise-card p {
-            font-size: 0.95em;
-            color: #555;
-            line-height: 1.6;
-        }
+    .promise-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+    }
+
+    .promise-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        padding: 25px;
+        width: 280px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .promise-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .promise-card .icon {
+        margin-bottom: 20px;
+    }
+
+    .promise-card .icon img {
+        width: 75px;
+        height: 75px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .promise-card:hover .icon img {
+        transform: scale(1.1);
+    }
+
+    .promise-card h3 {
+        font-size: 1.3em;
+        color: #4a5d3a;
+        margin-bottom: 10px;
+    }
+
+    .promise-card p {
+        font-size: 1em;
+        color: #555;
+    }
 
     /* Footer */
     .footer {
         background-color: #4a5d3a;
-        color: #ffffff;
+        color: #fff;
         text-align: center;
         padding: 20px;
-        font-size: 0.9em;
+        font-size: 0.95em;
+        margin-top: 40px;
     }
 
-        .footer p {
-            margin: 0;
+    .footer p {
+        margin: 0;
+    }
+
+    /* Animations */
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @@keyframes fadeSlideIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .hero-banner {
+            height: 320px;
         }
+
+        .hero-overlay h1 {
+            font-size: 1.9em;
+        }
+
+        .hero-overlay p {
+            font-size: 1em;
+        }
+
+        .promise-card {
+            width: 90%;
+        }
+
+        .what-is-greengo h2,
+        .promise-section h2 {
+            font-size: 1.8em;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .hero-overlay h1 {
+            font-size: 1.6em;
+        }
+
+        .greengo-list {
+            font-size: 0.95em;
+        }
+    }
 </style>
 
 <div class="hero-banner" style="background-image: url('@Url.Content("~/Content/Images/about.jpg")');">
     <div class="hero-overlay">
-        <h1>Looking for green escapes?</h1>
-        <p>You're in the right place.</p>
+        <h1>Looking for Green Escapes?</h1>
+        <p>Discover, book, and enjoy nature-inspired destinations — right here in NCR.</p>
     </div>
 </div>
 
 <div class="about-section what-is-greengo">
     <div class="about-content">
         <h2>What is GreenGo?</h2>
+        <p><strong>GreenGo is your gateway to exploring eco-friendly destinations across Metro Manila.</strong></p>
         <p>
-            <strong>GreenGo is how can you explore Eco-friendly destinations within NCR.</strong>
-        </p>
-        <p>
-            Whether you're searching for a relaxing park, a nature-inspired activity, or a museum visit,
-            GreenGo NCR helps you discover sustainable and mindful travel options. Some destinations are
-            free, others may require reservations or tickets — and we make it simple to manage them all in
-            one place.
+            Whether you’re looking for a peaceful park stroll, an educational museum visit, or a refreshing nature retreat,
+            <strong>GreenGo NCR</strong> helps you find sustainable experiences that bring you closer to nature — responsibly.
+            We make discovering, booking, and organizing green escapes easier than ever.
         </p>
 
         <ul class="greengo-list">
-            <li>Discover parks, museums, and outdoor activities 🌿</li>
-            <li>Book guided tours and reserve spots easily 🎫</li>
-            <li>Manage payments for ticketed destinations 💳</li>
-            <li>Bookmark places you've visited or want to explore again 📌</li>
+            <li>Discover eco-parks, museums, and sustainable travel activities.</li>
+            <li>Book guided tours and reserve slots online in just a few taps.</li>
+            <li>Manage payments and reservations seamlessly in one hub.</li>
+            <li>Save and revisit your favorite green destinations anytime.</li>
         </ul>
 
-        <p style="font-weight: 600;">Traveling green has never been this easy.</p>
+        <p style="font-weight:600; font-size:1.1em; color:#4a5d3a;">
+            Traveling green has never been this rewarding — or this simple.
+        </p>
     </div>
 </div>
 
 <div class="about-section promise-section">
     <div class="about-content">
-        <h2>What we promise</h2>
+        <h2>What We Promise</h2>
         <div class="promise-cards">
             <div class="promise-card">
                 <div class="icon">
-                    <img src="~/Content/Images/simplicity.png" alt="Simplicity" />
+                    <img src="~/Content/Images/simplicity.png" alt="Simplicity">
                 </div>
                 <h3>Simplicity</h3>
                 <p>
-                    From discovering to booking, GreenGo makes eco-travel easy and hassle-free.
+                    From discovering to booking, GreenGo ensures a smooth, intuitive experience for every eco-traveler.
+                    No clutter, no confusion — just effortless exploration.
                 </p>
             </div>
 
             <div class="promise-card">
                 <div class="icon">
-                    <img src="~/Content/Images/authenticity.png" alt="Authenticity" />
+                    <img src="~/Content/Images/authenticity.png" alt="Authenticity">
                 </div>
                 <h3>Authenticity</h3>
                 <p>
-                    Our curated destinations highlight real, sustainable experiences in NCR.
+                    Each destination we feature reflects genuine sustainability.
+                    GreenGo highlights real places that care for the planet, not just green aesthetics.
                 </p>
             </div>
 
             <div class="promise-card">
                 <div class="icon">
-                    <img src="~/Content/Images/discovery.png" alt="Discovery" />
+                    <img src="~/Content/Images/discovery.png" alt="Discovery">
                 </div>
                 <h3>Discovery</h3>
                 <p>
-                    We're always on the lookout for new hidden green escapes for you to enjoy.
+                    We continually seek new eco-locations across NCR — hidden gardens, quiet riversides,
+                    and inspiring cultural spots — for you to experience next.
                 </p>
             </div>
         </div>
@@ -253,5 +311,5 @@
 </div>
 
 <div class="footer">
-    <p>© 2025 GreenGo NCR - Eco Travel Hub</p>
+    <p>© 2025 GreenGo NCR — Your Eco Travel Hub for Sustainable Adventures 🌍</p>
 </div>

@@ -79,7 +79,6 @@
     </div>
 </div>
 
-<!-- ChartJS Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const lineCtx = document.getElementById('lineChart').getContext('2d');
@@ -93,7 +92,8 @@
                 borderColor: '#8fb91c',
                 backgroundColor: 'rgba(143,185,28,0.08)',
                 tension: 0.35,
-                pointRadius: 3,
+                pointRadius: 4,
+                pointHoverRadius: 6,
                 pointBackgroundColor: '#fff',
                 pointBorderColor: '#8fb91c',
                 fill: true,
@@ -102,14 +102,47 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: { display: false }
+            },
             scales: {
-                x: { grid: { display: false } },
-                y: { ticks: { stepSize: 200 }, grid: { color: 'rgba(0,0,0,0.04)' } }
-            }
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#666' }
+                },
+                y: {
+                    ticks: { stepSize: 200, color: '#666' },
+                    grid: { color: 'rgba(0,0,0,0.04)' }
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeInOutQuart'
+            },
         }
     });
 
+    // === Real-time scroll effect ===
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let currentMonth = 0;
+
+    setInterval(() => {
+        // Generate a random new data point
+        const newValue = Math.floor(Math.random() * 1000) + 200;
+
+        // Update chart data dynamically
+        lineChart.data.labels.push(months[currentMonth % months.length] + ' +');
+        lineChart.data.labels.shift(); // remove oldest label
+
+        lineChart.data.datasets[0].data.push(newValue);
+        lineChart.data.datasets[0].data.shift(); // remove oldest data
+
+        // Update with smooth animation
+        lineChart.update('active');
+        currentMonth++;
+    }, 2000); // updates every 2 seconds
+
+    // === Donut chart animation ===
     const donutCtx = document.getElementById('donutChart').getContext('2d');
     new Chart(donutCtx, {
         type: 'doughnut',
@@ -124,20 +157,28 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200
+            },
             plugins: { legend: { display: false } },
             cutout: '70%'
         }
     });
 
-    function drawGauge(canvasId, valuePercent, color) {
+    // === Animated gauges ===
+    function drawGauge(canvasId, targetPercent, color) {
         const ctx = document.getElementById(canvasId).getContext('2d');
-        new Chart(ctx, {
+        let value = 0;
+
+        const gauge = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Used', 'Free'],
                 datasets: [{
-                    data: [valuePercent, 100 - valuePercent],
-                    backgroundColor: [color, '#f0f3ee']
+                    data: [0, 100],
+                    backgroundColor: [color, '#f0f3ee'],
+                    borderWidth: 0
                 }]
             },
             options: {
@@ -145,11 +186,22 @@
                 rotation: -90 * Math.PI / 180,
                 circumference: 180 * Math.PI / 180,
                 plugins: { legend: { display: false } },
-                responsive: false
+                responsive: false,
+                animation: false
             }
         });
+
+        const interval = setInterval(() => {
+            if (value >= targetPercent) clearInterval(interval);
+            else {
+                value += 2;
+                gauge.data.datasets[0].data = [value, 100 - value];
+                gauge.update();
+            }
+        }, 30);
     }
 
     drawGauge('gauge1', 55, '#8fb91c');
-    drawGauge('gauge2', 55, '#c9e08f');
+    drawGauge('gauge2', 75, '#c9e08f');
 </script>
+

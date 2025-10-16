@@ -118,6 +118,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MuseumDescController.cs" />
@@ -145,8 +146,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Content\css\description-page.css" />
+    <Content Include="Content\CSS\admin-login.css" />
+    <Content Include="Content\CSS\dashboard.css" />
+    <Content Include="Content\CSS\description-page.css" />
+    <Content Include="Content\CSS\reservations.css" />
+    <Content Include="Content\CSS\transactions.css" />
+    <Content Include="Content\CSS\users.css" />
     <Content Include="Content\Images\about.jpg" />
+    <Content Include="Content\Images\admin.jpg" />
     <Content Include="Content\Images\arroceros-forest.jpg" />
     <Content Include="Content\Images\arroceros-garden.jpg" />
     <Content Include="Content\Images\arroceros-main.jpg" />
@@ -257,6 +264,14 @@
     <Content Include="Views\Home\Cities.cshtml" />
     <Content Include="Views\ParksDesc\Riverbanks.cshtml" />
     <Content Include="Views\Home\View.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\Categories.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\Destinations.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\Reservations.cshtml" />
+    <Content Include="Views\Admin\Transactions.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

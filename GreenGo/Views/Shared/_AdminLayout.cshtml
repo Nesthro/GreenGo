@@ -1,6 +1,16 @@
 @{
-    Layout = null;
+    Func<string, string, string> isActive = (controller, action) =>
+    {
+        var routeData = ViewContext.RouteData.Values;
+        string currentController = routeData["controller"].ToString();
+        string currentAction = routeData["action"].ToString();
+
+        return (currentController == controller && currentAction == action)
+            ? "active"
+            : "";
+    };
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,14 +28,32 @@
                 <img src="@Url.Content("~/Content/Images/logo.jpg")" alt="GreenGo" />
                 <div class="title">Dashboard</div>
             </div>
-            <nav class="nav" role="navigation" aria-label="Admin menu">
-                <a href="@Url.Action("Dashboard", "Admin")" class="@(ViewBag.Title == "Admin Dashboard" ? "active" : "")"><span class="icon"><i class="fa-solid fa-chart-line"></i></span> Dashboard</a>
-                <a href="@Url.Action("Destinations", "Admin")" class="@(ViewBag.Title == "Admin Destinations" ? "active" : "")"><span class="icon"><i class="fa-solid fa-map-location-dot"></i></span> Destinations</a>
-                <a href="@Url.Action("Users", "Admin")" class="@(ViewBag.Title == "Admin Users" ? "active" : "")"><span class="icon"><i class="fa-solid fa-users"></i></span> Users</a>
-                <a href="@Url.Action("Transactions", "Admin")" class="@(ViewBag.Title == "Admin Transactions" ? "active" : "")"><span class="icon"><i class="fa-solid fa-exchange"></i></span> Transactions</a>
-                <a href="@Url.Action("Reservations", "Admin")" class="@(ViewBag.Title == "Admin Reservations" ? "active" : "")"><span class="icon"><i class="fa-solid fa-calendar-check"></i></span> Reservations</a>
-                <a href="@Url.Action("Categories", "Admin")" class="@(ViewBag.Title == "Admin Categories" ? "active" : "")"><span class="icon"><i class="fa-solid fa-list"></i></span> Categories</a>
+            <nav class="nav">
+                <a href="@Url.Action("Dashboard", "Admin")" class="@isActive("Admin", "Dashboard")">
+                    <span class="icon"><i class="fa-solid fa-chart-line"></i></span> Dashboard
+                </a>
+
+                <a href="@Url.Action("Destinations", "Admin")" class="@isActive("Admin", "Destinations")">
+                    <span class="icon"><i class="fa-solid fa-map-location-dot"></i></span> Destinations
+                </a>
+
+                <a href="@Url.Action("Users", "Admin")" class="@isActive("Admin", "Users")">
+                    <span class="icon"><i class="fa-solid fa-users"></i></span> Users
+                </a>
+
+                <a href="@Url.Action("Transactions", "Admin")" class="@isActive("Admin", "Transactions")">
+                    <span class="icon"><i class="fa-solid fa-exchange"></i></span> Transactions
+                </a>
+
+                <a href="@Url.Action("Reservations", "Admin")" class="@isActive("Admin", "Reservations")">
+                    <span class="icon"><i class="fa-solid fa-calendar-check"></i></span> Reservations
+                </a>
+
+                <a href="@Url.Action("Categories", "Admin")" class="@isActive("Admin", "Categories")">
+                    <span class="icon"><i class="fa-solid fa-list"></i></span> Categories
+                </a>
             </nav>
+
             <div class="spacer"></div>
             <div class="profile" style="position:relative;">
                 <img src="@Url.Content("~/Content/Images/admin.jpg")" alt="Admin" />
@@ -48,14 +76,13 @@
     <script>
         const btn = document.getElementById('profileDropdownBtn');
         const menu = document.getElementById('profileDropdownMenu');
-        btn && btn.addEventListener('click', function(e) {
+        btn && btn.addEventListener('click', function (e) {
             e.stopPropagation();
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         });
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (menu && menu.style.display === 'block') menu.style.display = 'none';
         });
     </script>
 </body>
 </html>
-    
