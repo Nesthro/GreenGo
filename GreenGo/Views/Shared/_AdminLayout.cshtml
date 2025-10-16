@@ -1,0 +1,61 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/CSS/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-wrap">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="brand">
+                <img src="@Url.Content("~/Content/Images/logo.jpg")" alt="GreenGo" />
+                <div class="title">Dashboard</div>
+            </div>
+            <nav class="nav" role="navigation" aria-label="Admin menu">
+                <a href="@Url.Action("Dashboard", "Admin")" class="@(ViewBag.Title == "Admin Dashboard" ? "active" : "")"><span class="icon"><i class="fa-solid fa-chart-line"></i></span> Dashboard</a>
+                <a href="@Url.Action("Destinations", "Admin")" class="@(ViewBag.Title == "Admin Destinations" ? "active" : "")"><span class="icon"><i class="fa-solid fa-map-location-dot"></i></span> Destinations</a>
+                <a href="@Url.Action("Users", "Admin")" class="@(ViewBag.Title == "Admin Users" ? "active" : "")"><span class="icon"><i class="fa-solid fa-users"></i></span> Users</a>
+                <a href="@Url.Action("Transactions", "Admin")" class="@(ViewBag.Title == "Admin Transactions" ? "active" : "")"><span class="icon"><i class="fa-solid fa-exchange"></i></span> Transactions</a>
+                <a href="@Url.Action("Reservations", "Admin")" class="@(ViewBag.Title == "Admin Reservations" ? "active" : "")"><span class="icon"><i class="fa-solid fa-calendar-check"></i></span> Reservations</a>
+                <a href="@Url.Action("Categories", "Admin")" class="@(ViewBag.Title == "Admin Categories" ? "active" : "")"><span class="icon"><i class="fa-solid fa-list"></i></span> Categories</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="profile" style="position:relative;">
+                <img src="@Url.Content("~/Content/Images/admin.jpg")" alt="Admin" />
+                <div style="flex:1;">
+                    <div style="font-weight:700;color:#eaf7cf">Admin</div>
+                    <small>Libron Jems</small>
+                </div>
+                <button id="profileDropdownBtn" style="background:none;border:none;outline:none;cursor:pointer;padding:0 6px;">
+                    <i class="fa-solid fa-chevron-down" style="color:#8fb91c;font-size:22px;"></i>
+                </button>
+                <div id="profileDropdownMenu" style="display:none;position:absolute;right:10px;bottom:55px;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);padding:8px 0;min-width:120px;z-index:10;">
+                    <a href="@Url.Action("Home", "Home")" style="display:block;padding:10px 18px;color:#2A4020;text-decoration:none;font-weight:600;font-size:15px;">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            @RenderBody()
+        </div>
+    </div>
+    <script>
+        const btn = document.getElementById('profileDropdownBtn');
+        const menu = document.getElementById('profileDropdownMenu');
+        btn && btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+        document.addEventListener('click', function(e) {
+            if (menu && menu.style.display === 'block') menu.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
+    
