@@ -1,0 +1,73 @@
+﻿body {
+	font-family: 'Poppins', sans-serif;
+	background: linear-gradient(to right, #2ecc71, #27ae60);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	margin: 0;
+}
+
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.login-card {
+	background-color: #fff;
+	padding: 40px;
+	border-radius: 12px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+	width: 350px;
+	text-align: center;
+}
+
+.title {
+	color: #27ae60;
+	margin-bottom: 5px;
+	font-size: 28px;
+	font-weight: 700;
+}
+
+.subtitle {
+	color: #555;
+	margin-bottom: 25px;
+}
+
+.input-group {
+	text-align: left;
+	margin-bottom: 20px;
+}
+
+	.input-group label {
+		display: block;
+		color: #333;
+		margin-bottom: 5px;
+		font-size: 14px;
+	}
+
+	.input-group input {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+		font-size: 14px;
+	}
+
+.login-btn {
+	width: 100%;
+	padding: 10px;
+	background-color: #27ae60;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background 0.3s ease;
+}
+
+	.login-btn:hover {
+		background-color: #219150;
+	}
