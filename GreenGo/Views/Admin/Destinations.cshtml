@@ -1,0 +1,1004 @@
+﻿@{
+    ViewBag.Title = "Admin Destinations";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="top-row">
+    <div class="page-header">
+        <h2>Destinations</h2>
+        <button class="btn-add" onclick="openAddModal()">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
+    <div class="top-right">
+        <div class="searchbar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInput" placeholder="Search" onkeyup="filterTable()" />
+        </div>
+    </div>
+</div>
+
+<!-- STATS CARDS -->
+<div class="dest-stats">
+    <div class="dest-stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+        <div>
+            <div class="stat-value">5,423</div>
+            <div class="stat-label">Total Destinations</div>
+        </div>
+    </div>
+    <div class="dest-stat-card featured">
+        <img src="@Url.Content("~/Content/Images/national-museum.jpg")" alt="Featured" class="featured-img" />
+        <div>
+            <div class="stat-value">National Museum</div>
+            <div class="stat-label">Featured Destination</div>
+        </div>
+    </div>
+    <div class="dest-stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
+        <div>
+            <div class="stat-value">189</div>
+            <div class="stat-label">Active Destinations</div>
+        </div>
+    </div>
+</div>
+
+<!-- TABLE SECTION -->
+<div class="table-container">
+    <div class="table-header">
+        <h3>All Destinations</h3>
+        <div class="table-filters">
+            <div class="searchbar-inline">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="tableSearch" placeholder="Search" onkeyup="filterTable()" />
+            </div>
+            <div class="sort-dropdown">
+                <label>Sort by:</label>
+                <select id="sortSelect" onchange="sortTable()">
+                    <option value="name">Name</option>
+                    <option value="category">Category</option>
+                    <option value="price">Price</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <table class="data-table" id="destinationsTable">
+        <thead>
+            <tr>
+                <th>Destination</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Price/Rate</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Table rows will be dynamically populated by JavaScript -->
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <div class="pagination-info" id="paginationInfo">Showing items 1 to 8 of 100 entries</div>
+        <div class="pagination-controls" id="paginationControls">
+            <button class="page-btn" onclick="changePage('prev')"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="page-btn active" onclick="changePage(1)">1</button>
+            <button class="page-btn" onclick="changePage(2)">2</button>
+            <button class="page-btn" onclick="changePage(3)">3</button>
+            <button class="page-btn" onclick="changePage(4)">4</button>
+            <button class="page-btn" onclick="changePage(5)">5</button>
+            <span>...</span>
+            <button class="page-btn" onclick="changePage(13)">13</button>
+            <button class="page-btn" onclick="changePage('next')"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- ADD DESTINATION MODAL -->
+<div id="addModal" class="modal">
+    <div class="modal-content">
+        <h2>Add Destination</h2>
+
+        <div class="upload-section">
+            <div class="upload-box">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <p>Click to upload or drag and drop</p>
+                <small>SVG, PNG, JPG or GIF (MAX. 800x400px)</small>
+            </div>
+            <button class="btn-upload">Upload Image</button>
+        </div>
+
+        <form id="addForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Destination Name</label>
+                    <input type="text" placeholder="Enter Destination Name" />
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select>
+                        <option>Museum</option>
+                        <option>Park</option>
+                        <option>Beach</option>
+                        <option>Mountain</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" placeholder="Enter Address" />
+                </div>
+                <div class="form-group">
+                    <label>Price/Rate</label>
+                    <input type="text" placeholder="Enter Price" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Capacity Limit per day</label>
+                    <input type="number" placeholder="50" />
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Description</label>
+                <textarea rows="4" placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry, when an unknown printer took a galley of type and scrambled it to make a type specimen book."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-save">Save</button>
+                <button type="button" class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- EDIT DESTINATION MODAL -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h2>Edit Destination</h2>
+
+        <div class="edit-image-section">
+            <img src="@Url.Content("~/Content/Images/national-museum.jpg")" alt="Destination" class="edit-image" />
+        </div>
+
+        <form id="editForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Destination Name</label>
+                    <input type="text" value="National Museum" />
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select>
+                        <option selected>Museum</option>
+                        <option>Park</option>
+                        <option>Beach</option>
+                        <option>Mountain</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" value="100 Teodoro, Ermita, Manila" />
+                </div>
+                <div class="form-group">
+                    <label>Price/Rate</label>
+                    <input type="text" value="Free Entrance" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Capacity Limit per day</label>
+                    <input type="number" value="50" />
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select>
+                        <option selected>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Description</label>
+                <textarea rows="4">Lorem Ipsum is simply dummy text of the printing and typesetting industry, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-save">Save</button>
+                <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content delete-modal">
+        <h2>Delete Destination</h2>
+        <p>Are you sure you want to delete this destination?</p>
+        <div class="modal-actions">
+            <button type="button" class="btn-no" onclick="closeDeleteModal()">No, Cancel</button>
+            <button type="button" class="btn-yes">Yes, Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sample Data for Destinations (100 entries)
+    const allDestinations = [
+        { id: 1, name: 'National Museum of Fine Arts', category: 'Museum', location: '100 Teodoro, Ermita, Manila', price: 'Free Entrance' },
+        { id: 2, name: 'Intramuros Walled City', category: 'Historical', location: 'Intramuros, Manila', price: '₱75' },
+        { id: 3, name: 'Rizal Park', category: 'Park', location: 'Roxas Boulevard, Manila', price: 'Free Entrance' },
+        { id: 4, name: 'Manila Ocean Park', category: 'Aquarium', location: 'Behind Quirino Grandstand, Manila', price: '₱599' },
+        { id: 5, name: 'Fort Santiago', category: 'Historical', location: 'Intramuros, Manila', price: '₱75' },
+        { id: 6, name: 'San Agustin Church', category: 'Church', location: 'Intramuros, Manila', price: 'Free Entrance' },
+        { id: 7, name: 'Manila Cathedral', category: 'Church', location: 'Intramuros, Manila', price: 'Free Entrance' },
+        { id: 8, name: 'Casa Manila', category: 'Museum', location: 'Intramuros, Manila', price: '₱75' },
+        { id: 9, name: 'Binondo Church', category: 'Church', location: 'Binondo, Manila', price: 'Free Entrance' },
+        { id: 10, name: 'Quiapo Church', category: 'Church', location: 'Quiapo, Manila', price: 'Free Entrance' },
+        { id: 11, name: 'National Museum of Anthropology', category: 'Museum', location: 'Agrifina Circle, Manila', price: 'Free Entrance' },
+        { id: 12, name: 'National Museum of Natural History', category: 'Museum', location: 'Agrifina Circle, Manila', price: 'Free Entrance' },
+        { id: 13, name: 'Manila Baywalk', category: 'Park', location: 'Roxas Boulevard, Manila', price: 'Free Entrance' },
+        { id: 14, name: 'Paco Park', category: 'Park', location: 'San Marcelino St, Manila', price: '₱20' },
+        { id: 15, name: 'Malate Church', category: 'Church', location: 'Malate, Manila', price: 'Free Entrance' },
+        { id: 16, name: 'Cultural Center of the Philippines', category: 'Theater', location: 'Roxas Boulevard, Manila', price: 'Varies' },
+        { id: 17, name: 'Metropolitan Museum', category: 'Museum', location: 'Roxas Boulevard, Manila', price: '₱100' },
+        { id: 18, name: 'Chinese Garden', category: 'Park', location: 'Rizal Park, Manila', price: '₱20' },
+        { id: 19, name: 'Japanese Garden', category: 'Park', location: 'Rizal Park, Manila', price: '₱20' },
+        { id: 20, name: 'Bahay Tsinoy', category: 'Museum', location: 'Intramuros, Manila', price: '₱100' },
+        { id: 21, name: 'Ayala Museum', category: 'Museum', location: 'Makati Avenue, Makati', price: '₱425' },
+        { id: 22, name: 'Greenbelt Park', category: 'Park', location: 'Ayala Center, Makati', price: 'Free Entrance' },
+        { id: 23, name: 'Yuchengco Museum', category: 'Museum', location: 'RCBC Plaza, Makati', price: '₱100' },
+        { id: 24, name: 'Power Plant Mall', category: 'Shopping', location: 'Rockwell, Makati', price: 'Free Entrance' },
+        { id: 25, name: 'Century City Mall', category: 'Shopping', location: 'Kalayaan Ave, Makati', price: 'Free Entrance' },
+        { id: 26, name: 'Glorietta', category: 'Shopping', location: 'Ayala Center, Makati', price: 'Free Entrance' },
+        { id: 27, name: 'UP Diliman Sunken Garden', category: 'Park', location: 'University of the Philippines, Quezon City', price: 'Free Entrance' },
+        { id: 28, name: 'La Mesa Eco Park', category: 'Park', location: 'East Fairview, Quezon City', price: '₱100' },
+        { id: 29, name: 'Quezon Memorial Circle', category: 'Park', location: 'Elliptical Road, Quezon City', price: 'Free Entrance' },
+        { id: 30, name: 'Art in Island', category: 'Museum', location: 'Cubao, Quezon City', price: '₱500' },
+        { id: 31, name: 'Ninoy Aquino Parks & Wildlife', category: 'Park', location: 'Elliptical Road, Quezon City', price: '₱30' },
+        { id: 32, name: 'Araneta Coliseum', category: 'Arena', location: 'Cubao, Quezon City', price: 'Varies' },
+        { id: 33, name: 'SM Megamall', category: 'Shopping', location: 'Mandaluyong City', price: 'Free Entrance' },
+        { id: 34, name: 'Shangri-La Plaza', category: 'Shopping', location: 'Mandaluyong City', price: 'Free Entrance' },
+        { id: 35, name: 'Mind Museum', category: 'Museum', location: 'Bonifacio Global City, Taguig', price: '₱750' },
+        { id: 36, name: 'Venice Grand Canal Mall', category: 'Shopping', location: 'McKinley Hill, Taguig', price: 'Free Entrance' },
+        { id: 37, name: 'BGC Arts Center', category: 'Theater', location: 'Bonifacio Global City, Taguig', price: 'Varies' },
+        { id: 38, name: 'Terra 28th', category: 'Park', location: 'Bonifacio Global City, Taguig', price: 'Free Entrance' },
+        { id: 39, name: 'Track 30th', category: 'Park', location: 'Bonifacio Global City, Taguig', price: 'Free Entrance' },
+        { id: 40, name: 'Market! Market!', category: 'Shopping', location: 'Bonifacio Global City, Taguig', price: 'Free Entrance' },
+        { id: 41, name: 'Newport World Resorts', category: 'Resort', location: 'Newport City, Pasay', price: 'Varies' },
+        { id: 42, name: 'SM Mall of Asia', category: 'Shopping', location: 'Bay City, Pasay', price: 'Free Entrance' },
+        { id: 43, name: 'SM By the Bay', category: 'Park', location: 'Mall of Asia Complex, Pasay', price: 'Free Entrance' },
+        { id: 44, name: 'Manila Film Center', category: 'Theater', location: 'CCP Complex, Pasay', price: 'Varies' },
+        { id: 45, name: 'Coconut Palace', category: 'Museum', location: 'CCP Complex, Pasay', price: '₱200' },
+        { id: 46, name: 'Star City', category: 'Amusement Park', location: 'CCP Complex, Pasay', price: '₱650' },
+        { id: 47, name: 'Poblacion Makati', category: 'Entertainment', location: 'Poblacion, Makati', price: 'Free Entrance' },
+        { id: 48, name: 'Legazpi Active Park', category: 'Park', location: 'Legazpi Village, Makati', price: 'Free Entrance' },
+        { id: 49, name: 'Ayala Triangle Gardens', category: 'Park', location: 'Ayala Avenue, Makati', price: 'Free Entrance' },
+        { id: 50, name: 'Washington SyCip Park', category: 'Park', location: 'Jaime Velasquez Park, Makati', price: 'Free Entrance' },
+        { id: 51, name: 'Manila Zoo', category: 'Zoo', location: 'Malate, Manila', price: '₱100' },
+        { id: 52, name: 'Planetarium', category: 'Museum', location: 'Rizal Park, Manila', price: '₱50' },
+        { id: 53, name: 'National Library', category: 'Library', location: 'T.M. Kalaw St, Manila', price: 'Free Entrance' },
+        { id: 54, name: 'Cartimar Market', category: 'Market', location: 'Pasay City', price: 'Free Entrance' },
+        { id: 55, name: 'Robinsons Place Manila', category: 'Shopping', location: 'Pedro Gil, Manila', price: 'Free Entrance' },
+        { id: 56, name: 'Harrison Plaza', category: 'Shopping', location: 'Harrison Road, Manila', price: 'Free Entrance' },
+        { id: 57, name: 'Divisoria Market', category: 'Market', location: 'Divisoria, Manila', price: 'Free Entrance' },
+        { id: 58, name: 'Tutuban Center', category: 'Shopping', location: 'Divisoria, Manila', price: 'Free Entrance' },
+        { id: 59, name: 'Lucky Chinatown', category: 'Shopping', location: 'Binondo, Manila', price: 'Free Entrance' },
+        { id: 60, name: 'Ongpin Street', category: 'Street', location: 'Binondo, Manila', price: 'Free Entrance' },
+        { id: 61, name: 'Escolta Street', category: 'Street', location: 'Binondo, Manila', price: 'Free Entrance' },
+        { id: 62, name: 'Jones Bridge', category: 'Landmark', location: 'Binondo, Manila', price: 'Free Entrance' },
+        { id: 63, name: 'MacArthur Bridge', category: 'Landmark', location: 'Santa Cruz, Manila', price: 'Free Entrance' },
+        { id: 64, name: 'Quezon Bridge', category: 'Landmark', location: 'Quiapo, Manila', price: 'Free Entrance' },
+        { id: 65, name: 'Ayala Bridge', category: 'Landmark', location: 'Intramuros, Manila', price: 'Free Entrance' },
+        { id: 66, name: 'Bonifacio Shrine', category: 'Monument', location: 'Caloocan City', price: 'Free Entrance' },
+        { id: 67, name: 'Andres Bonifacio Monument', category: 'Monument', location: 'Caloocan City', price: 'Free Entrance' },
+        { id: 68, name: 'People Power Monument', category: 'Monument', location: 'EDSA, Quezon City', price: 'Free Entrance' },
+        { id: 69, name: 'EDSA Shrine', category: 'Church', location: 'EDSA, Mandaluyong', price: 'Free Entrance' },
+        { id: 70, name: 'Guadalupe Church', category: 'Church', location: 'Guadalupe, Makati', price: 'Free Entrance' },
+        { id: 71, name: 'Baclaran Church', category: 'Church', location: 'Baclaran, Parañaque', price: 'Free Entrance' },
+        { id: 72, name: 'Resorts World Manila', category: 'Resort', location: 'Newport City, Pasay', price: 'Varies' },
+        { id: 73, name: 'Solaire Resort', category: 'Resort', location: 'Entertainment City, Parañaque', price: 'Varies' },
+        { id: 74, name: 'City of Dreams', category: 'Resort', location: 'Entertainment City, Parañaque', price: 'Varies' },
+        { id: 75, name: 'Okada Manila', category: 'Resort', location: 'Entertainment City, Parañaque', price: 'Varies' },
+        { id: 76, name: 'Aseana City', category: 'District', location: 'Bay City, Parañaque', price: 'Free Entrance' },
+        { id: 77, name: 'Circuit Makati', category: 'Entertainment', location: 'Circuit Lane, Makati', price: 'Free Entrance' },
+        { id: 78, name: 'Valero Grand Suites', category: 'Hotel', location: 'Valero St, Makati', price: 'Varies' },
+        { id: 79, name: 'Peninsula Manila', category: 'Hotel', location: 'Ayala Avenue, Makati', price: 'Varies' },
+        { id: 80, name: 'Makati Shangri-La', category: 'Hotel', location: 'Ayala Avenue, Makati', price: 'Varies' },
+        { id: 81, name: 'Manila Hotel', category: 'Hotel', location: 'One Rizal Park, Manila', price: 'Varies' },
+        { id: 82, name: 'Diamond Hotel', category: 'Hotel', location: 'Roxas Boulevard, Manila', price: 'Varies' },
+        { id: 83, name: 'Sofitel Philippine Plaza', category: 'Hotel', location: 'CCP Complex, Pasay', price: 'Varies' },
+        { id: 84, name: 'Conrad Manila', category: 'Hotel', location: 'Mall of Asia Complex, Pasay', price: 'Varies' },
+        { id: 85, name: 'Marriott Hotel Manila', category: 'Hotel', location: 'Newport City, Pasay', price: 'Varies' },
+        { id: 86, name: 'Maxims Tower', category: 'Hotel', location: 'Newport City, Pasay', price: 'Varies' },
+        { id: 87, name: 'Belmont Hotel', category: 'Hotel', location: 'Newport City, Pasay', price: 'Varies' },
+        { id: 88, name: 'Dusit Thani', category: 'Hotel', location: 'Ayala Avenue, Makati', price: 'Varies' },
+        { id: 89, name: 'New World Makati', category: 'Hotel', location: 'Esperanza St, Makati', price: 'Varies' },
+        { id: 90, name: 'Fairmont Makati', category: 'Hotel', location: 'Raffles Drive, Makati', price: 'Varies' },
+        { id: 91, name: 'Raffles Makati', category: 'Hotel', location: 'Raffles Drive, Makati', price: 'Varies' },
+        { id: 92, name: 'Grand Hyatt Manila', category: 'Hotel', location: 'Bonifacio Global City, Taguig', price: 'Varies' },
+        { id: 93, name: 'Shangri-La at the Fort', category: 'Hotel', location: 'Bonifacio Global City, Taguig', price: 'Varies' },
+        { id: 94, name: 'Ascott BGC', category: 'Hotel', location: 'Bonifacio Global City, Taguig', price: 'Varies' },
+        { id: 95, name: 'Discovery Primea', category: 'Hotel', location: 'Ayala Avenue, Makati', price: 'Varies' },
+        { id: 96, name: 'Aruga by Rockwell', category: 'Hotel', location: 'Rockwell Center, Makati', price: 'Varies' },
+        { id: 97, name: 'Somerset Olympia', category: 'Hotel', location: 'Makati Avenue, Makati', price: 'Varies' },
+        { id: 98, name: 'Citadines Bay City', category: 'Hotel', location: 'Bay City, Pasay', price: 'Varies' },
+        { id: 99, name: 'Seda BGC', category: 'Hotel', location: 'Bonifacio Global City, Taguig', price: 'Varies' },
+        { id: 100, name: 'Seda Vertis North', category: 'Hotel', location: 'Vertis North, Quezon City', price: 'Varies' }
+    ];
+
+    // Pagination settings
+    let currentPage = 1;
+    const itemsPerPage = 8;
+    const totalPages = Math.ceil(allDestinations.length / itemsPerPage);
+    let filteredData = [...allDestinations];
+
+    // Initialize page
+    function initPage() {
+        renderTable();
+        renderPagination();
+    }
+
+    // Render table with current page data
+    function renderTable() {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageData = filteredData.slice(start, end);
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        pageData.forEach((dest, index) => {
+            const row = `
+                <tr>
+                    <td>${dest.name}</td>
+                    <td>${dest.category}</td>
+                    <td>${dest.location}</td>
+                    <td>${dest.price}</td>
+                    <td>
+                        <button class="btn-edit" onclick="openEditModal(${dest.id})">Edit</button>
+                        <button class="btn-delete" onclick="openDeleteModal(${dest.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        // Update pagination info
+        const totalItems = filteredData.length;
+        const showingStart = totalItems > 0 ? start + 1 : 0;
+        const showingEnd = Math.min(end, totalItems);
+        document.getElementById('paginationInfo').textContent =
+            `Showing items ${showingStart} to ${showingEnd} of ${totalItems} entries`;
+    }
+
+    // Render pagination controls
+    function renderPagination() {
+        const totalFilteredPages = Math.ceil(filteredData.length / itemsPerPage);
+        const paginationControls = document.getElementById('paginationControls');
+        let html = '';
+
+        // Previous button
+        html += `<button class="page-btn" onclick="changePage('prev')" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-left"></i>
+                 </button>`;
+
+        // Page numbers
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalFilteredPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage < maxVisiblePages - 1) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        if (startPage > 1) {
+            html += `<button class="page-btn" onclick="changePage(1)">1</button>`;
+            if (startPage > 2) {
+                html += `<span>...</span>`;
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+        }
+
+        if (endPage < totalFilteredPages) {
+            if (endPage < totalFilteredPages - 1) {
+                html += `<span>...</span>`;
+            }
+            html += `<button class="page-btn" onclick="changePage(${totalFilteredPages})">${totalFilteredPages}</button>`;
+        }
+
+        // Next button
+        html += `<button class="page-btn" onclick="changePage('next')" ${currentPage === totalFilteredPages ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-right"></i>
+                 </button>`;
+
+        paginationControls.innerHTML = html;
+    }
+
+    // Change page
+    function changePage(page) {
+        const totalFilteredPages = Math.ceil(filteredData.length / itemsPerPage);
+
+        if (page === 'prev') {
+            if (currentPage > 1) currentPage--;
+        } else if (page === 'next') {
+            if (currentPage < totalFilteredPages) currentPage++;
+        } else {
+            currentPage = page;
+        }
+
+        renderTable();
+        renderPagination();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Modal Functions
+    function openAddModal() {
+        document.getElementById('addModal').style.display = 'flex';
+    }
+
+    function closeAddModal() {
+        document.getElementById('addModal').style.display = 'none';
+    }
+
+    function openEditModal(id) {
+        document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+
+    function openDeleteModal(id) {
+        document.getElementById('deleteModal').style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+        const addModal = document.getElementById('addModal');
+        const editModal = document.getElementById('editModal');
+        const deleteModal = document.getElementById('deleteModal');
+
+        if (event.target === addModal) {
+            closeAddModal();
+        }
+        if (event.target === editModal) {
+            closeEditModal();
+        }
+        if (event.target === deleteModal) {
+            closeDeleteModal();
+        }
+    }
+
+    // Filter Table
+    function filterTable() {
+        const input = document.getElementById('tableSearch');
+        const filter = input.value.toUpperCase();
+
+        if (filter === '') {
+            filteredData = [...allDestinations];
+        } else {
+            filteredData = allDestinations.filter(dest => {
+                return dest.name.toUpperCase().includes(filter) ||
+                    dest.category.toUpperCase().includes(filter) ||
+                    dest.location.toUpperCase().includes(filter) ||
+                    dest.price.toUpperCase().includes(filter);
+            });
+        }
+
+        currentPage = 1;
+        renderTable();
+        renderPagination();
+    }
+
+    // Sort Table
+    function sortTable() {
+        const select = document.getElementById('sortSelect');
+        const value = select.value;
+
+        filteredData.sort((a, b) => {
+            if (value === 'name') {
+                return a.name.localeCompare(b.name);
+            } else if (value === 'category') {
+                return a.category.localeCompare(b.category);
+            } else if (value === 'price') {
+                return a.price.localeCompare(b.price);
+            }
+            return 0;
+        });
+
+        currentPage = 1;
+        renderTable();
+        renderPagination();
+    }
+
+    // Initialize on page load
+    window.onload = initPage;
+</script>
+
+<style>
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .page-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2A4020;
+            margin: 0;
+        }
+
+    .btn-add {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #8fb91c;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+    }
+
+        .btn-add:hover {
+            background: #7a9e18;
+            transform: scale(1.1);
+        }
+
+    .top-right {
+        display: flex;
+        gap: 12px;
+    }
+
+    .searchbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f5f5;
+        padding: 8px 16px;
+        border-radius: 8px;
+        min-width: 250px;
+    }
+
+        .searchbar i {
+            color: #8fb91c;
+        }
+
+        .searchbar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+    .dest-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .dest-stat-card {
+        background: #eaf7cf;
+        padding: 20px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+        .dest-stat-card.featured {
+            background: linear-gradient(135deg, #eaf7cf 0%, #d4eaa7 100%);
+        }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #8fb91c;
+    }
+
+    .featured-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2A4020;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        color: #5a7a4a;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .table-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2A4020;
+            margin: 0;
+        }
+
+    .table-filters {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .searchbar-inline {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f5f5;
+        padding: 6px 12px;
+        border-radius: 6px;
+    }
+
+        .searchbar-inline input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 180px;
+            font-size: 14px;
+        }
+
+    .sort-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .sort-dropdown label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .sort-dropdown select {
+            padding: 6px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .data-table thead {
+            background: #f9f9f9;
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .data-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .data-table tbody tr:hover {
+            background: #fafafa;
+        }
+
+    .btn-edit, .btn-delete {
+        padding: 6px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+
+    .btn-edit {
+        background: #8fb91c;
+        color: white;
+        margin-right: 8px;
+    }
+
+        .btn-edit:hover {
+            background: #7a9e18;
+        }
+
+    .btn-delete {
+        background: #ffebee;
+        color: #d32f2f;
+    }
+
+        .btn-delete:hover {
+            background: #ffcdd2;
+        }
+
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .pagination-info {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .pagination-controls {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+    .page-btn {
+        padding: 6px 12px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+        .page-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .page-btn.active {
+            background: #8fb91c;
+            color: white;
+            border-color: #8fb91c;
+        }
+
+    /* MODAL STYLES */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background: #eaf7cf;
+        padding: 32px;
+        border-radius: 16px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+        .modal-content h2 {
+            text-align: center;
+            color: #2A4020;
+            margin-bottom: 24px;
+            font-size: 22px;
+        }
+
+    .upload-section {
+        margin-bottom: 24px;
+    }
+
+    .upload-box {
+        border: 2px dashed #8fb91c;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        background: white;
+        margin-bottom: 12px;
+    }
+
+        .upload-box i {
+            font-size: 48px;
+            color: #8fb91c;
+            margin-bottom: 12px;
+        }
+
+        .upload-box p {
+            margin: 8px 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .upload-box small {
+            color: #999;
+            font-size: 12px;
+        }
+
+    .btn-upload {
+        width: 100%;
+        padding: 10px;
+        background: #6a8f1a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .edit-image-section {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .edit-image {
+        width: 100%;
+        max-width: 400px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            color: #2A4020;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid #d0e0b0;
+            border-radius: 8px;
+            background: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            font-family: inherit;
+        }
+
+    .modal-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        justify-content: center;
+    }
+
+    .btn-save {
+        padding: 10px 32px;
+        background: #8fb91c;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 15px;
+    }
+
+    .btn-cancel {
+        padding: 10px 32px;
+        background: #ff6b9d;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 15px;
+    }
+
+    /* Delete Modal */
+    .delete-modal {
+        max-width: 400px;
+        text-align: center;
+    }
+
+        .delete-modal p {
+            margin: 20px 0;
+            color: #666;
+            font-size: 15px;
+        }
+
+    .btn-no {
+        padding: 10px 24px;
+        background: white;
+        color: #333;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .btn-yes {
+        padding: 10px 24px;
+        background: #d32f2f;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+</style>

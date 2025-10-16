@@ -1,0 +1,351 @@
+@{
+    ViewBag.Title = "Admin Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/CSS/users.css" />
+
+<div class="top-row">
+    <div class="page-header">
+        <h2>Users</h2>
+    </div>
+    <div class="top-right">
+        <div class="searchbar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="mainSearch" placeholder="Search" onkeyup="filterUsers()" />
+        </div>
+    </div>
+</div>
+
+<!-- STATS CARDS -->
+<div class="user-stats">
+    <div class="user-stat-card">
+        <div class="stat-icon blue">
+            <i class="fa-solid fa-users"></i>
+        </div>
+        <div>
+            <div class="stat-value">512</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+    </div>
+    <div class="user-stat-card">
+        <div class="stat-icon green">
+            <i class="fa-solid fa-user-check"></i>
+        </div>
+        <div>
+            <div class="stat-value">701</div>
+            <div class="stat-label">Active Users</div>
+        </div>
+    </div>
+    <div class="user-stat-card">
+        <div class="stat-icon orange">
+            <i class="fa-solid fa-desktop"></i>
+        </div>
+        <div>
+            <div class="stat-value">189</div>
+            <div class="stat-label">Online Users</div>
+        </div>
+        <div class="online-avatars">
+            <img src="https://i.pravatar.cc/150?img=1" alt="User" class="avatar" />
+            <img src="https://i.pravatar.cc/150?img=2" alt="User" class="avatar" />
+            <img src="https://i.pravatar.cc/150?img=3" alt="User" class="avatar" />
+            <span class="more-count">+5</span>
+        </div>
+    </div>
+</div>
+
+<!-- TABLE SECTION -->
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title-section">
+            <h3>All Users</h3>
+            <span class="active-count">Active users</span>
+        </div>
+        <div class="table-filters">
+            <div class="searchbar-inline">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="tableSearch" placeholder="Search" onkeyup="filterUsers()" />
+            </div>
+            <div class="sort-dropdown">
+                <label>Sort by:</label>
+                <select id="sortSelect" onchange="sortUsers()">
+                    <option value="all">All Users</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <table class="data-table" id="usersTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Contact Number</th>
+                <th>Email Address</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Table rows will be dynamically populated by JavaScript -->
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <div class="pagination-info" id="paginationInfo">Showing items 1 to 8 of 2554 entries</div>
+        <div class="pagination-controls" id="paginationControls">
+            <!-- Pagination buttons will be generated dynamically -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sample Data for Users (100 entries)
+    const allUsers = [
+        { id: 1, name: 'John Kyle', phone: '(+639) 12345789', email: 'imissyou@email.com', status: 'Active' },
+        { id: 2, name: 'Floyd Miles', phone: '(+639) 12345789', email: 'floydm@yahoo.com', status: 'Inactive' },
+        { id: 3, name: 'Ronald Richards', phone: '(+639) 12345789', email: 'ronaldr@xasdas.com', status: 'Inactive' },
+        { id: 4, name: 'Marvin McKinney', phone: '(+639) 12345789', email: 'marvin@google.com', status: 'Active' },
+        { id: 5, name: 'Jerome Bell', phone: '(+639) 12345789', email: 'jeromebell@apple.com', status: 'Active' },
+        { id: 6, name: 'Kathryn Murphy', phone: '(+639) 12345789', email: 'kathryn@microsoft.com', status: 'Active' },
+        { id: 7, name: 'Jacob Jones', phone: '(+639) 12345789', email: 'jacobj@yahoo.com', status: 'Active' },
+        { id: 8, name: 'Kristin Watson', phone: '(+639) 12345789', email: 'kristin@facebook.com', status: 'Inactive' },
+        { id: 9, name: 'Robert Fox', phone: '(+639) 98765432', email: 'robertfox@email.com', status: 'Active' },
+        { id: 10, name: 'Jenny Wilson', phone: '(+639) 11223344', email: 'jennyw@gmail.com', status: 'Active' },
+        { id: 11, name: 'Courtney Henry', phone: '(+639) 55667788', email: 'courtney@outlook.com', status: 'Inactive' },
+        { id: 12, name: 'Theresa Webb', phone: '(+639) 99887766', email: 'theresawebb@yahoo.com', status: 'Active' },
+        { id: 13, name: 'Cameron Williamson', phone: '(+639) 44556677', email: 'cameron@email.com', status: 'Active' },
+        { id: 14, name: 'Brooklyn Simmons', phone: '(+639) 33445566', email: 'brooklyn@gmail.com', status: 'Active' },
+        { id: 15, name: 'Leslie Alexander', phone: '(+639) 22334455', email: 'leslie@hotmail.com', status: 'Inactive' },
+        { id: 16, name: 'Guy Hawkins', phone: '(+639) 66778899', email: 'guyhawkins@email.com', status: 'Active' },
+        { id: 17, name: 'Eleanor Pena', phone: '(+639) 77889900', email: 'eleanor@microsoft.com', status: 'Active' },
+        { id: 18, name: 'Savannah Nguyen', phone: '(+639) 88990011', email: 'savannah@apple.com', status: 'Active' },
+        { id: 19, name: 'Arlene McCoy', phone: '(+639) 10293847', email: 'arlene@google.com', status: 'Inactive' },
+        { id: 20, name: 'Annette Black', phone: '(+639) 56473829', email: 'annette@yahoo.com', status: 'Active' },
+        { id: 21, name: 'Ralph Edwards', phone: '(+639) 91827364', email: 'ralph@email.com', status: 'Active' },
+        { id: 22, name: 'Cody Fisher', phone: '(+639) 73829104', email: 'codyfisher@gmail.com', status: 'Active' },
+        { id: 23, name: 'Albert Flores', phone: '(+639) 29384756', email: 'albertf@outlook.com', status: 'Inactive' },
+        { id: 24, name: 'Bessie Cooper', phone: '(+639) 84756293', email: 'bessie@email.com', status: 'Active' },
+        { id: 25, name: 'Dianne Russell', phone: '(+639) 19283746', email: 'dianne@hotmail.com', status: 'Active' },
+        { id: 26, name: 'Devon Lane', phone: '(+639) 56473820', email: 'devonlane@yahoo.com', status: 'Inactive' },
+        { id: 27, name: 'Esther Howard', phone: '(+639) 38475692', email: 'esther@gmail.com', status: 'Active' },
+        { id: 28, name: 'Wade Warren', phone: '(+639) 74829301', email: 'wadewarren@email.com', status: 'Active' },
+        { id: 29, name: 'Darlene Robertson', phone: '(+639) 29384750', email: 'darlene@microsoft.com', status: 'Active' },
+        { id: 30, name: 'Soham Henry', phone: '(+639) 84756201', email: 'soham@apple.com', status: 'Inactive' },
+        { id: 31, name: 'Emma Watson', phone: '(+639) 12398745', email: 'emmaw@email.com', status: 'Active' },
+        { id: 32, name: 'Oliver Smith', phone: '(+639) 45678912', email: 'oliver@gmail.com', status: 'Active' },
+        { id: 33, name: 'Charlotte Brown', phone: '(+639) 78912345', email: 'charlotte@yahoo.com', status: 'Inactive' },
+        { id: 34, name: 'William Jones', phone: '(+639) 32145698', email: 'william@outlook.com', status: 'Active' },
+        { id: 35, name: 'Sophia Davis', phone: '(+639) 65498732', email: 'sophia@email.com', status: 'Active' },
+        { id: 36, name: 'James Wilson', phone: '(+639) 98765123', email: 'jamesw@hotmail.com', status: 'Active' },
+        { id: 37, name: 'Isabella Garcia', phone: '(+639) 32198765', email: 'isabella@gmail.com', status: 'Inactive' },
+        { id: 38, name: 'Benjamin Martinez', phone: '(+639) 65432198', email: 'benjamin@email.com', status: 'Active' },
+        { id: 39, name: 'Mia Rodriguez', phone: '(+639) 98761234', email: 'mia@microsoft.com', status: 'Active' },
+        { id: 40, name: 'Lucas Hernandez', phone: '(+639) 12367894', email: 'lucas@apple.com', status: 'Active' },
+        { id: 41, name: 'Amelia Lopez', phone: '(+639) 45698721', email: 'amelia@yahoo.com', status: 'Inactive' },
+        { id: 42, name: 'Henry Gonzalez', phone: '(+639) 78923456', email: 'henry@email.com', status: 'Active' },
+        { id: 43, name: 'Evelyn Perez', phone: '(+639) 32145987', email: 'evelyn@gmail.com', status: 'Active' },
+        { id: 44, name: 'Alexander Sanchez', phone: '(+639) 65478932', email: 'alexander@outlook.com', status: 'Active' },
+        { id: 45, name: 'Harper Torres', phone: '(+639) 98732145', email: 'harper@email.com', status: 'Inactive' },
+        { id: 46, name: 'Sebastian Rivera', phone: '(+639) 12398764', email: 'sebastian@hotmail.com', status: 'Active' },
+        { id: 47, name: 'Ella Flores', phone: '(+639) 45632198', email: 'ella@gmail.com', status: 'Active' },
+        { id: 48, name: 'Michael Gomez', phone: '(+639) 78965432', email: 'michael@email.com', status: 'Active' },
+        { id: 49, name: 'Avery Diaz', phone: '(+639) 32178965', email: 'avery@microsoft.com', status: 'Inactive' },
+        { id: 50, name: 'Daniel Cruz', phone: '(+639) 65412398', email: 'daniel@apple.com', status: 'Active' },
+        { id: 51, name: 'Sofia Reyes', phone: '(+639) 98745632', email: 'sofia@yahoo.com', status: 'Active' },
+        { id: 52, name: 'Matthew Morales', phone: '(+639) 12365987', email: 'matthew@email.com', status: 'Active' },
+        { id: 53, name: 'Emily Jimenez', phone: '(+639) 45698732', email: 'emily@gmail.com', status: 'Inactive' },
+        { id: 54, name: 'David Ruiz', phone: '(+639) 78932165', email: 'david@outlook.com', status: 'Active' },
+        { id: 55, name: 'Elizabeth Ortiz', phone: '(+639) 32165498', email: 'elizabeth@email.com', status: 'Active' },
+        { id: 56, name: 'Joseph Castro', phone: '(+639) 65498321', email: 'joseph@hotmail.com', status: 'Active' },
+        { id: 57, name: 'Mila Vargas', phone: '(+639) 98721654', email: 'mila@gmail.com', status: 'Inactive' },
+        { id: 58, name: 'Christopher Ramos', phone: '(+639) 12354987', email: 'chris@email.com', status: 'Active' },
+        { id: 59, name: 'Victoria Herrera', phone: '(+639) 45687932', email: 'victoria@microsoft.com', status: 'Active' },
+        { id: 60, name: 'Andrew Medina', phone: '(+639) 78921365', email: 'andrew@apple.com', status: 'Active' },
+        { id: 61, name: 'Scarlett Silva', phone: '(+639) 32198654', email: 'scarlett@yahoo.com', status: 'Inactive' },
+        { id: 62, name: 'Joshua Mendoza', phone: '(+639) 65432987', email: 'joshua@email.com', status: 'Active' },
+        { id: 63, name: 'Luna Rojas', phone: '(+639) 98765198', email: 'luna@gmail.com', status: 'Active' },
+        { id: 64, name: 'Ryan Aguilar', phone: '(+639) 12398654', email: 'ryan@outlook.com', status: 'Active' },
+        { id: 65, name: 'Grace Vega', phone: '(+639) 45632987', email: 'grace@email.com', status: 'Inactive' },
+        { id: 66, name: 'Nathan Campos', phone: '(+639) 78965198', email: 'nathan@hotmail.com', status: 'Active' },
+        { id: 67, name: 'Chloe Ramirez', phone: '(+639) 32178654', email: 'chloe@gmail.com', status: 'Active' },
+        { id: 68, name: 'Samuel Dominguez', phone: '(+639) 65412987', email: 'samuel@email.com', status: 'Active' },
+        { id: 69, name: 'Zoey Castillo', phone: '(+639) 98745198', email: 'zoey@microsoft.com', status: 'Inactive' },
+        { id: 70, name: 'Jack Guerrero', phone: '(+639) 12365654', email: 'jack@apple.com', status: 'Active' },
+        { id: 71, name: 'Lily Espinoza', phone: '(+639) 45698987', email: 'lily@yahoo.com', status: 'Active' },
+        { id: 72, name: 'Luke Santos', phone: '(+639) 78932654', email: 'luke@email.com', status: 'Active' },
+        { id: 73, name: 'Hannah Nunez', phone: '(+639) 32165987', email: 'hannah@gmail.com', status: 'Inactive' },
+        { id: 74, name: 'Owen Gutierrez', phone: '(+639) 65498654', email: 'owen@outlook.com', status: 'Active' },
+        { id: 75, name: 'Layla Chavez', phone: '(+639) 98721987', email: 'layla@email.com', status: 'Active' },
+        { id: 76, name: 'Isaac Vasquez', phone: '(+639) 12354654', email: 'isaac@hotmail.com', status: 'Active' },
+        { id: 77, name: 'Zoe Fernandez', phone: '(+639) 45687654', email: 'zoe@gmail.com', status: 'Inactive' },
+        { id: 78, name: 'Gabriel Contreras', phone: '(+639) 78921987', email: 'gabriel@email.com', status: 'Active' },
+        { id: 79, name: 'Penelope Delgado', phone: '(+639) 32198987', email: 'penelope@microsoft.com', status: 'Active' },
+        { id: 80, name: 'Carter Marquez', phone: '(+639) 65432654', email: 'carter@apple.com', status: 'Active' },
+        { id: 81, name: 'Riley Navarro', phone: '(+639) 98765654', email: 'riley@yahoo.com', status: 'Inactive' },
+        { id: 82, name: 'Wyatt Mendez', phone: '(+639) 12398987', email: 'wyatt@email.com', status: 'Active' },
+        { id: 83, name: 'Nora Moreno', phone: '(+639) 45632654', email: 'nora@gmail.com', status: 'Active' },
+        { id: 84, name: 'Julian Soto', phone: '(+639) 78965654', email: 'julian@outlook.com', status: 'Active' },
+        { id: 85, name: 'Lillian Pacheco', phone: '(+639) 32178987', email: 'lillian@email.com', status: 'Inactive' },
+        { id: 86, name: 'Levi Calderon', phone: '(+639) 65412654', email: 'levi@hotmail.com', status: 'Active' },
+        { id: 87, name: 'Addison Estrada', phone: '(+639) 98745654', email: 'addison@gmail.com', status: 'Active' },
+        { id: 88, name: 'Aaron Salazar', phone: '(+639) 12365987', email: 'aaron@email.com', status: 'Active' },
+        { id: 89, name: 'Hazel Ibarra', phone: '(+639) 45698654', email: 'hazel@microsoft.com', status: 'Inactive' },
+        { id: 90, name: 'Eli Velasquez', phone: '(+639) 78932987', email: 'eli@apple.com', status: 'Active' },
+        { id: 91, name: 'Violet Cortez', phone: '(+639) 32165654', email: 'violet@yahoo.com', status: 'Active' },
+        { id: 92, name: 'Lincoln Juarez', phone: '(+639) 65498987', email: 'lincoln@email.com', status: 'Active' },
+        { id: 93, name: 'Stella Padilla', phone: '(+639) 98721654', email: 'stella@gmail.com', status: 'Inactive' },
+        { id: 94, name: 'Adrian Fuentes', phone: '(+639) 12354987', email: 'adrian@outlook.com', status: 'Active' },
+        { id: 95, name: 'Aurora Acosta', phone: '(+639) 45687321', email: 'aurora@email.com', status: 'Active' },
+        { id: 96, name: 'Grayson Rios', phone: '(+639) 78921654', email: 'grayson@hotmail.com', status: 'Active' },
+        { id: 97, name: 'Savanna Cabrera', phone: '(+639) 32198321', email: 'savanna@gmail.com', status: 'Inactive' },
+        { id: 98, name: 'Miles Serrano', phone: '(+639) 65432321', email: 'miles@email.com', status: 'Active' },
+        { id: 99, name: 'Isla Munoz', phone: '(+639) 98765321', email: 'isla@microsoft.com', status: 'Active' },
+        { id: 100, name: 'Easton Robles', phone: '(+639) 12398321', email: 'easton@apple.com', status: 'Active' }
+    ];
+
+    // Pagination settings
+    let currentPage = 1;
+    const itemsPerPage = 8;
+    let filteredData = [...allUsers];
+    let searchQuery = '';
+
+    // Initialize page
+    function initPage() {
+        renderTable();
+        renderPagination();
+    }
+
+    // Render table with current page data
+    function renderTable() {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageData = filteredData.slice(start, end);
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        pageData.forEach((user) => {
+            const statusClass = user.status === 'Active' ? 'status-active' : 'status-inactive';
+            const row = `
+                <tr>
+                    <td>${user.name}</td>
+                    <td>${user.phone}</td>
+                    <td>${user.email}</td>
+                    <td><span class="status-badge ${statusClass}">${user.status}</span></td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        // Update pagination info
+        const totalItems = filteredData.length;
+        const showingStart = totalItems > 0 ? start + 1 : 0;
+        const showingEnd = Math.min(end, totalItems);
+        document.getElementById('paginationInfo').textContent =
+            `Showing items ${showingStart} to ${showingEnd} of ${totalItems} entries`;
+    }
+
+    // Render pagination controls
+    function renderPagination() {
+        const totalFilteredPages = Math.ceil(filteredData.length / itemsPerPage);
+        const paginationControls = document.getElementById('paginationControls');
+        let html = '';
+
+        // Previous button
+        html += `<button class="page-btn" onclick="changePage('prev')" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-left"></i>
+                 </button>`;
+
+        // Page numbers
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalFilteredPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage < maxVisiblePages - 1) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+        }
+
+        if (endPage < totalFilteredPages) {
+            if (endPage < totalFilteredPages - 1) {
+                html += `<span class="page-dots">...</span>`;
+            }
+            html += `<button class="page-btn" onclick="changePage(${totalFilteredPages})">${totalFilteredPages}</button>`;
+        }
+
+        // Next button
+        html += `<button class="page-btn" onclick="changePage('next')" ${currentPage === totalFilteredPages ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-right"></i>
+                 </button>`;
+
+        paginationControls.innerHTML = html;
+    }
+
+    // Change page
+    function changePage(page) {
+        const totalFilteredPages = Math.ceil(filteredData.length / itemsPerPage);
+
+        if (page === 'prev') {
+            if (currentPage > 1) currentPage--;
+        } else if (page === 'next') {
+            if (currentPage < totalFilteredPages) currentPage++;
+        } else {
+            currentPage = page;
+        }
+
+        renderTable();
+        renderPagination();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Filter Users
+    function filterUsers() {
+        const input = document.getElementById('tableSearch') || document.getElementById('mainSearch');
+        searchQuery = input.value.toUpperCase();
+
+        applyFilters();
+    }
+
+    // Sort Users
+    function sortUsers() {
+        applyFilters();
+    }
+
+    // Apply all filters (search + status filter)
+    function applyFilters() {
+        const select = document.getElementById('sortSelect');
+        const statusFilter = select.value;
+
+        // Start with all users
+        filteredData = [...allUsers];
+
+        // Apply search filter
+        if (searchQuery !== '') {
+            filteredData = filteredData.filter(user => {
+                return user.name.toUpperCase().includes(searchQuery) ||
+                    user.email.toUpperCase().includes(searchQuery) ||
+                    user.phone.toUpperCase().includes(searchQuery) ||
+                    user.status.toUpperCase().includes(searchQuery);
+            });
+        }
+
+        // Apply status filter
+        if (statusFilter === 'active') {
+            filteredData = filteredData.filter(user => user.status === 'Active');
+        } else if (statusFilter === 'inactive') {
+            filteredData = filteredData.filter(user => user.status === 'Inactive');
+        }
+        // If 'all', no additional filtering needed
+
+        currentPage = 1;
+        renderTable();
+        renderPagination();
+    }
+
+    // Initialize on page load
+    window.onload = initPage;
+</script>

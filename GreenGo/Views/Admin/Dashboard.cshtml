@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="top-row">
+    <div class="welcome">Welcome Admin <span style="font-size:20px;">👋</span></div>
+    <div class="top-right">
+        <div class="searchbar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input placeholder="Search" />
+        </div>
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat-card"><div class="label">Reservations</div><div class="value">12,204</div></div>
+    <div class="stat-card"><div class="label">Visitors</div><div class="value">31,476</div></div>
+    <div class="stat-card"><div class="label">Revenue</div><div class="value">476,312</div></div>
+    <div class="stat-card"><div class="label">Average Rating</div><div class="value">4.6</div></div>
+</div>
+
+<!-- MAIN CHART + MINI CARDS -->
+<div class="dashboard-grid">
+    <!-- Left Side -->
+    <div class="card left">
+        <div class="chart-title">
+            <h4>Total Bookings per month</h4>
+            <div class="legend">
+                <span style="width:10px;height:10px;border-radius:4px;background:var(--accent);display:inline-block"></span> Bookings
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div class="left-widgets-row">
+            <div class="left-widget">
+                <div class="title">Capacity Museum</div>
+                <div class="gauge-row">
+                    <canvas id="gauge1" width="80" height="50"></canvas>
+                    <div>
+                        <div class="gauge-value">55%</div>
+                        <div class="gauge-label">Across all museums</div>
+                    </div>
+                </div>
+            </div>
+            <div class="left-widget">
+                <div class="title">Capacity Parks</div>
+                <div class="gauge-row">
+                    <canvas id="gauge2" width="80" height="50"></canvas>
+                    <div>
+                        <div class="gauge-value">55%</div>
+                        <div class="gauge-label">Across all parks</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side -->
+    <div class="card right">
+        <div class="chart-title" style="width:100%;">
+            <h4>Top Destinations</h4>
+            <div class="time-filter">
+                <span class="time-badge">This Month</span>
+            </div>
+        </div>
+        <div class="donut-section">
+            <div class="donut-chart-container">
+                <canvas id="donutChart" width="180" height="180"></canvas>
+            </div>
+            <div class="donut-legend">
+                <div class="item"><span class="sw" style="background:#8fb91c"></span> National Museum of Fine Arts (54%)</div>
+                <div class="item"><span class="sw" style="background:#c9e08f"></span> Intramuros (31%)</div>
+                <div class="item"><span class="sw" style="background:#e7f7d6"></span> Rizal Park (15%)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ChartJS Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Bookings',
+                data: [200, 350, 600, 930, 800, 960, 720, 610, 540, 420, 360, 220],
+                borderColor: '#8fb91c',
+                backgroundColor: 'rgba(143,185,28,0.08)',
+                tension: 0.35,
+                pointRadius: 3,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: '#8fb91c',
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { ticks: { stepSize: 200 }, grid: { color: 'rgba(0,0,0,0.04)' } }
+            }
+        }
+    });
+
+    const donutCtx = document.getElementById('donutChart').getContext('2d');
+    new Chart(donutCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['National Museum', 'Intramuros', 'Rizal Park'],
+            datasets: [{
+                data: [54, 31, 15],
+                backgroundColor: ['#8fb91c', '#c9e08f', '#e7f7d6'],
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            cutout: '70%'
+        }
+    });
+
+    function drawGauge(canvasId, valuePercent, color) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Used', 'Free'],
+                datasets: [{
+                    data: [valuePercent, 100 - valuePercent],
+                    backgroundColor: [color, '#f0f3ee']
+                }]
+            },
+            options: {
+                cutout: '80%',
+                rotation: -90 * Math.PI / 180,
+                circumference: 180 * Math.PI / 180,
+                plugins: { legend: { display: false } },
+                responsive: false
+            }
+        });
+    }
+
+    drawGauge('gauge1', 55, '#8fb91c');
+    drawGauge('gauge2', 55, '#c9e08f');
+</script>

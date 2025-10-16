@@ -1,0 +1,574 @@
+@{
+    ViewBag.Title = "Admin Transactions";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="top-row">
+    <div class="page-header">
+        <h2>Transactions</h2>
+    </div>
+    <div class="top-right">
+        <div class="searchbar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInput" placeholder="Search" onkeyup="filterTable()" />
+        </div>
+    </div>
+</div>
+
+<!-- STATS CARDS -->
+<div class="trans-stats">
+    <div class="trans-stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-credit-card"></i></div>
+        <div>
+            <div class="stat-value">8,423</div>
+            <div class="stat-label">Total Transactions</div>
+        </div>
+    </div>
+    <div class="trans-stat-card featured">
+        <div class="stat-icon success"><i class="fa-solid fa-check-circle"></i></div>
+        <div>
+            <div class="stat-value">7,891</div>
+            <div class="stat-label">Successful Transactions</div>
+        </div>
+    </div>
+    <div class="trans-stat-card">
+        <div class="stat-icon failed"><i class="fa-solid fa-times-circle"></i></div>
+        <div>
+            <div class="stat-value">532</div>
+            <div class="stat-label">Failed Transactions</div>
+        </div>
+    </div>
+</div>
+
+<!-- TABLE SECTION -->
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">
+            <h3>All Transactions</h3>
+            <p class="table-subtitle">Most transactions relate to system.</p>
+        </div>
+        <div class="table-filters">
+            <div class="searchbar-inline">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="tableSearch" placeholder="Search" onkeyup="filterTable()" />
+            </div>
+            <div class="sort-dropdown">
+                <label>Status:</label>
+                <select id="statusSelect" onchange="filterTable()">
+                    <option value="all">All</option>
+                    <option value="success">Success</option>
+                    <option value="failed">Failed</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <table class="data-table" id="transactionsTable">
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Method of Payment</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Table rows will be dynamically populated by JavaScript -->
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <div class="pagination-info" id="paginationInfo">Showing data in 6 of 255 entries</div>
+        <div class="pagination-controls" id="paginationControls">
+            <button class="page-btn" onclick="changePage('prev')"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="page-btn active" onclick="changePage(1)">1</button>
+            <button class="page-btn" onclick="changePage(2)">2</button>
+            <button class="page-btn" onclick="changePage(3)">3</button>
+            <button class="page-btn" onclick="changePage(4)">4</button>
+            <button class="page-btn" onclick="changePage(5)">5</button>
+            <span>...</span>
+            <button class="page-btn" onclick="changePage(43)">43</button>
+            <button class="page-btn" onclick="changePage('next')"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sample Data for Transactions (255 entries)
+    const allTransactions = [
+        { id: 1, name: 'Juan Dela Cruz', phone: '(0917) 456-7890', email: 'juan.delacruz@gmail.com', paymentMethod: 'GCash', status: 'success' },
+        { id: 2, name: 'Maria Santos', phone: '(0908) 234-5567', email: 'maria.santos@yahoo.com', paymentMethod: 'Maya', status: 'success' },
+        { id: 3, name: 'Jose Ramirez', phone: '(0912) 567-8901', email: 'jose.ramirez@outlook.com', paymentMethod: 'Bank Transfer', status: 'failed' },
+        { id: 4, name: 'Angela Bautista', phone: '(0919) 678-9012', email: 'angela.bautista@gmail.com', paymentMethod: 'PayPal', status: 'success' },
+        { id: 5, name: 'Mark Villanueva', phone: '(0921) 345-6789', email: 'mark.villanueva@company.com', paymentMethod: 'Bank Transfer', status: 'failed' },
+        { id: 6, name: 'Kristine Reyes', phone: '(0915) 876-5432', email: 'kristine.reyes@gmail.com', paymentMethod: 'GCash', status: 'success' },
+        { id: 7, name: 'Carlo Mendoza', phone: '(0906) 345-1123', email: 'carlo.mendoza@yahoo.com', paymentMethod: 'Maya', status: 'success' },
+        { id: 8, name: 'Rica Cruz', phone: '(0917) 234-5567', email: 'rica.cruz@gmail.com', paymentMethod: 'PayPal', status: 'failed' },
+        { id: 9, name: 'Paolo Garcia', phone: '(0995) 321-7890', email: 'paolo.garcia@live.com', paymentMethod: 'GCash', status: 'success' },
+        { id: 10, name: 'Jasmine Flores', phone: '(0913) 555-7777', email: 'jasmine.flores@gmail.com', paymentMethod: 'Bank Transfer', status: 'success' },
+        { id: 11, name: 'Nathan Cruz', phone: '(0914) 888-9999', email: 'nathan.cruz@yahoo.com', paymentMethod: 'Maya', status: 'failed' },
+        { id: 12, name: 'Ella Ramos', phone: '(0905) 222-3333', email: 'ella.ramos@gmail.com', paymentMethod: 'GCash', status: 'success' },
+        { id: 13, name: 'Miguel Torres', phone: '(0910) 444-5555', email: 'miguel.torres@outlook.com', paymentMethod: 'Maya', status: 'success' },
+        { id: 14, name: 'Nicole Aquino', phone: '(0920) 123-4567', email: 'nicole.aquino@gmail.com', paymentMethod: 'PayPal', status: 'failed' },
+        { id: 15, name: 'Jerome Castillo', phone: '(0911) 345-6789', email: 'jerome.castillo@yahoo.com', paymentMethod: 'Maya', status: 'success' },
+        { id: 16, name: 'Patricia Lopez', phone: '(0918) 234-5678', email: 'patricia.lopez@gmail.com', paymentMethod: 'GCash', status: 'success' },
+        { id: 17, name: 'John Paul Lim', phone: '(0916) 765-4321', email: 'johnpaul.lim@gmail.com', paymentMethod: 'PayPal', status: 'failed' },
+        { id: 18, name: 'Catherine Morales', phone: '(0909) 876-5432', email: 'catherine.morales@yahoo.com', paymentMethod: 'Bank Transfer', status: 'success' },
+        { id: 19, name: 'Rafael Gomez', phone: '(0912) 999-0001', email: 'rafael.gomez@gmail.com', paymentMethod: 'Maya', status: 'success' },
+        { id: 20, name: 'Bea Hernandez', phone: '(0922) 555-8888', email: 'bea.hernandez@gmail.com', paymentMethod: 'GCash', status: 'failed' }
+    ];
+
+
+
+    // Generate remaining sample data to reach 255 entries
+    for (let i = 21; i <= 255; i++) {
+        const firstNames = ['Alex', 'Brian', 'Catherine', 'Daniel', 'Emma', 'Frank', 'Grace', 'Henry', 'Isabella', 'James'];
+        const lastNames = ['Anderson', 'Baker', 'Carter', 'Davis', 'Edwards', 'Foster', 'Green', 'Harris', 'Irwin', 'Jackson'];
+        const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'company.com', 'business.com', 'enterprise.com'];
+        const paymentMethods = ['Quath', 'PayPal', 'Workings', 'Personal', 'Furnings', 'Credit Card', 'Bank Transfer'];
+
+        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+        const domain = domains[Math.floor(Math.random() * domains.length)];
+        const paymentMethod = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
+        const status = Math.random() > 0.2 ? 'success' : 'failed'; // 80% success rate
+
+        const phonePart1 = Math.floor(100 + Math.random() * 900);
+        const phonePart2 = String(Math.floor(100 + Math.random() * 900)).padStart(3, '0');
+        const email = firstName.toLowerCase() + '.' + lastName.toLowerCase() + '@@' + domain;
+
+        allTransactions.push({
+            id: i,
+            name: firstName + ' ' + lastName,
+            phone: '(' + phonePart1 + ') 556-' + phonePart2,
+            email: email,
+            paymentMethod: paymentMethod,
+            status: status
+        });
+    }
+
+    // Pagination settings
+    let currentPage = 1;
+    const itemsPerPage = 6; // As shown in the image
+    const totalPages = Math.ceil(allTransactions.length / itemsPerPage);
+    let filteredData = [...allTransactions];
+
+    // Initialize page
+    function initPage() {
+        renderTable();
+        renderPagination();
+    }
+
+    // Render table with current page data
+    function renderTable() {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageData = filteredData.slice(start, end);
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        pageData.forEach(function(transaction, index) {
+            const statusClass = transaction.status === 'success' ? 'status-success' : 'status-failed';
+            const statusText = transaction.status === 'success' ? 'Success' : 'Failed';
+
+            const row = '<tr>' +
+                '<td><div class="customer-name">' + transaction.name + '</div></td>' +
+                '<td>' + transaction.phone + '</td>' +
+                '<td>' + transaction.email + '</td>' +
+                '<td>' + transaction.paymentMethod + '</td>' +
+                '<td><span class="status-badge ' + statusClass + '">' + statusText + '</span></td>' +
+            '</tr>';
+            tbody.innerHTML += row;
+        });
+
+        // Update pagination info - using the exact text from the image
+        const totalItems = filteredData.length;
+        document.getElementById('paginationInfo').textContent =
+            'Showing data in ' + pageData.length + ' of ' + totalItems + ' entries';
+    }
+
+    // Render pagination controls
+    function renderPagination() {
+        const totalFilteredPages = Math.ceil(filteredData.length / itemsPerPage);
+        const paginationControls = document.getElementById('paginationControls');
+        let html = '';
+
+        // Previous button
+        html += '<button class="page-btn" onclick="changePage(\'prev\')"' + (currentPage === 1 ? ' disabled' : '') + '>';
+        html += '<i class="fa-solid fa-chevron-left"></i>';
+        html += '</button>';
+
+        // Page numbers
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalFilteredPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage < maxVisiblePages - 1) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        if (startPage > 1) {
+            html += '<button class="page-btn" onclick="changePage(1)">1</button>';
+            if (startPage > 2) {
+                html += '<span>...</span>';
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            html += '<button class="page-btn ' + (i === currentPage ? 'active' : '') + '" onclick="changePage(' + i + ')">' + i + '</button>';
+        }
+
+        if (endPage < totalFilteredPages) {
+            if (endPage < totalFilteredPages - 1) {
+                html += '<span>...</span>';
+            }
+            html += '<button class="page-btn" onclick="changePage(' + totalFilteredPages + ')">' + totalFilteredPages + '</button>';
+        }
+
+        // Next button
+        html += '<button class="page-btn" onclick="changePage(\'next\')"' + (currentPage === totalFilteredPages ? ' disabled' : '') + '>';
+        html += '<i class="fa-solid fa-chevron-right"></i>';
+        html += '</button>';
+
+        paginationControls.innerHTML = html;
+    }
+
+    // Change page
+    function changePage(page) {
+        const totalFilteredPages = Math.ceil(filteredData.length / itemsPerPage);
+
+        if (page === 'prev') {
+            if (currentPage > 1) currentPage--;
+        } else if (page === 'next') {
+            if (currentPage < totalFilteredPages) currentPage++;
+        } else {
+            currentPage = page;
+        }
+
+        renderTable();
+        renderPagination();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Filter Table
+    function filterTable() {
+        const searchInput = document.getElementById('tableSearch');
+        const statusSelect = document.getElementById('statusSelect');
+
+        const searchTerm = searchInput.value.toUpperCase();
+        const statusFilter = statusSelect.value;
+
+        if (searchTerm === '' && statusFilter === 'all') {
+            filteredData = [...allTransactions];
+        } else {
+            filteredData = allTransactions.filter(function(transaction) {
+                const matchesSearch =
+                    transaction.name.toUpperCase().includes(searchTerm) ||
+                    transaction.phone.toUpperCase().includes(searchTerm) ||
+                    transaction.email.toUpperCase().includes(searchTerm) ||
+                    transaction.paymentMethod.toUpperCase().includes(searchTerm);
+
+                const matchesStatus = statusFilter === 'all' || transaction.status === statusFilter;
+
+                return matchesSearch && matchesStatus;
+            });
+        }
+
+        currentPage = 1;
+        renderTable();
+        renderPagination();
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        initPage();
+    });
+</script>
+
+<style>
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .page-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2A4020;
+            margin: 0;
+        }
+
+    .top-right {
+        display: flex;
+        gap: 12px;
+    }
+
+    .searchbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f5f5;
+        padding: 8px 16px;
+        border-radius: 8px;
+        min-width: 250px;
+    }
+
+        .searchbar i {
+            color: #8fb91c;
+        }
+
+        .searchbar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+    .trans-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .trans-stat-card {
+        background: #EFF5D2;
+        padding: 20px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+        .trans-stat-card.featured {
+            background: linear-gradient(135deg, #eaf7cf 0%, #d4eaa7 100%);
+        }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #8fb91c;
+    }
+
+        .stat-icon.success {
+            color: #4caf50;
+        }
+
+        .stat-icon.failed {
+            color: #f44336;
+        }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2A4020;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        color: #5a7a4a;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    .table-title h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2A4020;
+        margin: 0 0 4px 0;
+    }
+
+    .table-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin: 0;
+    }
+
+    .table-filters {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .searchbar-inline {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f5f5;
+        padding: 6px 12px;
+        border-radius: 6px;
+    }
+
+        .searchbar-inline input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 180px;
+            font-size: 14px;
+        }
+
+    .sort-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .sort-dropdown label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .sort-dropdown select {
+            padding: 6px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .data-table thead {
+            background: #f9f9f9;
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .data-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .data-table tbody tr:hover {
+            background: #fafafa;
+        }
+
+    .customer-name {
+        font-weight: 600;
+        color: #2A4020;
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .status-success {
+        background: #e8f5e8;
+        color: #4caf50;
+    }
+
+    .status-failed {
+        background: #ffebee;
+        color: #f44336;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .pagination-info {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .pagination-controls {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+    .page-btn {
+        padding: 6px 12px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+        .page-btn:hover:not(:disabled) {
+            background: #f5f5f5;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-btn.active {
+            background: #8fb91c;
+            color: white;
+            border-color: #8fb91c;
+        }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .trans-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .table-header {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .table-filters {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .pagination {
+            flex-direction: column;
+            gap: 16px;
+        }
+    }
+</style>
