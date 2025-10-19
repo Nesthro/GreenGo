@@ -1,856 +1,706 @@
 ﻿@{
     ViewBag.Title = "Home - GreenGo";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            background: #ffffff;
-        }
+<style>
+    /* ===== STICKY NAVBAR ===== */
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-        /* ===== HEADER ===== */
-        .header {
-            background: #fff;
-            padding: 15px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+        padding: 80px 60px;
+        background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('@Url.Content("~/Content/Images/ncr-hero.jpg")') center/cover no-repeat;
+    }
 
-        .left-section {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
+    .hero-content {
+        text-align: left;
+        color: white;
+        max-width: 720px;
+        margin: 0;
+        margin-left: 100px;
+    }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .logo-text {
-            font-size: 24px;
+        .hero-content h1 {
+            font-size: 40px;
             font-weight: 700;
-            color: #0a2447;
+            margin-bottom: 14px;
+            line-height: 1.2;
         }
 
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: #f0f0f0;
-            border-radius: 25px;
-            padding: 8px 18px;
-            width: 320px;
-            gap: 10px;
-        }
-
-            .search-bar input {
-                border: none;
-                background: transparent;
-                outline: none;
-                width: 100%;
-                color: #333;
-                font-size: 14px;
-            }
-
-        .search-icon {
-            color: #777;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: #444;
-            font-size: 15px;
-            transition: color 0.3s;
-        }
-
-            .nav-link:hover {
-                color: #8fb91c;
-            }
-
-        .btn-signup-header {
-            border: 1.5px solid #8fb91c;
-            color: #8fb91c;
-            background: #fff;
-            padding: 8px 22px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 15px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-            .btn-signup-header:hover {
-                background: #8fb91c;
-                color: #fff;
-            }
-
-        .btn-login-header {
-            background: #8fb91c;
-            color: white;
-            padding: 8px 24px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-
-            .btn-login-header:hover {
-                background: #7da619;
-            }
-
-        /* ===== HERO SECTION ===== */
-        .hero-section {
-            padding: 80px 60px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('@Url.Content("~/Content/Images/ncr-hero.jpg")') center/cover no-repeat;
-        }
-
-        .hero-content {
-            text-align: left;
-            color: white;
-            max-width: 720px;
-            margin: 0;
-            margin: 0;
-            margin-left: 100px;
-        }
-
-            .hero-content h1 {
-                font-size: 40px;
-                font-weight: 700;
-                margin-bottom: 14px;
-                line-height: 1.2;
-            }
-
-            .hero-content p {
-                font-size: 16px;
-                margin-bottom: 28px;
-                opacity: 0.95;
-            }
-
-        .hero-search-box {
-            display: flex;
-            max-width: 520px;
-            background: white;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-            .hero-search-box input {
-                flex: 1;
-                padding: 13px 18px;
-                border: none;
-                outline: none;
-                font-size: 14px;
-            }
-
-            .hero-search-box button {
-                padding: 13px 32px;
-                background: #576b24;
-                color: white;
-                border: none;
-                font-weight: 600;
-                font-size: 15px;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-
-                .hero-search-box button:hover {
-                    background: #465720;
-                }
-
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 50px 60px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
-
-        .section-title {
-            font-size: 26px;
-            font-weight: 700;
-            color: #0a2447;
-        }
-
-        .see-all {
-            color: #8fb91c;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-            .see-all:hover {
-                color: #7da619;
-                text-decoration: underline;
-            }
-
-        .attractions-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 50px;
-        }
-
-        .attraction-card {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-            .attraction-card:hover {
-                background: #f8f8f8;
-                transform: translateX(5px);
-            }
-
-        .attraction-image {
-            width: 70px;
-            height: 70px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .attraction-info h3 {
+        .hero-content p {
             font-size: 16px;
+            margin-bottom: 28px;
+            opacity: 0.95;
+        }
+
+    .hero-search-box {
+        display: flex;
+        max-width: 520px;
+        background: white;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+        .hero-search-box input {
+            flex: 1;
+            padding: 13px 18px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .hero-search-box button {
+            padding: 13px 32px;
+            background: #576b24;
+            color: white;
+            border: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .hero-search-box button:hover {
+                background: #465720;
+            }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 50px 60px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+    }
+
+    .section-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #0a2447;
+    }
+
+    .see-all {
+        color: #8fb91c;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .see-all:hover {
+            color: #7da619;
+            text-decoration: underline;
+        }
+
+    .attractions-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-bottom: 50px;
+    }
+
+    .attraction-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .attraction-card:hover {
+            background: #f8f8f8;
+            transform: translateX(5px);
+        }
+
+    .attraction-image {
+        width: 70px;
+        height: 70px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .attraction-info h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #0a2447;
+        margin-bottom: 4px;
+    }
+
+    .attraction-info p {
+        font-size: 13px;
+        color: #999;
+    }
+
+    .destinations-wrapper {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .destinations-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .destination-card {
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+        .destination-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+    .destination-image {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+    }
+
+    .destination-info {
+        padding: 18px 20px;
+        background: white;
+    }
+
+        .destination-info h3 {
+            font-size: 17px;
             font-weight: 600;
             color: #0a2447;
             margin-bottom: 4px;
         }
 
-        .attraction-info p {
+        .destination-info p {
             font-size: 13px;
             color: #999;
         }
 
-        .destinations-wrapper {
-            position: relative;
-            margin-bottom: 20px; /* Reduced margin to bring button closer to grid */
-        }
+    .scroll-arrow-btn {
+        position: absolute;
+        right: -18px;
+        top: 38%;
+        width: 44px;
+        height: 44px;
+        background: white;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        transition: 0.3s;
+    }
 
-        .destinations-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
+    .scroll-arrow-btn:hover {
+        background: #f5f5f5;
+        transform: scale(1.1);
+    }
 
-        .destination-card {
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        }
+    .see-all-button-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        margin-bottom: 55px;
+    }
 
-            .destination-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            }
+    .see-all-button {
+        padding: 10px 40px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: white;
+        color: #0a2447;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s, border-color 0.3s;
+        display: inline-block;
+    }
 
-        .destination-image {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-        }
+    .see-all-button:hover {
+        background-color: #f5f5f5;
+        border-color: #aaa;
+    }
 
-        .destination-info {
-            padding: 18px 20px;
-            background: white;
-        }
+    /* ===== WHY CHOOSE SECTION ===== */
+    .why-choose {
+        padding: 50px 0;
+        background: #fafafa;
+    }
 
-            .destination-info h3 {
-                font-size: 17px;
-                font-weight: 600;
-                color: #0a2447;
-                margin-bottom: 4px;
-            }
+    .why-choose-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 60px;
+    }
 
-            .destination-info p {
-                font-size: 13px;
-                color: #999;
-            }
+    .why-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 35px;
+        text-align: center;
+        color: #0a2447;
+    }
 
-        .scroll-arrow-btn {
-            position: absolute;
-            right: -18px;
-            top: 38%;
-            width: 44px;
-            height: 44px;
-            background: white;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-            transition: 0.3s;
-        }
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
+    }
 
-        .scroll-arrow-btn:hover {
-            background: #f5f5f5;
-            transform: scale(1.1);
-        }
+    .feature-item {
+        text-align: center;
+        padding: 20px;
+        transition: 0.3s;
+    }
 
-        /* ===== NEW STYLES FOR SEE ALL BUTTON BELOW DESTINATIONS ===== */
-        .see-all-button-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px; /* Space between the grid and the button */
-            margin-bottom: 55px; /* Space below the button */
-        }
+    .feature-item:hover {
+        transform: translateY(-5px);
+    }
 
-        .see-all-button {
-            padding: 10px 40px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            background-color: white;
-            color: #0a2447;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            text-decoration: none; /* Important for <a> tag if used */
-            transition: background-color 0.3s, border-color 0.3s;
-            display: inline-block; /* Allows padding and centering */
-        }
+    .feature-item h3 {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #0a2447;
+    }
 
-        .see-all-button:hover {
-            background-color: #f5f5f5;
-            border-color: #aaa;
-        }
-        /* ===== END OF NEW STYLES ===== */
+    .feature-item p {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+    }
 
+    .feature-icon {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        margin-bottom: 20px;
+    }
 
-        /* ===== WHY CHOOSE SECTION ===== */
-        .why-choose {
-            padding: 50px 0;
-            background: #fafafa;
-        }
+    /* ===== REVIEWS SECTION ===== */
+    .reviews-section {
+        background: #f8f8f8;
+        border-radius: 12px;
+        padding: 55px 60px;
+        margin: 55px auto;
+        max-width: 1280px;
+    }
 
-        .why-choose-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 60px;
-        }
+    .reviews-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 32px;
+        text-align: center;
+        color: #0a2447;
+    }
 
-        .why-title {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 35px;
-            text-align: center;
-            color: #0a2447;
-        }
+    .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 28px;
-        }
+    .review-card {
+        background: #b8c978;
+        border-radius: 12px;
+        padding: 35px;
+        color: white;
+        transition: 0.3s;
+    }
 
-        .feature-item {
-            text-align: center;
-            padding: 20px;
-            transition: 0.3s;
-        }
+    .review-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 
-        .feature-item:hover {
-            transform: translateY(-5px);
-        }
+    .quote-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        font-family: Georgia, serif;
+        opacity: 0.9;
+    }
 
-        .feature-item h3 {
-            font-size: 17px;
-            font-weight: 600;
+    .review-text {
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+
+    .reviewer {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-top: 25px;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .reviewer-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #ddd;
+    }
+
+    .reviewer-info {
+        background: #5a7a2a;
+        padding: 10px 18px;
+        border-radius: 6px;
+        flex: 1;
+        text-align: center;
+    }
+
+    .reviewer-name {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+        background: #5a7a2a;
+        color: white;
+        padding: 50px 60px 25px;
+        margin-top: 55px;
+    }
+
+    .footer-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 2fr;
+        gap: 50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-section h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .footer-section p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+        .footer-links li {
             margin-bottom: 12px;
-            color: #0a2447;
         }
 
-        .feature-item p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .feature-icon {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 20px;
-        }
-
-        /* ===== REVIEWS SECTION ===== */
-        .reviews-section {
-            background: #f8f8f8;
-            border-radius: 12px;
-            padding: 55px 60px;
-            margin: 55px auto;
-            max-width: 1280px;
-        }
-
-        .reviews-title {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 32px;
-            text-align: center;
-            color: #0a2447;
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .review-card {
-            background: #b8c978;
-            border-radius: 12px;
-            padding: 35px;
-            color: white;
-            transition: 0.3s;
-        }
-
-        .review-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .quote-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-family: Georgia, serif;
-            opacity: 0.9;
-        }
-
-        .review-text {
-            font-size: 14px;
-            line-height: 1.7;
-            margin-bottom: 25px;
-        }
-
-        .reviewer {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .reviewer-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #ddd;
-        }
-
-        .reviewer-info {
-            background: #5a7a2a;
-            padding: 10px 18px;
-            border-radius: 6px;
-            flex: 1;
-            text-align: center;
-        }
-
-        .reviewer-name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            background: #5a7a2a;
-            color: white;
-            padding: 50px 60px 25px;
-            margin-top: 55px;
-        }
-
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 2fr;
-            gap: 50px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .footer-section h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .footer-section p {
-            font-size: 14px;
+        .footer-links a {
             color: rgba(255, 255, 255, 0.85);
-            line-height: 1.6;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-            .footer-links li {
-                margin-bottom: 12px;
-            }
-
-            .footer-links a {
-                color: rgba(255, 255, 255, 0.85);
-                text-decoration: none;
-                font-size: 14px;
-                transition: 0.3s;
-            }
-
-                .footer-links a:hover {
-                    color: #fff;
-                    padding-left: 5px;
-                }
-
-        .newsletter-input {
-            display: flex;
-            margin-top: 16px;
-        }
-
-            .newsletter-input input {
-                flex: 1;
-                padding: 12px 18px;
-                border: none;
-                border-radius: 6px 0 0 6px;
-                outline: none;
-                font-size: 14px;
-            }
-
-            .newsletter-input button {
-                padding: 12px 28px;
-                background: #8fb91c;
-                color: white;
-                border: none;
-                border-radius: 0 6px 6px 0;
-                cursor: pointer;
-                font-weight: 600;
-                font-size: 14px;
-                transition: 0.3s;
-            }
-
-                .newsletter-input button:hover {
-                    background: #7da619;
-                }
-
-        .social-icons {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .social-icon {
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
             transition: 0.3s;
         }
 
-            .social-icon:hover {
-                background: rgba(255, 255, 255, 0.25);
-                transform: translateY(-2px);
+            .footer-links a:hover {
+                color: #fff;
+                padding-left: 5px;
             }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="left-section">
-            <div class="logo-section">
-                <img src="~/Content/Images/logo.jpg" alt="GreenGo Logo" class="logo" />
-                <span class="logo-text">GreenGo</span>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search destinations or activities" />
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+    .newsletter-input {
+        display: flex;
+        margin-top: 16px;
+    }
+
+        .newsletter-input input {
+            flex: 1;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .newsletter-input button {
+            padding: 12px 28px;
+            background: #8fb91c;
+            color: white;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+            .newsletter-input button:hover {
+                background: #7da619;
+            }
+
+    .social-icons {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .social-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Discover NCR's Parks, Museums, And Hidden Treasures—All In One Place.</h1>
+        <p>Find your next destination in every corner of NCR.</p>
+        <div class="hero-search-box">
+            <input type="text" placeholder="Explore Quezon City" />
+            <button>Search</button>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="section-header">
+        <h2 class="section-title">Top Attractions</h2>
+        <a href="@Url.Action("MuseumTopAttractions", "Home")" class="see-all">See all</a>
+    </div>
+
+    <div class="attractions-grid">
+        <div class="attraction-card" onclick="location.href='@Url.Action("LamesaEcoPark", "ParksDesc")'">
+            <img src="~/Content/Images/lamesa.jpg" alt="La Mesa Eco Park" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>La Mesa Eco Park</h3>
+                <p>500+ Tours</p>
             </div>
         </div>
-        <div class="nav-menu">
-            <a href="@Url.Action("Index", "Home")" class="nav-link">Home</a>
-            <a href="@Url.Action("Categories", "Home")" class="nav-link">Categories</a>
-            <a href="@Url.Action("About", "Home")" class="nav-link">About Us</a>
-            <a href="@Url.Action("Contact", "Home")" class="nav-link">Contact Us</a>
-            <a href="@Url.Action("Tips", "Home")" class="nav-link">Tips</a>
-            <a href="@Url.Action("Register", "Account")" class="btn-signup-header">Sign Up</a>
-            <a href="@Url.Action("Login", "Account")" class="btn-login-header">Log In</a>
+        <div class="attraction-card">
+            <img src="~/Content/Images/rizal-park.jpg" alt="Rizal Park" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>Rizal Park</h3>
+                <p>320+ Tours</p>
+            </div>
+        </div>
+        <div class="attraction-card">
+            <img src="~/Content/Images/quezon-memorial.jpg" alt="Quezon Memorial Circle" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>Quezon Memorial Circle</h3>
+                <p>450+ Tours</p>
+            </div>
+        </div>
+        <div class="attraction-card" onclick="location.href='@Url.Action("NationalMuseum", "MuseumDesc")'">
+            <img src="~/Content/Images/national-museum.jpg" alt="National Museum" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>National Museum</h3>
+                <p>600+ Tours</p>
+            </div>
+        </div>
+        <div class="attraction-card">
+            <img src="~/Content/Images/intramuros.jpg" alt="Intramuros" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>Intramuros</h3>
+                <p>550+ Tours</p>
+            </div>
+        </div>
+        <div class="attraction-card">
+            <img src="~/Content/Images/reco-park.jpg" alt="Reco Park" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>Reco Park</h3>
+                <p>150+ Tours</p>
+            </div>
+        </div>
+        <div class="attraction-card">
+            <img src="~/Content/Images/up-diliman.jpg" alt="UP Diliman Campus" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>UP Diliman Campus</h3>
+                <p>300+ Tours</p>
+            </div>
+        </div>
+        <div class="attraction-card">
+            <img src="~/Content/Images/manila-cathedral.jpg" alt="Manila Cathedral" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>Manila Cathedral</h3>
+                <p>400+ Tours</p>
+            </div>
+        </div>
+        <div class="attraction-card">
+            <img src="~/Content/Images/manila-ocean-park.jpg" alt="Manila Ocean Park" class="attraction-image" />
+            <div class="attraction-info">
+                <h3>Manila Ocean Park</h3>
+                <p>800+ Tours</p>
+            </div>
         </div>
     </div>
 
-    <div class="hero-section">
-        <div class="hero-content">
-            <h1>Discover NCR's Parks, Museums, And Hidden Treasures—All In One Place.</h1>
-            <p>Find your next destination in every corner of NCR.</p>
-            <div class="hero-search-box">
-                <input type="text" placeholder="Explore Quezon City" />
-                <button>Search</button>
-            </div>
-        </div>
+    <div class="section-header">
+        <h2 class="section-title">Where to next?</h2>
     </div>
 
-    <div class="main-content">
-        <div class="section-header">
-            <h2 class="section-title">Top Attractions</h2>
-            <a href="@Url.Action("MuseumTopAttractions", "Home")" class="see-all">See all</a>
-
-        </div>
-
-        <div class="attractions-grid">
-            <div class="attraction-card" onclick="location.href='@Url.Action("LamesaEcoPark", "ParksDesc")'">
-                <img src="~/Content/Images/lamesa.jpg" alt="La Mesa Eco Park" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>La Mesa Eco Park</h3>
-                    <p>500+ Tours</p>
-                </div>
-            </div>
-            <div class="attraction-card">
-                <img src="~/Content/Images/rizal-park.jpg" alt="Rizal Park" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Rizal Park</h3>
-                    <p>320+ Tours</p>
-                </div>
-            </div>
-            <div class="attraction-card">
-                <img src="~/Content/Images/quezon-memorial.jpg" alt="Quezon Memorial Circle" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Quezon Memorial Circle</h3>
-                    <p>450+ Tours</p>
-                </div>
-            </div>
-            <div class="attraction-card" onclick="location.href='@Url.Action("NationalMuseum", "MuseumDesc")'">
-                <img src="~/Content/Images/national-museum.jpg" alt="National Museum" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>National Museum</h3>
-                    <p>600+ Tours</p>
-                </div>
-            </div>
-            <div class="attraction-card">
-                <img src="~/Content/Images/intramuros.jpg" alt="Intramuros" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Intramuros</h3>
-                    <p>550+ Tours</p>
-                </div>
-            </div>
-            <div class="attraction-card">
-                <img src="~/Content/Images/reco-park.jpg" alt="Reco Park" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Reco Park</h3>
+    <div class="destinations-wrapper">
+        <div class="destinations-grid">
+            <div class="destination-card">
+                <img src="~/Content/Images/manila-city.jpg" alt="Manila City" class="destination-image" />
+                <div class="destination-info">
+                    <h3>Manila City</h3>
                     <p>150+ Tours</p>
                 </div>
             </div>
-            <div class="attraction-card">
-                <img src="~/Content/Images/up-diliman.jpg" alt="UP Diliman Campus" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>UP Diliman Campus</h3>
+            <div class="destination-card">
+                <img src="~/Content/Images/quezon-city.jpg" alt="Quezon City" class="destination-image" />
+                <div class="destination-info">
+                    <h3>Quezon City</h3>
+                    <p>200+ Tours</p>
+                </div>
+            </div>
+            <div class="destination-card">
+                <img src="~/Content/Images/taguig-city.jpg" alt="Taguig City" class="destination-image" />
+                <div class="destination-info">
+                    <h3>Taguig City</h3>
                     <p>300+ Tours</p>
                 </div>
             </div>
-            <div class="attraction-card">
-                <img src="~/Content/Images/manila-cathedral.jpg" alt="Manila Cathedral" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Manila Cathedral</h3>
-                    <p>400+ Tours</p>
-                </div>
-            </div>
-            <div class="attraction-card">
-                <img src="~/Content/Images/manila-ocean-park.jpg" alt="Manila Ocean Park" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Manila Ocean Park</h3>
-                    <p>800+ Tours</p>
+            <div class="destination-card">
+                <img src="~/Content/Images/pasay-city.jpg" alt="Pasay City" class="destination-image" />
+                <div class="destination-info">
+                    <h3>Pasay City</h3>
+                    <p>100+ Tours</p>
                 </div>
             </div>
         </div>
-
-        <div class="section-header">
-            <h2 class="section-title">Where to next?</h2>
-        </div>
-
-        <div class="destinations-wrapper">
-            <div class="destinations-grid">
-                <div class="destination-card">
-                    <img src="~/Content/Images/manila-city.jpg" alt="Manila City" class="destination-image" />
-                    <div class="destination-info">
-                        <h3>Manila City</h3>
-                        <p>150+ Tours</p>
-                    </div>
-                </div>
-                <div class="destination-card">
-                    <img src="~/Content/Images/quezon-city.jpg" alt="Quezon City" class="destination-image" />
-                    <div class="destination-info">
-                        <h3>Quezon City</h3>
-                        <p>200+ Tours</p>
-                    </div>
-                </div>
-                <div class="destination-card">
-                    <img src="~/Content/Images/taguig-city.jpg" alt="Taguig City" class="destination-image" />
-                    <div class="destination-info">
-                        <h3>Taguig City</h3>
-                        <p>300+ Tours</p>
-                    </div>
-                </div>
-                <div class="destination-card">
-                    <img src="~/Content/Images/pasay-city.jpg" alt="Pasay City" class="destination-image" />
-                    <div class="destination-info">
-                        <h3>Pasay City</h3>
-                        <p>100+ Tours</p>
-                    </div>
-                </div>
-            </div>
-            <button class="scroll-arrow-btn">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
-        </div>
-
-        <div class="see-all-button-wrapper">
-            <a href="@Url.Action("Cities", "Home")" class="see-all-button">See All</a>
-        </div>
+        <button class="scroll-arrow-btn">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
     </div>
 
-    <div class="why-choose">
-        <div class="why-choose-content">
-            <h2 class="why-title">Why choose GreenGo</h2>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <img src="~/Content/Images/whyus1.png" alt="Discover More Places" class="feature-icon" />
-                    <h3>Discover more places</h3>
-                    <p>From parks to museums, explore a wide range of destinations within the NCR</p>
+    <div class="see-all-button-wrapper">
+        <a href="@Url.Action("Cities", "Home")" class="see-all-button">See All</a>
+    </div>
+</div>
+
+<div class="why-choose">
+    <div class="why-choose-content">
+        <h2 class="why-title">Why choose GreenGo</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <img src="~/Content/Images/whyus1.png" alt="Discover More Places" class="feature-icon" />
+                <h3>Discover more places</h3>
+                <p>From parks to museums, explore a wide range of destinations within the NCR</p>
+            </div>
+            <div class="feature-item">
+                <img src="~/Content/Images/whyus2.png" alt="Memorable Experiences" class="feature-icon" />
+                <h3>Memorable experiences</h3>
+                <p>Browse and book tours and activities so incredible, you'll want to tell your friends</p>
+            </div>
+            <div class="feature-item">
+                <img src="~/Content/Images/whyus3.png" alt="Quality at Our Core" class="feature-icon" />
+                <h3>Quality at our core</h3>
+                <p>High-quality standards</p>
+            </div>
+            <div class="feature-item">
+                <img src="~/Content/Images/whyus4.png" alt="Pay with Convenience" class="feature-icon" />
+                <h3>Pay with convenience</h3>
+                <p>Securely purchase tickets, rentals, or passes directly on the platform.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="reviews-section">
+    <h2 class="reviews-title">Reviews from our customers</h2>
+    <div class="reviews-grid">
+        <div class="review-card">
+            <div class="quote-icon">"</div>
+            <p class="review-text">Et aliquam netus ut sapien pellentesque mollis nec eleifend mauris orci duis. Felis pharetra potentit habitasse odio justo fauciat. In cursus turpis.</p>
+            <div class="reviewer">
+                <div class="reviewer-avatar"></div>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">Emanuel Boyle</div>
                 </div>
-                <div class="feature-item">
-                    <img src="~/Content/Images/whyus2.png" alt="Memorable Experiences" class="feature-icon" />
-                    <h3>Memorable experiences</h3>
-                    <p>Browse and book tours and activities so incredible, you'll want to tell your friends</p>
+            </div>
+        </div>
+        <div class="review-card">
+            <div class="quote-icon">"</div>
+            <p class="review-text">Fusce consequetus verius quis vitae innaestur erros mattis. Sem velsed duom sed. Pede tincidunt ut amet adipiscing ligula.</p>
+            <div class="reviewer">
+                <div class="reviewer-avatar"></div>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">River Graves</div>
                 </div>
-                <div class="feature-item">
-                    <img src="~/Content/Images/whyus3.png" alt="Quality at Our Core" class="feature-icon" />
-                    <h3>Quality at our core</h3>
-                    <p>High-quality standards</p>
-                </div>
-                <div class="feature-item">
-                    <img src="~/Content/Images/whyus4.png" alt="Pay with Convenience" class="feature-icon" />
-                    <h3>Pay with convenience</h3>
-                    <p>Securely purchase tickets, rentals, or passes directly on the platform.</p>
+            </div>
+        </div>
+        <div class="review-card">
+            <div class="quote-icon">"</div>
+            <p class="review-text">Quam magna odio urus elemsend tellus. Id, sociis a utatus meters. In quamvis semper sed cursus scelerisque. Nisl nam quis sed pellentesque vestibule sit.</p>
+            <div class="reviewer">
+                <div class="reviewer-avatar"></div>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">Ryder Malone</div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="reviews-section">
-        <h2 class="reviews-title">Reviews from our customers</h2>
-        <div class="reviews-grid">
-            <div class="review-card">
-                <div class="quote-icon">"</div>
-                <p class="review-text">Et aliquam netus ut sapien pellentesque mollis nec eleifend mauris orci duis. Felis pharetra potentit habitasse odio justo fauciat. In cursus turpis.</p>
-                <div class="reviewer">
-                    <div class="reviewer-avatar"></div>
-                    <div class="reviewer-info">
-                        <div class="reviewer-name">Emanuel Boyle</div>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="quote-icon">"</div>
-                <p class="review-text">Fusce consequetus verius quis vitae innaestur erros mattis. Sem velsed duom sed. Pede tincidunt ut amet adipiscing ligula.</p>
-                <div class="reviewer">
-                    <div class="reviewer-avatar"></div>
-                    <div class="reviewer-info">
-                        <div class="reviewer-name">River Graves</div>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="quote-icon">"</div>
-                <p class="review-text">Quam magna odio urus elemsend tellus. Id, sociis a utatus meters. In quamvis semper sed cursus scelerisque. Nisl nam quis sed pellentesque vestibule sit.</p>
-                <div class="reviewer">
-                    <div class="reviewer-avatar"></div>
-                    <div class="reviewer-info">
-                        <div class="reviewer-name">Ryder Malone</div>
-                    </div>
-                </div>
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Company</h3>
+            <p>Travel help companies manage payments easily</p>
+            <div class="social-icons">
+                <div class="social-icon">in</div>
+                <div class="social-icon">IG</div>
+                <div class="social-icon">tw</div>
+                <div class="social-icon">yt</div>
             </div>
         </div>
-    </div>
-
-    <div class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Company</h3>
-                <p>Travel help companies manage payments easily</p>
-                <div class="social-icons">
-                    <div class="social-icon">in</div>
-                    <div class="social-icon">IG</div>
-                    <div class="social-icon">tw</div>
-                    <div class="social-icon">yt</div>
-                </div>
+        <div class="footer-section">
+            <h3>Company</h3>
+            <ul class="footer-links">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Sustainability</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Destinations</h3>
+            <ul class="footer-links">
+                <li><a href="#">Manila</a></li>
+                <li><a href="#">Makati City</a></li>
+                <li><a href="#">Quezon City</a></li>
+                <li><a href="#">Taguig</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Join Our Newsletter</h3>
+            <div class="newsletter-input">
+                <input type="email" placeholder="Your email address" />
+                <button>Subscribe</button>
             </div>
-            <div class="footer-section">
-                <h3>Company</h3>
-                <ul class="footer-links">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Destinations</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Manila</a></li>
-                    <li><a href="#">Makati City</a></li>
-                    <li><a href="#">Quezon City</a></li>
-                    <li><a href="#">Taguig</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Join Our Newsletter</h3>
-                <div class="newsletter-input">
-                    <input type="email" placeholder="Your email address" />
-                    <button>Subscribe</button>
-                </div>
-                <p style="margin-top: 12px; font-size: 12px;">* We'll send you weekly updates for your better tour packages.</p>
-            </div>
+            <p style="margin-top: 12px; font-size: 12px;">* We'll send you weekly updates for your better tour packages.</p>
         </div>
     </div>
-</body>
-</html>
+</div>
