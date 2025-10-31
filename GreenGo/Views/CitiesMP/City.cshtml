@@ -1,0 +1,136 @@
+﻿@model GreenGo.Models.CityViewModel
+
+@{
+    Layout = null; // or use your shared layout: Layout = "~/Views/Shared/_Layout.cshtml";
+    var heroImage = string.IsNullOrEmpty(Model.HeroImageUrl)
+        ? ""
+        : $"background-image:url('{Model.HeroImageUrl}');";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@Model.CityName - GreenGo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+
+    <style>
+        /* === Shared Styles (you can replace with your Valenzuela CSS file) === */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+            margin: 0;
+        }
+
+        .hero {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            color: #fff;
+            position: relative;
+        }
+
+            .hero::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.4));
+            }
+
+            .hero h1,
+            .hero p {
+                position: relative;
+                z-index: 1;
+            }
+
+        .content {
+            padding: 40px 5%;
+            background: #f8f9fa;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card-image {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #fff;
+        }
+
+        .card-body {
+            padding: 12px;
+        }
+
+        .btn {
+            padding: 8px 10px;
+            border-radius: 6px;
+            background: #3d4f2f;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        footer {
+            background: #3d4f2f;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero" style="@heroImage">
+        <div>
+            <h1>@Model.CityName</h1>
+            <p>Explore museums and parks in @Model.CityName.</p>
+        </div>
+    </section>
+
+    <main class="content">
+        <h2>Explore all places in @Model.CityName</h2>
+
+        @foreach (var group in Model.PlacesByCategory)
+        {
+            <h3 style="margin-top:30px">@group.Key</h3>
+            <div class="cards-grid">
+                @foreach (var place in group)
+                {
+                    @Html.Partial("_PlaceCard", place)
+                }
+            </div>
+        }
+    </main>
+
+    <footer>
+        © 2025 GreenGo NCR - Eco Travel Hub
+    </footer>
+
+    <script>
+        // open map in new tab (lat,long)
+        function openMap(lat, lng, name) {
+            const url = "https://www.google.com/maps?q=" +
+                encodeURIComponent(lat + ',' + lng + (name ? '(' + name + ')' : ''));
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

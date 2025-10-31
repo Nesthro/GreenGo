@@ -1,0 +1,53 @@
+﻿@model GreenGo.Models.Place
+
+<div class="card" aria-label="@Model.Name">
+    <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" alt="@Model.Name" style="width:100%; height:100%; object-fit:cover;" />
+        }
+        else
+        {
+            <span style="font-size:46px;">@Html.Raw(Model.Icon ?? "📍")</span>
+        }
+    </div>
+
+    <div class="card-body">
+        <p style="font-size:12px; color:#666;">@Model.LocationText</p>
+        <h4 style="margin:6px 0 8px;">@Model.Name</h4>
+
+        <div style="font-size:13px; color:#666; margin-bottom:6px;">
+            @if (Model.Rating > 0)
+            {
+                <span style="color:#ffa000;">@Model.Rating.ToString("0.0") ★</span>
+                <span style="color:#999;">(@Model.RatingCount)</span>
+            }
+        </div>
+
+        <div style="font-weight:600; font-size:14px;">
+            @if (Model.IsFree)
+            {
+                <span style="color:#5a8a3a;">Free</span>
+            }
+            else if (Model.Price.HasValue)
+            {
+                <span>@(Model.Currency ?? "PHP") @Model.Price.Value.ToString("N0")</span>
+            }
+            else
+            {
+                <span>Fee</span>
+            }
+        </div>
+
+        <div style="margin-top:10px;">
+            <a class="btn" href="javascript:void(0)"
+               onclick="openMap('@Model.Latitude', '@Model.Longitude', '@Model.Name')">
+                View on Map
+            </a>
+            <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=@Model.Latitude,@Model.Longitude"
+               target="_blank" style="background:#556b2f; margin-left:6px;">
+                Directions
+            </a>
+        </div>
+    </div>
+</div>

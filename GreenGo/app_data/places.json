@@ -1,0 +1,53 @@
+﻿[
+  {
+    "Id": "val-museo-valenzuela",
+    "City": "Valenzuela",
+    "Category": "Museum",
+    "Name": "Museo Valenzuela",
+    "LocationText": "Valenzuela",
+    "IsFree": true,
+    "Price": null,
+    "Currency": "PHP",
+    "Latitude": 14.7010,
+    "Longitude": 120.9730,
+    "Description": "Local museum preserving community heritage.",
+    "Icon": "🏛️",
+    "ImageUrl": "",
+    "Rating": 3.5,
+    "RatingCount": 24
+  },
+  {
+    "Id": "val-dr-pio-house",
+    "City": "Valenzuela",
+    "Category": "Museum",
+    "Name": "Dr. Pio Valenzuela House",
+    "LocationText": "Valenzuela",
+    "IsFree": true,
+    "Price": null,
+    "Currency": "PHP",
+    "Latitude": 14.7004,
+    "Longitude": 120.9722,
+    "Description": "Heritage house and museum.",
+    "Icon": "🏠",
+    "ImageUrl": "",
+    "Rating": 3.8,
+    "RatingCount": 18
+  },
+  {
+    "Id": "val-polo-park",
+    "City": "Valenzuela",
+    "Category": "Park",
+    "Name": "Polo Park",
+    "LocationText": "Valenzuela",
+    "IsFree": true,
+    "Price": null,
+    "Currency": "PHP",
+    "Latitude": 14.7031,
+    "Longitude": 120.9739,
+    "Description": "Community recreation park with fields.",
+    "Icon": "⚽",
+    "ImageUrl": "",
+    "Rating": 4.0,
+    "RatingCount": 68
+  }
+]

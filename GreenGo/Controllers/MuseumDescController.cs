@@ -46,7 +46,7 @@ namespace GreenGo.Controllers
         {
             return View("~/Views/MuseumDesc/ManilaClockTowerMuseum.cshtml");
         }
-            public ActionResult ArtInIsland()
+        public ActionResult ArtInIsland()
         {
             return View("~/Views/MuseumDesc/ArtInIsland.cshtml");
         }

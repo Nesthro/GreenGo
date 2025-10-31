@@ -113,105 +113,107 @@
             border-radius: 50%;
         }
 
-    /* Footer */
-    .contact-footer {
-        background-color: #4a5d3a;
+    /* ===== FOOTER ===== */
+    .footer {
+        background: #5a7a2a;
         color: white;
-        padding: 50px 20px;
+        padding: 50px 60px 25px;
+        margin-top: 55px;
     }
 
     .footer-content {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        max-width: 1100px;
-        margin: auto;
-        gap: 40px;
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 2fr;
+        gap: 50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .footer-column {
-        min-width: 200px;
+    .footer-section h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
     }
 
-        .footer-column h4 {
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 16px;
+    .footer-section p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+        .footer-links li {
+            margin-bottom: 12px;
         }
 
-        .footer-column p {
-            font-size: 14px;
-            line-height: 1.6;
+        .footer-links a {
             color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
         }
 
-        .footer-column ul {
-            list-style: none;
-            padding: 0;
-            line-height: 2;
-        }
-
-            .footer-column ul li a {
-                color: rgba(255, 255, 255, 0.85);
-                text-decoration: none;
-                font-size: 14px;
-                transition: color 0.3s;
+            .footer-links a:hover {
+                color: #fff;
+                padding-left: 5px;
             }
 
-                .footer-column ul li a:hover {
-                    color: #a8c842;
-                }
+    .newsletter-input {
+        display: flex;
+        margin-top: 16px;
+    }
 
-    .footer-social {
-        margin-top: 15px;
+        .newsletter-input input {
+            flex: 1;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .newsletter-input button {
+            padding: 12px 28px;
+            background: #8fb91c;
+            color: white;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+            .newsletter-input button:hover {
+                background: #7da619;
+            }
+
+    .social-icons {
         display: flex;
         gap: 12px;
+        margin-top: 20px;
     }
 
-        .footer-social a {
-            color: white;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
-
-            .footer-social a:hover {
-                color: #a8c842;
-            }
-
-    .newsletter-form {
-        margin-top: 15px;
+    .social-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s;
     }
 
-        .newsletter-form input {
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: none;
-            outline: none;
-            width: 180px;
-            font-size: 14px;
-        }
-
-        .newsletter-form button {
-            padding: 10px 18px;
-            margin-left: 5px;
-            border: none;
-            border-radius: 6px;
-            background-color: #a8c842;
-            color: white;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-
-            .newsletter-form button:hover {
-                background-color: #99b838;
-            }
-
-        .newsletter-form p {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.65);
-            margin-top: 10px;
-            line-height: 1.4;
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 </style>
 
@@ -250,45 +252,43 @@
         </div>
     </div>
 
-    <footer class="contact-footer">
+    <div class="footer">
         <div class="footer-content">
-            <div class="footer-column">
-                <p>Travel helps companies manage payments easily.</p>
-                <div class="footer-social">
-                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <p>Travel help companies manage payments easily</p>
+                <div class="social-icons">
+                    <div class="social-icon">in</div>
+                    <div class="social-icon">IG</div>
+                    <div class="social-icon">tw</div>
+                    <div class="social-icon">yt</div>
                 </div>
             </div>
-
-            <div class="footer-column">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="#">About Us</a></li>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="">About Us</a></li>
                     <li><a href="#">Careers</a></li>
                     <li><a href="#">Sustainability</a></li>
                 </ul>
             </div>
-
-            <div class="footer-column">
-                <h4>Destinations</h4>
-                <ul>
+            <div class="footer-section">
+                <h3>Destinations</h3>
+                <ul class="footer-links">
                     <li><a href="#">Manila</a></li>
-                    <li><a href="#">Pasay City</a></li>
+                    <li><a href="#">Makati City</a></li>
                     <li><a href="#">Quezon City</a></li>
                     <li><a href="#">Taguig</a></li>
                 </ul>
             </div>
-
-            <div class="footer-column">
-                <h4>Join Our Newsletter</h4>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email" required>
-                    <button type="submit">Subscribe</button>
-                    <p>* We'll send you weekly updates for your better travel packages.</p>
-                </form>
+            <div class="footer-section">
+                <h3>Join Our Newsletter</h3>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Your email address" />
+                    <button>Subscribe</button>
+                </div>
+                <p style="margin-top: 12px; font-size: 12px;">* We'll send you weekly updates for your better tour packages.</p>
             </div>
         </div>
-    </footer>
+        </footer>
 </main>

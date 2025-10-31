@@ -1,10 +1,45 @@
-﻿@{
+﻿@model IEnumerable<GreenGo.Models.Place>
+@using GreenGo.Models
+@using System.Linq
+
+@{
     ViewBag.Title = "Home - GreenGo";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // *** TOP ATTRACTIONS LOGIC ***
+    var topAttractions = new List<Place>();
+    if (Model != null)
+    {
+        string[] topAttractionNames = new string[]
+        {
+            "La Mesa Ecopark",
+            "Rizal Park (Luneta)",
+            "Quezon Memorial Circle",
+            "National Museum of Fine Arts",
+            "Intramuros",
+            "Manila Cathedral",
+            "Manila Ocean Park",
+            "The Mind Museum",
+            "Yuchengco Museum"
+                };
+
+        topAttractions = Model.Where(p => topAttractionNames.Contains(p.Name))
+                              .OrderBy(p => Array.IndexOf(topAttractionNames, p.Name))
+                              .Take(9).ToList();
+    }
+
+    // --- Destinations (Where to next?) Logic ---
+    var destinationCities = new List<Place>();
+    if (Model != null)
+    {
+        // Get one representative 'Place' for each distinct city
+        destinationCities = Model.GroupBy(p => p.City)
+                                 .Select(g => g.First())
+                                 .ToList();
+    }
 }
 
 <style>
-    /* ===== STICKY NAVBAR ===== */
     .header {
         position: sticky;
         top: 0;
@@ -118,6 +153,8 @@
         border-radius: 10px;
         cursor: pointer;
         transition: all 0.3s;
+        text-decoration: none;
+        color: inherit;
     }
 
         .attraction-card:hover {
@@ -149,18 +186,43 @@
         margin-bottom: 20px;
     }
 
-    .destinations-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
+    /* --- NEW/MODIFIED CSS FOR SCROLLER --- */
+
+    /* This is the new 'viewport' container */
+    .destinations-container {
+        overflow-x: scroll;     /* Allows horizontal scrolling */
+        scroll-behavior: smooth;  /* Makes the scroll animated */
+
+        /* Hides the default scrollbar */
+        scrollbar-width: none; /* For Firefox */
+        -ms-overflow-style: none; /* For IE/Edge */
     }
 
+    /* Hides scrollbar for Chrome/Safari */
+    .destinations-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* MODIFY .destinations-grid */
+    .destinations-grid {
+        display: flex;        /* Change from grid to flex */
+        flex-wrap: nowrap;    /* Ensures all items stay in one line */
+        gap: 20px;
+        padding-bottom: 10px; /* Adds space for box-shadow on hover */
+    }
+
+    /* MODIFY .destination-card */
     .destination-card {
+        /* Set a fixed base width so it doesn't shrink */
+        flex: 0 0 280px;
+
         border-radius: 12px;
         overflow: hidden;
         cursor: pointer;
         transition: all 0.3s;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        text-decoration: none;
+        color: inherit;
     }
 
         .destination-card:hover {
@@ -191,10 +253,11 @@
             color: #999;
         }
 
+    /* MODIFY .scroll-arrow-btn */
     .scroll-arrow-btn {
         position: absolute;
-        right: -18px;
-        top: 38%;
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Precise vertical centering */
         width: 44px;
         height: 44px;
         background: white;
@@ -203,12 +266,26 @@
         cursor: pointer;
         box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         transition: 0.3s;
+        z-index: 10; /* Make sure it's on top of the images */
     }
 
     .scroll-arrow-btn:hover {
         background: #f5f5f5;
-        transform: scale(1.1);
+        transform: scale(1.1) translateY(-45%); /* Maintain relative position on hover */
     }
+
+    /* ADD these new classes for the left/right buttons */
+    .scroll-arrow-btn.right {
+        right: -18px;
+    }
+
+    .scroll-arrow-btn.left {
+        left: -18px;
+        display: none; /* Hide the left arrow by default */
+    }
+
+    /* --- END OF SCROLLER CSS --- */
+
 
     .see-all-button-wrapper {
         display: flex;
@@ -491,69 +568,113 @@
     </div>
 
     <div class="attractions-grid">
-        <div class="attraction-card" onclick="location.href='@Url.Action("LamesaEcoPark", "ParksDesc")'">
-            <img src="~/Content/Images/lamesa.jpg" alt="La Mesa Eco Park" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>La Mesa Eco Park</h3>
-                <p>500+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card">
-            <img src="~/Content/Images/rizal-park.jpg" alt="Rizal Park" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>Rizal Park</h3>
-                <p>320+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card">
-            <img src="~/Content/Images/quezon-memorial.jpg" alt="Quezon Memorial Circle" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>Quezon Memorial Circle</h3>
-                <p>450+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card" onclick="location.href='@Url.Action("NationalMuseum", "MuseumDesc")'">
-            <img src="~/Content/Images/national-museum.jpg" alt="National Museum" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>National Museum</h3>
-                <p>600+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card">
-            <img src="~/Content/Images/intramuros.jpg" alt="Intramuros" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>Intramuros</h3>
-                <p>550+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card">
-            <img src="~/Content/Images/reco-park.jpg" alt="Reco Park" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>Reco Park</h3>
-                <p>150+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card">
-            <img src="~/Content/Images/up-diliman.jpg" alt="UP Diliman Campus" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>UP Diliman Campus</h3>
-                <p>300+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card">
-            <img src="~/Content/Images/manila-cathedral.jpg" alt="Manila Cathedral" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>Manila Cathedral</h3>
-                <p>400+ Tours</p>
-            </div>
-        </div>
-        <div class="attraction-card">
-            <img src="~/Content/Images/manila-ocean-park.jpg" alt="Manila Ocean Park" class="attraction-image" />
-            <div class="attraction-info">
-                <h3>Manila Ocean Park</h3>
-                <p>800+ Tours</p>
-            </div>
-        </div>
+        @if (topAttractions.Any(p => p.Name == "La Mesa Ecopark"))
+        {
+            var place = topAttractions.First(p => p.Name == "La Mesa Ecopark");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/la-mesa-ecopark.jpg" alt="La Mesa Ecopark" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>La Mesa Ecopark</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "Rizal Park (Luneta)"))
+        {
+            var place = topAttractions.First(p => p.Name == "Rizal Park (Luneta)");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/rizal-park.jpg" alt="Rizal Park" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>Rizal Park (Luneta)</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "Quezon Memorial Circle"))
+        {
+            var place = topAttractions.First(p => p.Name == "Quezon Memorial Circle");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/quezon-memorial.jpg" alt="Quezon Memorial Circle" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>Quezon Memorial Circle</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "National Museum of Fine Arts"))
+        {
+            var place = topAttractions.First(p => p.Name == "National Museum of Fine Arts");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/national-museum.jpg" alt="National Museum" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>National Museum of Fine Arts</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "Intramuros"))
+        {
+            var place = topAttractions.First(p => p.Name == "Intramuros");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/intramuros.jpg" alt="Intramuros" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>Intramuros</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "Manila Cathedral"))
+        {
+            var place = topAttractions.First(p => p.Name == "Manila Cathedral");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/manila-cathedral.jpg" alt="Manila Cathedral" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>Manila Cathedral</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "Manila Ocean Park"))
+        {
+            var place = topAttractions.First(p => p.Name == "Manila Ocean Park");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/manila-ocean-park.jpg" alt="Manila Ocean Park" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>Manila Ocean Park</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "The Mind Museum"))
+        {
+            var place = topAttractions.First(p => p.Name == "The Mind Museum");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/mindmuseum.jpg" alt="The Mind Museum" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>The Mind Museum</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
+
+        @if (topAttractions.Any(p => p.Name == "Yuchengco Museum"))
+        {
+            var place = topAttractions.First(p => p.Name == "Yuchengco Museum");
+            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                <img src="~/Content/Images/yuchengco-museum-gallery.jpg" alt="Yuchengco Museum" class="attraction-image" />
+                <div class="attraction-info">
+                    <h3>Yuchengco Museum</h3>
+                    <p>@place.City</p>
+                </div>
+            </a>
+        }
     </div>
 
     <div class="section-header">
@@ -561,41 +682,100 @@
     </div>
 
     <div class="destinations-wrapper">
-        <div class="destinations-grid">
-            <div class="destination-card">
-                <img src="~/Content/Images/manila-city.jpg" alt="Manila City" class="destination-image" />
-                <div class="destination-info">
-                    <h3>Manila City</h3>
-                    <p>150+ Tours</p>
-                </div>
-            </div>
-            <div class="destination-card">
-                <img src="~/Content/Images/quezon-city.jpg" alt="Quezon City" class="destination-image" />
-                <div class="destination-info">
-                    <h3>Quezon City</h3>
-                    <p>200+ Tours</p>
-                </div>
-            </div>
-            <div class="destination-card">
-                <img src="~/Content/Images/taguig-city.jpg" alt="Taguig City" class="destination-image" />
-                <div class="destination-info">
-                    <h3>Taguig City</h3>
-                    <p>300+ Tours</p>
-                </div>
-            </div>
-            <div class="destination-card">
-                <img src="~/Content/Images/pasay-city.jpg" alt="Pasay City" class="destination-image" />
-                <div class="destination-info">
-                    <h3>Pasay City</h3>
-                    <p>100+ Tours</p>
-                </div>
+
+        <button class="scroll-arrow-btn left" id="scroll-left">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="destinations-container" id="destinations-container">
+
+            <div class="destinations-grid">
+
+                @foreach (var place in destinationCities)
+                {
+                    // --- *** NEW IMAGE MAPPER LOGIC *** ---
+                    // This switch maps your C# city name to the exact filename
+                    // from your image folder to fix inconsistencies.
+                    string filename = "";
+                    switch (place.City)
+                    {
+                        case "Manila":
+                            filename = "manila-city.jpg";
+                            break;
+                        case "Quezon City":
+                            filename = "quezon-city.jpg";
+                            break;
+                        case "Taguig":
+                            filename = "taguig-city.jpg";
+                            break;
+                        case "Pasay":
+                            filename = "pasay-city.jpg";
+                            break;
+                        case "Caloocan":
+                            filename = "caloocan-placeholder.jpg";
+                            break;
+                        case "Makati":
+                            filename = "makati-city-building.jpg";
+                            break;
+                        case "Pasig":
+                            filename = "pasig-city-placeholder.jpg";
+                            break;
+                        case "Mandaluyong":
+                            filename = "mandaluyong-city-placeholder.jpg";
+                            break;
+                        case "Las Piñas":
+                            filename = "laspinas-placeholder.jpg";
+                            break;
+                        case "Muntinlupa":
+                            filename = "muntinlupa-placeholder.jpg";
+                            break;
+                        case "Malabon":
+                            filename = "malabon-placeholder.jpg";
+                            break;
+                        case "Marikina":
+                            filename = "marikina-placeholder.jpg";
+                            break;
+                        case "Navotas":
+                            filename = "navotas.jpg";
+                            break;
+                        case "Parañaque":
+                            filename = "paranaque-city-placeholder.jpg";
+                            break;
+                        case "San Juan":
+                            filename = "sanjuan-placeholder.jpg";
+                            break;
+                        case "Valenzuela":
+                            filename = "valenzuela-placeholder.jpg";
+                            break;
+                        // ---
+                        // ADD YOUR OTHER CITIES HERE
+                        // case "YourCityName":
+                        //    filename = "your-image-name.jpg";
+                        //    break;
+                        // ---
+                        default:
+                            // Fallback for any cities not listed above
+                            filename = "ncr-hero.jpg"; // Or a default placeholder
+                            break;
+                    }
+
+                    string imageUrl = $"~/Content/Images/{filename}";
+
+                    <a href="@Url.Action("CitySummary", "Places", new { city = place.City })" class="destination-card">
+                        <img src="@Url.Content(imageUrl)" alt="@place.City City" class="destination-image" />
+                        <div class="destination-info">
+                            <h3>@place.City</h3>
+                            <p>Explore @place.City</p>
+                        </div>
+                    </a>
+                }
             </div>
         </div>
-        <button class="scroll-arrow-btn">
+
+        <button class="scroll-arrow-btn right" id="scroll-right">
             <i class="fa-solid fa-chevron-right"></i>
         </button>
     </div>
-
     <div class="see-all-button-wrapper">
         <a href="@Url.Action("Cities", "Home")" class="see-all-button">See All</a>
     </div>
@@ -680,7 +860,7 @@
         <div class="footer-section">
             <h3>Company</h3>
             <ul class="footer-links">
-                <li><a href="#">About Us</a></li>
+                <li><a href="">About Us</a></li>
                 <li><a href="#">Careers</a></li>
                 <li><a href="#">Sustainability</a></li>
             </ul>
@@ -704,3 +884,60 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the elements by their IDs
+        const container = document.getElementById("destinations-container");
+        const leftBtn = document.getElementById("scroll-left");
+        const rightBtn = document.getElementById("scroll-right");
+
+        // Make sure all elements exist before running code
+        if (container && leftBtn && rightBtn) {
+
+            // Set the distance to scroll (width of one card + gap)
+            const scrollAmount = 280 + 20; // 300px
+
+            // Function to show/hide arrows
+            function checkScrollButtons() {
+                // Check scroll position
+                let currentScroll = container.scrollLeft;
+                let maxScroll = container.scrollWidth - container.clientWidth;
+
+                // Show/hide LEFT button
+                if (currentScroll > 0) {
+                    leftBtn.style.display = "block";
+                } else {
+                    leftBtn.style.display = "none";
+                }
+
+                // Show/hide RIGHT button
+                // (Added a 5px buffer for precision)
+                if (currentScroll >= (maxScroll - 5)) {
+                    rightBtn.style.display = "none";
+                } else {
+                    rightBtn.style.display = "block";
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Click right button
+            rightBtn.addEventListener("click", function () {
+                container.scrollLeft += scrollAmount;
+            });
+
+            // Click left button
+            leftBtn.addEventListener("click", function () {
+                container.scrollLeft -= scrollAmount;
+            });
+
+            // Check buttons when the container is scrolled (e.g., by touch)
+            container.addEventListener("scroll", checkScrollButtons);
+
+            // Initial check when the page loads
+            checkScrollButtons();
+        }
+    });
+</script>

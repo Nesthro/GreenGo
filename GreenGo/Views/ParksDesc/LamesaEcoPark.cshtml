@@ -3,7 +3,6 @@
 }
 
 <div class="museum-detail-container">
-    <!-- Header Section -->
     <div class="museum-header">
         <div class="header-left">
             <h1 class="museum-title">La Mesa Ecopark</h1>
@@ -15,30 +14,28 @@
         </div>
     </div>
 
-    <!-- Image Gallery -->
     <div class="image-gallery">
         <div class="main-image">
-            <img src="~/Content/images/lamesa-main.jpg" alt="La Mesa Ecopark Main View" />
+            <img src="~/Content/images/s.jpg" alt="La Mesa Ecopark Main View" />
         </div>
 
         <div class="side-gallery">
             <div class="side-top">
-                <img src="~/Content/images/lamesa-top.jpg" alt="La Mesa Ecopark Aerial View" />
+                <img src="~/Content/images/f.jpg" alt="La Mesa Ecopark Aerial View" />
             </div>
 
             <div class="side-bottom">
                 <div class="bottom-left">
-                    <img src="~/Content/images/lamesa-path.jpg" alt="Trail in La Mesa Ecopark" />
+                    <img src="~/Content/images/j.jpg" alt="Trail in La Mesa Ecopark" />
                 </div>
                 <div class="bottom-right see-all-wrapper">
-                    <img src="~/Content/images/lamesa-picnic.jpg" alt="Picnic Area" />
+                    <img src="~/Content/images/i.jpg" alt="Picnic Area" />
                     <a href="#" class="see-all-btn">See all photos</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Tabs Navigation -->
     <div class="tabs-navigation">
         <button class="tab-btn active">Overview</button>
         <button class="tab-btn">Availability</button>
@@ -46,11 +43,9 @@
         <button class="tab-btn">Reviews</button>
     </div>
 
-    <!-- Content Wrapper -->
     <div class="content-wrapper">
         <div class="left-content">
-            <!-- Overview Section -->
-            <section>
+            <section id="overview">
                 <div class="overview-header">
                     <h2 class="section-title">Overview</h2>
                     <p class="date-updated">Dec 29, 2023</p>
@@ -58,7 +53,6 @@
                 <p>La Mesa Ecopark is a sprawling urban park located in Quezon City, Metro Manila. It offers a natural sanctuary with lush forests, clean air, and a variety of recreational activities. The park is a vital part of the La Mesa Watershed, providing water supply and serving as a green lung for the city. It's perfect for nature lovers, families, and anyone looking to escape the hustle and bustle of urban life.</p>
             </section>
 
-            <!-- Highlights Section -->
             <section>
                 <h3 class="section-title">Highlights</h3>
                 <ul class="highlights-list">
@@ -70,56 +64,35 @@
                 </ul>
             </section>
 
-            <!-- Activities Section -->
             <section>
                 <h3 class="section-title">Activities</h3>
-                <div class="activities-container">
+                <div class="activities-grid">
                     <div class="activity-card">
-                        <div class="activity-image">
-                            <img src="~/Content/images/swimming-pool.jpg" alt="Swimming Pool" />
+                        <div class="activity-image-wrapper">
+                            <img src="~/Content/images/lamesa-biking.jpg" alt="Biking and Hiking Trails" class="activity-image" />
                         </div>
-                        <div class="activity-details">
-                            <div class="activity-header">
-                                <h4>Swimming Pool - P 150</h4>
-                                <span class="activity-price">P 150</span>
-                            </div>
-                            <p class="activity-description">Enjoy a refreshing swim in our well-maintained pool area with lifeguards on duty. Perfect for families and children.</p>
-                            <button class="btn-add-activity">Add</button>
+                        <div class="activity-info">
+                            <strong class="activity-name">Biking / Hiking</strong>
+                            <small class="activity-price">₱50 (Biking Fee)</small>
+                            <p class="activity-description">Explore the scenic, winding trails through the park's lush forest. Great for exercise and nature viewing. Bike rentals are available.</p>
+                            <a href="#" class="activity-details-link">Read more →</a>
                         </div>
                     </div>
 
                     <div class="activity-card">
-                        <div class="activity-image">
-                            <img src="~/Content/images/biking.jpg" alt="Biking" />
+                        <div class="activity-image-wrapper">
+                            <img src="~/Content/images/lamesa-boating.jpg" alt="Boating and Fishing Lagoon" class="activity-image" />
                         </div>
-                        <div class="activity-details">
-                            <div class="activity-header">
-                                <h4>Biking - Free</h4>
-                                <span class="activity-price free">Free</span>
-                            </div>
-                            <p class="activity-description">Bring your own bike and enjoy scenic bike trails throughout the ecopark. Bike rentals also available for rent.</p>
-                            <button class="btn-add-activity">Add</button>
-                        </div>
-                    </div>
-
-                    <div class="activity-card">
-                        <div class="activity-image">
-                            <img src="~/Content/images/fishing.jpg" alt="Fishing" />
-                        </div>
-                        <div class="activity-details">
-                            <div class="activity-header">
-                                <h4>Fishing - P 100</h4>
-                                <span class="activity-price">P 100</span>
-                            </div>
-                            <p class="activity-description">Relax by the fishing lagoon and try to catch tilapia and other freshwater fish. Fishing rods available for rent.</p>
-                            <button class="btn-add-activity">Add</button>
+                        <div class="activity-info">
+                            <strong class="activity-name">Boating / Fishing</strong>
+                            <small class="activity-price">₱100 (Boating/hr)</small>
+                            <p class="activity-description">Rent a boat and paddle around the tranquil lagoon or try your hand at catch-and-release fishing in the serene waters.</p>
+                            <a href="#" class="activity-details-link">Read more →</a>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- Availability Calendar Section -->
-            <section>
+            <section id="availability">
                 <h3 class="section-title">Availability Calendar</h3>
                 <div class="calendar-container">
                     <div class="calendar-month">
@@ -174,8 +147,7 @@
                 </div>
             </section>
 
-            <!-- Location Section -->
-            <section>
+            <section id="location">
                 <h3 class="section-title">Location</h3>
                 <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 100%; height: 360px;">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.8647823!2d121.0731245!3d14.6943726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b022c2c8f3a9%3A0x5a2e8f3b9c7d1e8a!2sLa%20Mesa%20Ecopark!5e0!3m2!1sen!2sph!4v1696580033273!5m2!1sen!2sph"
@@ -189,8 +161,7 @@
                 </div>
             </section>
 
-            <!-- Customer Reviews Section -->
-            <section>
+            <section id="reviews">
                 <h3 class="section-title">Customer Reviews</h3>
                 <div class="overall-rating">
                     <div class="rating-score">4.7 ★★★★★</div>
@@ -222,7 +193,6 @@
                 </div>
             </section>
 
-            <!-- Recommendations Section -->
             <section>
                 <h3 class="section-title">You might also like…</h3>
                 <div class="recommendations">
@@ -262,7 +232,6 @@
             </section>
         </div>
 
-        <!-- Right Sidebar - Price Details -->
         <div class="right-sidebar">
             <div class="price-card">
                 <div class="price-header">
@@ -309,6 +278,9 @@
                     </div>
                 </div>
 
+                <div class="payment-desc">
+                    <p>Payment methods include online booking via credit card, Gcash, or cash payment upon entry.</p>
+                </div>
                 <button class="btn-book-now">Book Now</button>
 
                 <div class="contact-info">
@@ -316,10 +288,12 @@
                     <p><i class="fas fa-phone"></i> +63 2 8920 6601</p>
                     <p><i class="fas fa-envelope"></i> info@lamesaecopark.gov.ph</p>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
 
 <style>
     /* container */
@@ -512,7 +486,7 @@
     }
 
     .right-sidebar {
-        position: sticky;
+        position: static; /* This keeps it from sticking */
         top: 20px;
         height: fit-content;
     }
@@ -673,6 +647,7 @@
 
     section {
         margin-bottom: 32px;
+        scroll-margin-top: 80px;
     }
 
         section p {
@@ -719,98 +694,7 @@
                 font-size: 20px;
             }
 
-    /* Activities Section */
-    .activities-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
 
-    .activity-card {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        gap: 16px;
-        background: #fff;
-        border: 1px solid #e6e6e6;
-        border-radius: 10px;
-        padding: 16px;
-        transition: all .2s ease;
-    }
-
-        .activity-card:hover {
-            box-shadow: 0 4px 12px rgba(10, 36, 71, 0.08);
-            transform: translateY(-2px);
-        }
-
-    .activity-image {
-        width: 120px;
-        height: 90px;
-        border-radius: 8px;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-
-        .activity-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-    .activity-details {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .activity-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-        .activity-header h4 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-            color: #0a2447;
-        }
-
-    .activity-price {
-        font-size: 15px;
-        font-weight: 600;
-        color: #4caf50;
-    }
-
-        .activity-price.free {
-            color: #2196f3;
-        }
-
-    .activity-description {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.5;
-        margin: 0;
-    }
-
-    .btn-add-activity {
-        align-self: flex-start;
-        padding: 8px 24px;
-        background: #4caf50;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all .2s ease;
-    }
-
-        .btn-add-activity:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.25);
-        }
 
     /* Calendar Styles */
     .calendar-container {
@@ -946,11 +830,12 @@
         color: #888;
     }
 
-    /* Recommendations */
+    /* Recommendations --- START OF FIX --- */
     .recommendations {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        display: flex; /* CHANGED: Use flexbox for a single row */
+        overflow-x: auto; /* ADDED: Enable horizontal scrolling */
         gap: 20px;
+        padding-bottom: 16px; /* ADDED: Add space for the scrollbar */
     }
 
     .recommendation-card {
@@ -960,7 +845,10 @@
         overflow: hidden;
         transition: all .2s ease;
         cursor: pointer;
+        width: 220px; /* ADDED: Set a fixed width for the cards */
+        flex-shrink: 0; /* ADDED: Prevent cards from shrinking */
     }
+        /* --- END OF FIX --- */
 
         .recommendation-card:hover {
             transform: translateY(-4px);
@@ -997,58 +885,236 @@
         font-weight: 500;
     }
 
-    /* Responsive */
+    /* START: NEW CSS for Activities Section */
+    .activities-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Default to single column for stacking */
+        gap: 24px;
+        margin-top: 20px;
+    }
 
+    .activity-card {
+        display: grid;
+        grid-template-columns: 150px 1fr; /* Image on left, text on right for desktop */
+        gap: 20px;
+        padding: 16px;
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        align-items: start;
+        box-shadow: 0 2px 8px rgba(10, 36, 71, 0.04);
+    }
+
+    .activity-image-wrapper {
+        /* Ensures the image container is constrained */
+        overflow: hidden;
+        border-radius: 6px;
+    }
+
+    .activity-image {
+        width: 100%;
+        height: 100px; /* Fixed height for consistent cards */
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .activity-card:hover .activity-image {
+        transform: scale(1.05);
+    }
+
+    .activity-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .activity-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0a2447;
+        margin-bottom: 4px;
+    }
+
+    .activity-price {
+        font-size: 14px;
+        font-weight: 500;
+        color: #4caf50;
+        margin-bottom: 8px;
+    }
+
+    .activity-description {
+        font-size: 14px;
+        color: #444;
+        margin-bottom: 12px !important;
+        line-height: 1.5;
+    }
+
+    .activity-details-link {
+        color: #0a2447;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        align-self: flex-start;
+        transition: color .15s ease;
+    }
+
+        .activity-details-link:hover {
+            color: #007bff; /* a subtle change on hover */
+        }
+
+    /* END: NEW CSS for Activities Section */
+
+    /* START: NEW CSS for Payment Description */
+    .payment-desc {
+        padding: 16px;
+        background: #f0f8f0; /* Light green background */
+        border: 1px dashed #4caf50;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+        .payment-desc p {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+            margin: 0;
+            font-weight: 500;
+        }
+    /* END: NEW CSS for Payment Description */
+
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .content-wrapper {
+            grid-template-columns: 1fr; /* Stack content and sidebar on smaller screens */
+            gap: 24px;
+        }
 
         .right-sidebar {
             position: static;
         }
 
-        .calendar-container {
+        .image-gallery {
             grid-template-columns: 1fr;
         }
 
+        .side-gallery {
+            grid-template-rows: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .side-top img {
+            height: 100%;
+        }
+
+        .side-bottom {
+            grid-column: span 2;
+        }
+
+        .calendar-container {
+            grid-template-columns: 1fr;
+        }
+        /* REMOVED: The old .recommendations rule that was here is gone */
+
         .activity-card {
-            grid-template-columns: 100px 1fr;
-            gap: 12px;
+            grid-template-columns: 1fr; /* Stack image and text for activities on tablets */
+            padding: 12px;
         }
 
         .activity-image {
-            width: 100px;
-            height: 75px;
+            height: 180px;
         }
     }
 
 
+    @@media (max-width: 576px) {
+        .museum-detail-container {
+            padding: 8px;
+        }
+
+        .museum-title {
+            font-size: 24px;
+        }
+
+        .main-image img {
+            height: 200px;
+        }
 
         .side-gallery {
-            grid-template-rows: auto;
+            grid-template-columns: 1fr; /* Stack side images too */
+            gap: 8px;
+        }
+
+        .side-bottom {
+            grid-template-columns: 1fr 1fr;
+            grid-column: span 1;
         }
 
         .side-top img {
-            height: 180px;
+            height: 120px;
         }
 
-        .recommendations {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        .side-bottom img {
+            height: 80px;
+        }
+
+        .see-all-btn {
+            font-size: 0.8rem;
+            padding: 6px 10px;
         }
 
         .tabs-navigation {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            padding-bottom: 2px;
         }
 
         .tab-btn {
             white-space: nowrap;
-        }
-
-        .activity-card {
-            grid-template-columns: 1fr;
+            font-size: 14px;
         }
 
         .activity-image {
-            width: 100%;
             height: 150px;
         }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Remove active class from all buttons
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                // Get the section to scroll to based on button text
+                const buttonText = this.textContent.toLowerCase();
+                let targetSection;
+
+                if (buttonText === 'overview') {
+                    targetSection = document.getElementById('overview');
+                } else if (buttonText === 'availability') {
+                    targetSection = document.getElementById('availability');
+                } else if (buttonText === 'location') {
+                    targetSection = document.getElementById('location');
+                } else if (buttonText === 'reviews') {
+                    targetSection = document.getElementById('reviews');
+                }
+
+                // Scroll to the target section
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    });
+</script>

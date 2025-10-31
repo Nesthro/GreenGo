@@ -1,456 +1,569 @@
-﻿@{
-    ViewBag.Title = "Enter Info";
+﻿@model GreenGo.Models.PaymentViewModel
+@{
+    ViewBag.Title = "Enter Payment Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
-    /* Basic styling to make it look similar to the image */
     body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        padding: 0;
+        background-color: #ffffff;
     }
 
-    .container {
-        max-width: 1200px;
-        margin: 40px auto;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 30px;
+    .reservation-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
         display: flex;
-        gap: 30px;
+        gap: 40px;
     }
 
-    .sidebar {
-        width: 300px;
-        padding: 20px;
-        border-left: 1px solid #eee;
+    .main-section {
+        flex: 1;
     }
 
-    .main-content {
-        flex-grow: 1;
-        padding-right: 30px; /* Space for the sidebar */
-    }
-
-    .header-progress {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 40px;
-        position: relative;
-    }
-
-        .header-progress .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header-progress .step-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #ccc;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-            .header-progress .step-icon.active {
-                background-color: #4CAF50; /* Green for active/completed */
-            }
-
-            .header-progress .step-icon.current {
-                background-color: #6c757d; /* Grey for current */
-            }
-
-            .header-progress .step-icon.inactive {
-                background-color: #adb5bd; /* Lighter grey for inactive */
-            }
-
-        .header-progress .step-label {
-            font-size: 0.9em;
-            color: #555;
-        }
-
-        .header-progress .step:first-child .step-label {
-            color: #333; /* Darker for the current step label */
-            font-weight: bold;
-        }
-
-
-        .header-progress .progress-line {
-            position: absolute;
-            height: 4px;
-            background-color: #e0e0e0;
-            width: calc(100% - 60px); /* Adjust based on step icon width */
-            left: 30px;
-            top: 15px; /* Center with icons */
-            z-index: 0;
-        }
-
-        .header-progress .progress-line-fill {
-            height: 100%;
-            width: 50%; /* Adjust based on current step (50% for 2 out of 3 steps completed) */
-            background-color: #4CAF50;
-        }
-
-    h2 {
-        color: #333;
-        margin-bottom: 25px;
-        font-size: 1.8em;
-    }
-
-    .card {
-        background-color: #f9f9f9;
-        border-radius: 6px;
-        padding: 20px;
-        margin-bottom: 25px;
-        border: 1px solid #eee;
-    }
-
-        .card h3 {
-            margin-top: 0;
-            font-size: 1.2em;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-    .card-item {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #eee;
-        margin-bottom: 15px;
-    }
-
-        .card-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-
-    .card-item-image {
-        width: 60px;
-        height: 60px;
-        background-color: #e0e0e0;
-        border-radius: 4px;
+    .sidebar-section {
+        width: 320px;
         flex-shrink: 0;
     }
 
-    .card-item-details {
-        flex-grow: 1;
-    }
-
-        .card-item-details strong {
-            display: block;
-            color: #333;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-
-        .card-item-details span {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"] {
-            width: calc(100% - 22px); /* Account for padding and border */
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-
-        .form-group .phone-input {
-            display: flex;
-            gap: 10px;
-        }
-
-            .form-group .phone-input select {
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                font-size: 1em;
-            }
-
-            .form-group .phone-input input {
-                flex-grow: 1;
-            }
-
-    .add-button {
-        background: none;
-        border: 1px dashed #007bff;
-        color: #007bff;
-        padding: 10px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-bottom: 20px;
-        display: inline-flex;
+    /* Progress Indicator */
+    .progress-header {
+        display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 0.95em;
+        justify-content: space-between;
+        margin-bottom: 50px;
+        position: relative;
+        max-width: 500px;
     }
 
-        .add-button:hover {
-            background-color: #e6f2ff;
-        }
-
-        .add-button svg {
-            width: 16px;
-            height: 16px;
-            fill: #007bff;
-        }
-
-    .action-buttons {
-        text-align: right;
-        margin-top: 30px;
+    .progress-line {
+        position: absolute;
+        top: 15px;
+        left: 30px;
+        right: 30px;
+        height: 2px;
+        background-color: #E0E0E0;
+        z-index: 0;
     }
 
-        .action-buttons .save-button {
-            background-color: #e0e0e0;
-            color: #555;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-        }
+    .progress-line-fill {
+        height: 100%;
+        width: 50%;
+        background-color: #7CB342;
+    }
 
-    .sidebar-details strong {
-        display: block;
+    .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .progress-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        background-color: #E0E0E0;
+        color: #fff;
+    }
+
+    .progress-circle.completed {
+        background-color: #7CB342;
+    }
+
+    .progress-circle.current {
+        background-color: #9E9E9E;
+    }
+
+    .progress-label {
+        font-size: 13px;
+        color: #666;
+        white-space: nowrap;
+    }
+
+    .progress-step.current .progress-label {
+        font-weight: 600;
         color: #333;
     }
 
-    .sidebar-details span {
-        display: block;
-        color: #666;
-        margin-bottom: 5px;
+    /* Section Headers */
+    .section-header {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
     }
 
-    .sidebar-details hr {
+    .section-subheader {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    /* Cards */
+    .info-card {
+        background-color: #FAFAFA;
+        border: 1px solid #E0E0E0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Other Info Card */
+    .booking-item {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .booking-image {
+        width: 60px;
+        height: 60px;
+        background-color: #E0E0E0;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+
+    .booking-details h4 {
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 4px 0;
+    }
+
+    .booking-details p {
+        font-size: 13px;
+        color: #666;
+        margin: 0;
+    }
+
+    /* Contact Info */
+    .contact-description {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    .add-btn {
+        background: transparent;
+        border: 1px dashed #999;
+        color: #666;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 20px;
+        transition: all 0.2s;
+    }
+
+    .add-btn:hover {
+        border-color: #7CB342;
+        color: #7CB342;
+    }
+
+    /* Form Elements */
+    .form-field {
+        margin-bottom: 16px;
+    }
+
+    .form-field label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 6px;
+    }
+
+    .form-field input[type="text"],
+    .form-field input[type="email"],
+    .form-field input[type="tel"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #333;
+        background-color: #fff;
+        transition: border-color 0.2s;
+    }
+
+    .form-field input::placeholder {
+        color: #999;
+    }
+
+    .form-field input:focus {
+        outline: none;
+        border-color: #7CB342;
+    }
+
+    .phone-wrapper {
+        display: flex;
+        gap: 10px;
+    }
+
+    .phone-wrapper select {
+        width: 80px;
+        padding: 10px 8px;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .phone-wrapper input {
+        flex: 1;
+    }
+
+    .save-btn {
+        background-color: #E0E0E0;
+        color: #666;
         border: none;
-        border-top: 1px solid #eee;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        float: right;
+        transition: background-color 0.2s;
+    }
+
+    .save-btn:hover {
+        background-color: #D0D0D0;
+    }
+
+    .clearfix::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Terms and Info Banner */
+    .terms-note {
+        font-size: 12px;
+        color: #666;
+        line-height: 1.6;
+        margin: 30px 0 15px 0;
+    }
+
+    .terms-note a {
+        color: #1976D2;
+        text-decoration: none;
+    }
+
+    .terms-note a:hover {
+        text-decoration: underline;
+    }
+
+    .info-alert {
+        background-color: #FFF9E6;
+        border: 1px solid #FFE082;
+        border-radius: 6px;
+        padding: 15px;
+        font-size: 13px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    /* Action Section */
+    .action-section {
+        background-color: #FAFAFA;
+        border-top: 1px solid #E0E0E0;
+        padding: 20px;
+        margin: 30px -20px -20px -20px;
+        text-align: right;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .action-section p {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .payment-btn {
+        background-color: #7CB342;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 4px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .payment-btn:hover {
+        background-color: #689F38;
+    }
+
+    /* Sidebar */
+    .summary-card {
+        background-color: #FAFAFA;
+        border: 1px solid #E0E0E0;
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .summary-card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 20px 0;
+    }
+
+    .summary-section {
+        margin-bottom: 20px;
+    }
+
+    .summary-section h4 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 12px 0;
+    }
+
+    .summary-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .summary-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .summary-list li span:first-child {
+        flex: 1;
+    }
+
+    .summary-list li span:last-child {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .summary-divider {
+        border: none;
+        border-top: 1px solid #E0E0E0;
         margin: 20px 0;
     }
 
-    .sidebar-summary {
-        margin-top: 20px;
-    }
-
-        .sidebar-summary div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .sidebar-summary .total {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-    .info-banner {
-        background-color: #e6f7ff;
-        border: 1px solid #91d5ff;
-        color: #0056b3;
-        padding: 15px;
-        border-radius: 6px;
-        margin-top: 25px;
-        font-size: 0.95em;
-    }
-
-    .terms-text {
-        font-size: 0.85em;
-        color: #777;
-        margin-top: 30px;
-        margin-bottom: 20px;
-    }
-
-        .terms-text a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-            .terms-text a:hover {
-                text-decoration: underline;
-            }
-
-    .go-to-payment-section {
-        background-color: #f9f9f9;
-        border-top: 1px solid #eee;
-        padding: 20px;
-        text-align: right;
-        margin-top: 30px;
-    }
-
-        .go-to-payment-section .go-to-payment-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-
-            .go-to-payment-section .go-to-payment-button:hover {
-                background-color: #45a049;
-            }
-
-    /* CSS for the GreenGo header (kept for reference, but the HTML section is removed) */
-    .greengo-header {
+    .summary-total {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        padding: 15px 0;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #eee;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
     }
 
-        .greengo-header img {
-            height: 30px;
-            margin-right: 10px;
+    .summary-total .amount {
+        color: #7CB342;
+        font-size: 18px;
+    }
+
+  
+
+        .sidebar-section {
+            width: 100%;
         }
 
-        .greengo-header span {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #333;
+        .progress-header {
+            max-width: 100%;
         }
+    }
 </style>
 
-<div class="container">
-    <div class="main-content">
-        <div class="header-progress">
+<div class="reservation-container">
+    <div class="main-section">
+        <!-- Progress Header -->
+        <div class="progress-header">
             <div class="progress-line">
                 <div class="progress-line-fill"></div>
             </div>
-            <div class="step">
-                <div class="step-icon active">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                    </svg>
-                </div>
-                <span class="step-label">Choose Booking</span>
+            <div class="progress-step completed">
+                <div class="progress-circle completed">✓</div>
+                <span class="progress-label">Choose Booking</span>
             </div>
-            <div class="step">
-                <div class="step-icon current"></div>
-                <span class="step-label">Enter Info</span>
+            <div class="progress-step current">
+                <div class="progress-circle current"></div>
+                <span class="progress-label">Enter Info</span>
             </div>
-            <div class="step">
-                <div class="step-icon inactive"></div>
-                <span class="step-label">Pay</span>
+            <div class="progress-step">
+                <div class="progress-circle"></div>
+                <span class="progress-label">Pay</span>
             </div>
         </div>
 
-        <h2>Enter Info</h2>
+        <h1 class="section-header">Enter Info</h1>
 
-        <form action="@Url.Action("ProcessInfo", "Payment")" method="post">
-            <div class="card">
-                <h3>Other Info</h3>
-                <div class="card-item">
-                    <div class="card-item-image"></div>
-                    <div class="card-item-details">
-                        <strong>Yuchengco Museum</strong>
-                        <span>Single Ticket</span>
+        <form action="@Url.Action("ProcessPayment", "Payment")" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="PlaceName" value="@Model.PlaceName" />
+            <input type="hidden" name="TotalFee" value="@Model.TotalFee" />
+            <input type="hidden" name="CartDataJson" value="@Model.CartDataJson" />
+
+            <!-- Other Info Section -->
+            <div>
+                <h2 class="section-subheader">Other Info</h2>
+                <div class="info-card">
+                    <div class="booking-item">
+                        <div class="booking-image"></div>
+                        <div class="booking-details">
+                            <h4>@Model.PlaceName</h4>
+                            <p>Single Ticket</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <h3>Contact Info</h3>
-                <p style="font-size: 0.9em; color: #777; margin-bottom: 20px;">We'll contact you only if there's any updates to your booking.</p>
+            <!-- Contact Info Section -->
+            <div>
+                <h2 class="section-subheader">Contact Info</h2>
+                <div class="info-card">
+                    <p class="contact-description">We'll contact you only if there's any updates to your booking.</p>
 
-                <button type="button" class="add-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                    </svg>
-                    Add
-                </button>
+                    <button type="button" class="add-btn">
+                        <span>+</span> Add
+                    </button>
 
-                <div class="contact-form-section">
-                    <div class="form-group">
+                    <div class="form-field">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="Name" placeholder="First name" required />
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-field">
                         <input type="text" id="lastName" name="LastName" placeholder="Last name" required />
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-field">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="Email" placeholder="Your email" required />
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-field">
                         <label for="phone">Phone</label>
-                        <div class="phone-input">
-                            <select name="PhoneCountryCode" id="phoneCountryCode">
-                                <option value="+63" selected>+63</option>
-                                <option value="+1">+1 (USA)</option>
-                                <option value="+44">+44 (UK)</option>
+                        <div class="phone-wrapper">
+                            <select name="PhoneCountryCode">
+                                <option value="+63">🇵🇭 +63</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+86">🇨🇳 +86</option>
                             </select>
-                            <input type="tel" id="phone" name="PhoneNumber" placeholder="22 000 000" required />
+                            <input type="tel" id="phone" name="PhoneNumber" placeholder="9XX XXX XXXX" required />
                         </div>
                     </div>
-                    <div class="action-buttons">
-                        <button type="button" class="save-button">Save</button>
+
+                    <div class="clearfix">
+                        <button type="button" class="save-btn">Save</button>
                     </div>
                 </div>
             </div>
 
-            <p class="terms-text">By continuing, you acknowledge and agree to <a href="#">GreenGo General Terms of Use</a> and <a href="#">Privacy Policy</a></p>
+            <!-- Terms -->
+            <p class="terms-note">
+                By continuing, you acknowledge and accept our <a href="#">General Terms of Use</a> and <a href="#">Privacy Policy</a>.
+            </p>
 
-            <div class="info-banner">
+            <!-- Info Banner -->
+            <div class="info-alert">
                 Once your info is submitted, it cannot be changed. Please double-check before proceeding.
+                <br>Your booking will be submitted to the venue, and you can choose your payment method in the next step.
             </div>
 
-            <div class="go-to-payment-section">
-                Your booking will be submitted once you go to payment. You can choose
-                your payment method in the next step.
-                <button type="submit" class="go-to-payment-button">Go to Payment</button>
+            <!-- Action Section -->
+            <div class="action-section">
+                <p>Your booking will be submitted to the venue.</p>
+                <button type="submit" class="payment-btn">Go to Payment</button>
             </div>
         </form>
     </div>
 
-    <div class="sidebar">
-        <div class="card">
-            <h3>National Museum of Fine Arts</h3>
-            <div class="sidebar-details">
-                <strong>Single Ticket</strong>
-                <span>Planned participation date</span>
-                <span>09 Sep 2025</span>
-                <span>Quantity</span>
-                <span>University student x 1</span>
-                <hr />
+    <!-- Sidebar -->
+    <div class="sidebar-section">
+        <div class="summary-card">
+            <h3>@Model.PlaceName</h3>
+
+            <div class="summary-section">
+                <h4>Single Ticket</h4>
+                <ul class="summary-list" id="booking-summary-list">
+                    <li>
+                        <span>Planned participation date</span>
+                        <span>05 Sep 2025</span>
+                    </li>
+                    <li>
+                        <span>Quantity</span>
+                        <span>University student x 1</span>
+                    </li>
+                </ul>
             </div>
-            <div class="sidebar-summary">
-                <div class="total">
-                    <span>Total</span>
-                    <span>₱530.00</span>
-                </div>
+
+            <hr class="summary-divider" />
+
+            <div class="summary-total">
+                <span>Total</span>
+                <span class="amount">₱@Model.TotalFee.ToString("N2")</span>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script>
+    $(document).ready(function() {
+        // Parse cart data if available
+        var cartData = '@Html.Raw(Model.CartDataJson)';
+        if (cartData && cartData !== '') {
+            try {
+                var items = JSON.parse(cartData);
+                var listHtml = '';
+                items.forEach(function(item) {
+                    listHtml += '<li><span>' + item.name + '</span><span>' + item.quantity + '</span></li>';
+                });
+                $('#booking-summary-list').html(listHtml);
+            } catch (e) {
+                console.error('Error parsing cart data:', e);
+            }
+        }
+
+        // Save button functionality
+        $('.save-btn').click(function() {
+            // Validate form fields
+            var isValid = true;
+            $('.form-field input[required]').each(function() {
+                if (!$(this).val()) {
+                    isValid = false;
+                    $(this).css('border-color', '#f44336');
+                } else {
+                    $(this).css('border-color', '#E0E0E0');
+                }
+            });
+
+            if (isValid) {
+                alert('Contact information saved!');
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+    });
+    </script>
+}

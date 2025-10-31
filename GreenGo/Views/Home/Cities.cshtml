@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    // Ensures the page uses the shared layout template.
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,7 +36,6 @@
         }
 
         .controls-group {
-            /* flex-direction changed to column for city list page since controls are removed */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -40,19 +43,16 @@
             gap: 0;
         }
 
-        /* --- Filter Pills (Removed, but keeping class for minimal style changes) --- */
         .filter-pills, .sort-dropdown {
-            display: none; /* Hide controls not needed for a city list */
+            display: none;
         }
 
-        /* --- Attractions Grid (UPDATED to 4x4 layout for 16 cities) --- */
         .attractions-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
 
-        /* --- Attraction Card (Now a City Card) --- */
         .attraction-card {
             background-color: white;
             border: 1px solid #eee;
@@ -62,6 +62,9 @@
             transition: all 0.3s ease;
             cursor: pointer;
             transform: translateY(0);
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
             .attraction-card:hover {
@@ -73,6 +76,7 @@
             height: 180px;
             overflow: hidden;
             position: relative;
+            background-color: #e0e0e0; /* Fallback color if image doesn't load */
         }
 
         .card-image {
@@ -102,7 +106,6 @@
             margin-bottom: 5px;
         }
 
-        /* City Title is now primary, no location needed */
         .card-title {
             font-size: 1.1em;
             font-weight: 600;
@@ -111,7 +114,6 @@
             line-height: 1.2;
         }
 
-        /* Replacing price/rating with tours count */
         .card-stats {
             font-weight: bold;
             color: #6C9A4B;
@@ -119,7 +121,7 @@
         }
 
         .card-rating, .card-price, .card-location {
-            display: none; /* Hide museum-specific elements */
+            display: none;
         }
     </style>
 
@@ -137,165 +139,204 @@
 
         <div class="attractions-grid">
 
-            <div class="attraction-card">
+            <!-- Manila City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Manila" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/Images/manila-city.jpg" alt="Manila City Skyline" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/manila-city.jpg")" alt="Manila City Skyline" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Manila City</h3>
                     <p class="card-stats">100+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Quezon City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Quezon City" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/quezon-city.jpg" alt="Quezon City Memorial Circle" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/quezon-city.jpg")" alt="Quezon City Memorial Circle" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Quezon City</h3>
                     <p class="card-stats">100+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Makati City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Makati" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/makati-city-building.jpg" alt="Makati City Business District" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/makati-city-building.jpg")" alt="Makati City Business District" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Makati City</h3>
                     <p class="card-stats">100+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Pasay City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Pasay" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/pasay-city-mall.jpg" alt="Pasay City Seaside" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/pasay-city-mall.jpg")" alt="Pasay City Seaside" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Pasay City</h3>
                     <p class="card-stats">100+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Taguig City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Taguig" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/taguig-bgc.jpg" alt="Taguig City BGC" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/taguig-bgc.jpg")" alt="Taguig City BGC" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Taguig City</h3>
                     <p class="card-stats">80+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Pasig City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Pasig" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/pasig-city-placeholder.jpg" alt="Pasig City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/pasig-city-placeholder.jpg")" alt="Pasig City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Pasig City</h3>
                     <p class="card-stats">50+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Mandaluyong City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Mandaluyong" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/mandaluyong-city-placeholder.jpg" alt="Mandaluyong City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/mandaluyong-city-placeholder.jpg")" alt="Mandaluyong City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Mandaluyong City</h3>
                     <p class="card-stats">40+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Parañaque City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Parañaque" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/paranaque-city-placeholder.jpg" alt="Parañaque City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/paranaque-city-placeholder.jpg")" alt="Parañaque City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Parañaque City</h3>
                     <p class="card-stats">30+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Caloocan City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Caloocan" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/caloocan-placeholder.jpg" alt="Caloocan City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/caloocan-placeholder.jpg")" alt="Caloocan City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Caloocan City</h3>
                     <p class="card-stats">45+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Las Piñas City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Las Piñas" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/laspinas-placeholder.jpg" alt="Las Piñas City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/laspinas-placeholder.jpg")" alt="Las Piñas City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Las Piñas City</h3>
                     <p class="card-stats">35+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Malabon City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Malabon" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/malabon-placeholder.jpg" alt="Malabon City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/malabon-placeholder.jpg")" alt="Malabon City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Malabon City</h3>
                     <p class="card-stats">15+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Marikina City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Marikina" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/marikina-placeholder.jpg" alt="Marikina City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/marikina-placeholder.jpg")" alt="Marikina City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Marikina City</h3>
                     <p class="card-stats">30+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Muntinlupa City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Muntinlupa" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/muntinlupa-placeholder.jpg" alt="Muntinlupa City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/muntinlupa-placeholder.jpg")" alt="Muntinlupa City" class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Muntinlupa City</h3>
                     <p class="card-stats">25+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Navotas City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Navotas" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/navotas-placeholder.jpg" alt="Navotas City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/Navotas/navotas1.jpg")"
+                         alt="Navotas City"
+                         class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Navotas City</h3>
                     <p class="card-stats">10+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- San Juan City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "San Juan" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/sanjuan-placeholder.jpg" alt="San Juan City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/sanjuan-placeholder.jpg")"
+                         alt="San Juan City"
+                         class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">San Juan City</h3>
                     <p class="card-stats">20+ Tours</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="attraction-card">
+            <!-- Valenzuela City -->
+            <a href='@Url.Action("CitySummary", "Places", new { city = "Valenzuela" })' class="attraction-card">
                 <div class="card-image-container">
-                    <img src="~/Content/images/valenzuela-placeholder.jpg" alt="Valenzuela City" class="card-image">
+                    <img src="@Url.Content("~/Content/Images/valenzuela-placeholder.jpg")"
+                         alt="Valenzuela City"
+                         class="card-image"
+                         onerror="this.src='@Url.Content("~/Content/Images/placeholder.jpg")'">
                 </div>
                 <div class="card-details">
                     <h3 class="card-title">Valenzuela City</h3>
                     <p class="card-stats">18+ Tours</p>
                 </div>
-            </div>
+            </a>
+
 
         </div>
     </section>

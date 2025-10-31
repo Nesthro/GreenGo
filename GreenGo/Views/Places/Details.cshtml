@@ -1,0 +1,1372 @@
+﻿@model GreenGo.Models.Place
+@using System.Text.RegularExpressions
+@using System.Collections.Generic
+@using System.Linq
+
+@{
+    ViewBag.Title = Model.Name;
+
+    // Check if the price string contains "Free" (case-insensitive)
+    bool isFreeEntrance = Model.PriceAdult != null && Regex.IsMatch(Model.PriceAdult, "Free", RegexOptions.IgnoreCase);
+
+    // Prepare gallery images once for the display sections
+    System.Collections.Generic.List<string> gallery = Model.GalleryImages ?? new System.Collections.Generic.List<string>();
+    System.Collections.Generic.List<string> sideImages = gallery.Count >= 4 ? gallery.Take(4).ToList() : gallery.Take(4).ToList();
+
+    // Extract base prices (if available and not free) for JS consumption
+    decimal adultPrice = 0;
+    decimal youthPrice = 0;
+    decimal childPrice = 0;
+
+    if (!isFreeEntrance && Model.PriceAdult != null)
+    {
+        Match adultMatch = Regex.Match(Model.PriceAdult, @"\d+(\.\d+)?");
+        if (adultMatch.Success)
+        {
+            decimal.TryParse(adultMatch.Value, out adultPrice);
+        }
+    }
+    // Using mock ratios for other ticket types since data isn't provided for them
+    youthPrice = adultPrice * 0.6M;
+    childPrice = adultPrice * 0.3M;
+}
+
+<div class="museum-detail-container">
+    <!-- Header Section (Dynamic) -->
+    <div class="museum-header">
+        <div class="header-left">
+            <h1 class="museum-title">@Model.Name</h1>
+        </div>
+
+        <div class="header-right">
+            <button class="btn-icon" title="Save"><i class="fas fa-bookmark"></i></button>
+            <button class="btn-icon" title="Share"><i class="fas fa-share-alt"></i></button>
+        </div>
+    </div>
+
+    <!-- Image Gallery (ORIGINAL TEMPLATE STRUCTURE) -->
+    <div class="image-gallery">
+        <div class="main-image">
+            <img src="@Url.Content(Model.ImageUrl)" alt="@Model.Name Main View" />
+        </div>
+
+        <div class="side-gallery">
+            <!-- TOP RIGHT IMAGE -->
+            <div class="side-top">
+                @if (sideImages.Count > 0 && sideImages[0] != null)
+                {
+                    <img src="@Url.Content(sideImages[0])" alt="@Model.Name View 2" onerror="this.onerror=null; this.src='@Url.Content("~/Content/images/placeholder.jpg")';" />
+                }
+                else
+                {
+                    <img src="@Url.Content(Model.ImageUrl)" alt="Placeholder View 2" onerror="this.onerror=null; this.src='@Url.Content("~/Content/images/placeholder.jpg")';" />
+                }
+            </div>
+
+            <div class="side-bottom">
+                <div class="bottom-left">
+                    <!-- Bottom Left Image -->
+                    @if (sideImages.Count > 1 && sideImages[1] != null)
+                    {
+                        <img src="@Url.Content(sideImages[1])" alt="@Model.Name View 3" onerror="this.onerror=null; this.src='@Url.Content("~/Content/images/placeholder.jpg")';" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content(Model.ImageUrl)" alt="Placeholder View 3" onerror="this.onerror=null; this.src='@Url.Content("~/Content/images/placeholder.jpg")';" />
+                    }
+                </div>
+
+                <!-- Bottom Right Image with See All Button -->
+                <div class="bottom-right see-all-wrapper">
+                    @if (sideImages.Count > 2 && sideImages[2] != null)
+                    {
+                        <img src="@Url.Content(sideImages[2])" alt="@Model.Name View 4" onerror="this.onerror=null; this.src='@Url.Content("~/Content/images/placeholder.jpg")';" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content(Model.ImageUrl)" alt="Placeholder View 4" onerror="this.onerror=null; this.src='@Url.Content("~/Content/images/placeholder.jpg")';" />
+                    }
+                    <a href="#" class="see-all-btn">See all photos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation (Dynamic, FULL WIDTH) -->
+    <div class="tabs-navigation">
+        <button class="tab-btn active" data-target="overview">Overview</button>
+        @if (!isFreeEntrance)
+        {
+            <!-- Only show Availability tab if there is a fee -->
+            <button class="tab-btn" data-target="availability">Availability</button>
+        }
+        <button class="tab-btn" data-target="location">Location</button>
+        <button class="tab-btn" data-target="reviews">Reviews</button>
+    </div>
+
+    <!-- Content Wrapper (The container that creates the two-column layout) -->
+    <div class="content-wrapper">
+        <div class="left-content">
+            <!-- Overview Section -->
+            <section id="overview">
+                <div class="overview-header">
+                    <h2 class="section-title">Overview</h2>
+                    <p class="date-updated">Updated: @DateTime.Now.ToString("MMM dd, yyyy")</p>
+                </div>
+                <p>@Model.Description</p>
+            </section>
+
+            <!-- Highlights Section -->
+            <section>
+                <h3 class="section-title">Highlights</h3>
+                <ul class="highlights-list">
+                    @if (Model.Highlights != null && Model.Highlights.Any())
+                    {
+                        foreach (var highlight in Model.Highlights)
+                        {
+                            <li>@highlight</li>
+                        }
+                    }
+                    else
+                    {
+                        <li>No specific highlights listed for this location.</li>
+                    }
+                </ul>
+            </section>
+
+            <!-- Activities Section (DYNAMIC) -->
+            @if (Model.Activities != null && Model.Activities.Any())
+            {
+                <section>
+                    <h3 class="section-title">Activities</h3>
+                    <div class="activities-grid">
+                        @for (int i = 0; i < Model.Activities.Count; i++)
+                        {
+                            var activity = Model.Activities[i];
+                            <div class="activity-card">
+                                <div class="activity-image-wrapper">
+                                    <img src="@Url.Content(activity.ImageUrl)" alt="@activity.Name" class="activity-image" onerror="this.onerror=null; this.src='@Url.Content("~/Content/images/placeholder.jpg")';" />
+                                </div>
+                                <div class="activity-info">
+                                    <strong class="activity-name">@activity.Name</strong>
+                                    <small class="activity-price">@activity.Price</small>
+                                    <p class="activity-description">@activity.Description</p>
+                                </div>
+                                <div class="activity-add-button">
+                                    <button class="btn-add-activity btn-book-now"
+                                            data-activity-id="@i"
+                                            data-activity-name="@activity.Name"
+                                            data-activity-price="@(Regex.Match(activity.Price, @"\d+(\.\d+)?").Success ? Regex.Match(activity.Price, @"\d+(\.\d+)?").Value : "0")"
+                                            style="padding: 8px 15px; margin-bottom: 0;">
+                                        Add <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </section>
+            }
+
+            <!-- Availability Calendar Section (Mock data) -->
+            @if (!isFreeEntrance)
+            {
+                <section id="availability">
+                    <h3 class="section-title">Availability Calendar</h3>
+                    <div class="calendar-container">
+                        <div class="calendar-month">
+                            <div class="month-header">
+                                <h4>January 2025</h4>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-day-name">S</div><div class="calendar-day-name">M</div><div class="calendar-day-name">T</div><div class="calendar-day-name">W</div><div class="calendar-day-name">T</div><div class="calendar-day-name">F</div><div class="calendar-day-name">S</div>
+                                <div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day">1</div><div class="calendar-day">2</div><div class="calendar-day">3</div><div class="calendar-day">4</div>
+                                <div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div><div class="calendar-day">8</div><div class="calendar-day">9</div><div class="calendar-day">10</div><div class="calendar-day">11</div>
+                                <div class="calendar-day">12</div><div class="calendar-day available">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day">17</div><div class="calendar-day">18</div>
+                                <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div>
+                                <div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day">31</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+
+            <!-- Location Section (Dynamic Map) -->
+            <section id="location">
+                <h3 class="section-title">Location</h3>
+                <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 100%; height: 360px;">
+                    <iframe src="@Model.GoogleMapsEmbedUrl"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </section>
+
+            <!-- Customer Reviews Section (Mock data) -->
+            <section id="reviews">
+                <h3 class="section-title">Customer Reviews</h3>
+                <div class="overall-rating">
+                    <div class="rating-score">4.7 ★★★★★</div>
+                    <div class="rating-count">Based on 3,456 reviews</div>
+                </div>
+
+                <div class="review">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">M</div>
+                        <div class="reviewer-info">
+                            <strong>M. Reyes</strong>
+                            <div class="review-rating">★★★★★ 5.0</div>
+                        </div>
+                    </div>
+                    <p>Perfect place for family bonding! The kids loved the playground and we enjoyed the nature trails. Very clean and well-maintained. The staff are friendly and helpful. Will definitely come back!</p>
+                    <small>Posted via Ohto • 1 week ago</small>
+                </div>
+
+                <div class="review">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">J</div>
+                        <div class="reviewer-info">
+                            <strong>J. Gonzales</strong>
+                            <div class="review-rating">★★★★☆ 4.0</div>
+                        </div>
+                    </div>
+                    <p>Great escape from the city! The swimming pool is clean and the biking trails are scenic. Only downside is parking can be crowded on weekends. Arrive early for the best experience.</p>
+                    <small>Posted via Ohto • 3 weeks ago</small>
+                </div>
+            </section>
+
+            <!-- Recommendations Section (Mock) -->
+            <section>
+                <h3 class="section-title">You might also like…</h3>
+                <div class="recommendations">
+                    <div class="recommendation-card">
+                        <img src="~/Content/images/ninoy-aquino-parks.jpg" alt="Ninoy Aquino Parks" />
+                        <div class="recommendation-info">
+                            <strong>Ninoy Aquino Parks & Wildlife</strong>
+                            <small>Nature Park & Sanctuary</small>
+                            <div class="recommendation-rating">⭐ 4.3 (2.8k)</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-card">
+                        <img src="~/Content/images/arroceros-forest.jpg" alt="Arroceros Forest Park" />
+                        <div class="recommendation-info">
+                            <strong>Arroceros Forest Park</strong>
+                            <small>Urban Forest in Manila</small>
+                            <div class="recommendation-rating">⭐ 4.4 (1.9k)</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-card">
+                        <img src="~/Content/images/quezon-memorial.jpg" alt="Quezon Memorial Circle" />
+                        <div class="recommendation-info">
+                            <strong>Quezon Memorial Circle</strong>
+                            <small>Historic Park & Monument</small>
+                            <div class="recommendation-rating">⭐ 4.6 (5.2k)</div>
+                        </div>
+                    </div>
+                    <div class="recommendation-card">
+                        <img src="~/Content/images/masungi-georeserve.jpg" alt="Masungi Georeserve" />
+                        <div class="recommendation-info">
+                            <strong>Masungi Georeserve</strong>
+                            <small>Conservation Area</small>
+                            <div class="recommendation-rating">⭐ 4.9 (6.7k)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- RIGHT COLUMN: Price Sidebar (Conditional Logic & Cart) -->
+        <div class="right-sidebar">
+            @if (isFreeEntrance)
+            {
+                <!-- FREE ENTRANCE CARD (Matches your free design) -->
+                <div class="price-card free-entrance-card">
+                    <div class="price-header" style="border-bottom:none; margin-bottom:10px;">
+                        <div class="price-amount">FREE</div>
+                        <div class="price-label">Entrance</div>
+                    </div>
+                    <p class="mt-3" style="font-size:16px; font-weight:500; color:#4caf50;">
+                        <i class="fas fa-check-circle"></i> No entrance fee required for this location.
+                    </p>
+                    <div class="operating-hours" style="border-top:none; padding-top:10px;">
+                        <h4>Operating Hours</h4>
+                        <p><strong>Daily</strong><br />@(Model.HoursDaily ?? "Check local site")</p>
+                        <p class="open-notice">@(Model.HoursNotice ?? "Open daily.")</p>
+                    </div>
+                    <div class="contact-info" style="padding-top:0;">
+                        <h4>Contact Information</h4>
+                        <p><i class="fas fa-phone"></i> @(Model.ContactPhone ?? "N/A")</p>
+                        <p><i class="fas fa-envelope"></i> @(Model.ContactEmail ?? "N/A")</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- PAID ENTRANCE CARD (Matches your paid design) -->
+                <div class="price-card paid-entrance-card">
+                    <div class="price-header-minimal">
+                        From <span class="starting-price">₱@adultPrice.ToString("N2")</span>
+                    </div>
+
+                    <!-- === MODIFIED HTML === -->
+                    <div class="date-time-selectors">
+                        <div class="selector-box">
+                            <span class="selector-label">Date</span>
+                            <input type="date" id="selected-date" class="selector-input" />
+                        </div>
+                        <div class="selector-box">
+                            <span class="selector-label">Time</span>
+                            <input type="time" id="selected-time" class="selector-input" />
+                        </div>
+                    </div>
+                    <!-- === END MODIFIED HTML === -->
+
+                    <div class="tickets-section">
+                        <h4>Tickets</h4>
+                        <div class="ticket-type-selector">
+                            <span>Adult (18+ years) <span class="ticket-price">₱@adultPrice.ToString("N2")</span></span>
+                            <div class="quantity-control">
+                                <button type="button" class="qty-btn minus" data-type="adult">-</button>
+                                <span class="qty-display" id="qty-adult">0</span>
+                                <button type="button" class="qty-btn plus" data-type="adult">+</button>
+                            </div>
+                        </div>
+                        <div class="ticket-type-selector">
+                            <span>Youth (13-17 years) <span class="ticket-price">₱@youthPrice.ToString("N2")</span></span>
+                            <div class="quantity-control">
+                                <button type="button" class="qty-btn minus" data-type="youth">-</button>
+                                <span class="qty-display" id="qty-youth">0</span>
+                                <button type="button" class="qty-btn plus" data-type="youth">+</button>
+                            </div>
+                        </div>
+                        <div class="ticket-type-selector">
+                            <span>Children (0-12 years) <span class="ticket-price">₱@childPrice.ToString("N2")</span></span>
+                            <div class="quantity-control">
+                                <button type="button" class="qty-btn minus" data-type="child">-</button>
+                                <span class="qty-display" id="qty-child">0</span>
+                                <button type="button" class="qty-btn plus" data-type="child">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="added-activities-summary" class="added-activities-summary" style="display:none;">
+                        <h4>Activities Added</h4>
+                        <ul id="activity-summary-list">
+                            <!-- Dynamic Activities Here -->
+                        </ul>
+                    </div>
+
+                    <div class="total-section">
+                        <span>Total:</span>
+                        <span class="total-amount" id="final-total-amount">₱@adultPrice.ToString("N2")</span>
+                    </div>
+
+                    <button class="btn-book-now" id="reserve-now-btn">Reserve Now</button>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- Content Wrapper (The container that holds the left/right content blocks) ENDS -->
+</div>
+
+<style>
+    /* --- NEW STYLES FOR DATE/TIME INPUTS --- */
+    .selector-input {
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        font-family: inherit; /* Ensures it matches the rest of the text */
+        width: 100%;
+        padding: 0; /* Remove default input padding */
+    }
+
+    /* Style the browser's default calendar/clock icon */
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        opacity: 0.7;
+        margin-left: 5px;
+    }
+
+        input[type="date"]::-webkit-calendar-picker-indicator:hover,
+        input[type="time"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+    /* --- END OF NEW STYLES --- */
+
+    /* container */
+    .museum-detail-container {
+        max-width: 1250px;
+        margin: 28px auto;
+        padding: 12px 18px;
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        color: #222;
+    }
+
+    /* Header */
+    .museum-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        gap: 12px;
+    }
+
+    .header-left {
+        flex: 1;
+    }
+
+    .header-right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .museum-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0a2447;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    /* Icon buttons */
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .15s ease;
+    }
+
+        .btn-icon i {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .btn-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(10, 36, 71, 0.06);
+            border-color: #d0d0d0;
+        }
+
+    /* Gallery layout */
+    .image-gallery {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        align-items: start;
+        margin-bottom: 28px;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        box-shadow: 0 6px 20px rgba(10, 36, 71, 0.06);
+    }
+
+    .side-gallery {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 10px;
+        height: 100%;
+    }
+
+    .side-top img {
+        width: 100%;
+        height: 224px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        box-shadow: 0 6px 18px rgba(10, 36, 71, 0.05);
+    }
+
+    .side-bottom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+        .side-bottom img {
+            width: 100%;
+            height: 108px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+    .see-all-wrapper {
+        position: relative;
+    }
+
+    .see-all-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(13, 43, 79, 0.9);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        box-shadow: 0 6px 18px rgba(10, 36, 71, 0.12);
+        transition: transform .12s ease;
+    }
+
+        .see-all-btn:hover {
+            transform: translateY(-2px);
+        }
+
+    .image-gallery img {
+        transition: transform .25s ease;
+    }
+
+        .image-gallery img:hover {
+            transform: scale(1.02);
+        }
+
+    /* Tabs Navigation */
+    .tabs-navigation {
+        display: flex;
+        gap: 24px;
+        border-bottom: 2px solid #e6e6e6;
+        margin-bottom: 24px;
+    }
+
+    .tab-btn {
+        padding: 12px 4px;
+        background: none;
+        border: none;
+        font-size: 15px;
+        font-weight: 500;
+        color: #666;
+        cursor: pointer;
+        position: relative;
+        transition: color .2s ease;
+    }
+
+        .tab-btn.active {
+            color: #0a2447;
+            font-weight: 600;
+        }
+
+            .tab-btn.active::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: #0a2447;
+            }
+
+        .tab-btn:hover {
+            color: #0a2447;
+        }
+
+    /* Content Wrapper */
+    .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 40px;
+    }
+
+    .left-content {
+        min-width: 0;
+    }
+
+    .right-sidebar {
+        position: sticky; /* This is the key to matching your sticky price card */
+        top: 20px;
+        height: fit-content;
+    }
+
+    /* Price Card - General Styles */
+    .price-card {
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(10, 36, 71, 0.06);
+    }
+
+        .price-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0a2447;
+            margin-bottom: 12px;
+        }
+
+    /* --- FREE ENTRANCE CARD SPECIFIC STYLES --- */
+    .free-entrance-card .price-amount {
+        font-size: 32px;
+        font-weight: 700;
+        color: #4caf50; /* Green for free */
+        margin: 0;
+    }
+
+    .free-entrance-card .price-label {
+        font-size: 16px;
+        color: #4caf50;
+        font-weight: 500;
+        margin-top: 4px;
+    }
+
+    .free-entrance-card .operating-hours,
+    .free-entrance-card .contact-info {
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        margin-top: 20px;
+    }
+
+    .free-entrance-card .operating-hours {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+
+    /* --- PAID ENTRANCE CARD SPECIFIC STYLES (Matching Image) --- */
+    .paid-entrance-card {
+        padding: 20px; /* Slightly less padding to match image */
+    }
+
+    .price-header-minimal {
+        font-size: 15px;
+        color: #666;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    .starting-price {
+        font-size: 20px;
+        font-weight: 600;
+        color: #0a2447;
+        margin-left: 8px;
+    }
+
+    .date-time-selectors {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    .selector-box {
+        background: #f8f8f8;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 12px 15px;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        transition: background .2s ease, border-color .2s ease;
+    }
+
+        .selector-box:hover {
+            background: #f0f0f0;
+            border-color: #c0c0c0;
+        }
+
+    .selector-label {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 4px;
+    }
+
+    .selector-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .tickets-section {
+        margin-bottom: 25px;
+    }
+
+        .tickets-section h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 17px;
+        }
+
+    .ticket-type-selector {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 15px;
+        color: #333;
+    }
+
+        .ticket-type-selector:last-of-type {
+            border-bottom: none;
+        }
+
+    .ticket-price {
+        font-weight: 600;
+        margin-left: 5px;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .qty-btn {
+        background: #f0f0f0;
+        border: none;
+        padding: 5px 12px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #555;
+        transition: background .15s ease;
+        -webkit-appearance: none; /* For iOS button styling */
+        touch-action: manipulation; /* Prevent double-tap zoom on mobile */
+    }
+
+        .qty-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .qty-btn:active {
+            background: #d0d0d0;
+        }
+
+    .qty-display {
+        padding: 0 5px;
+        min-width: 20px;
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* Activities Summary in Sidebar */
+    .added-activities-summary {
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+
+        .added-activities-summary h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .added-activities-summary ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .added-activities-summary li {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    .activity-item-qty {
+        font-weight: 500;
+        color: #0a2447;
+    }
+
+    .total-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        margin-top: 25px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #0a2447;
+    }
+
+    .total-amount {
+        color: #4caf50; /* Green for total */
+    }
+
+    .btn-book-now {
+        width: 100%;
+        padding: 14px;
+        background: #7cb342; /* Olive Green from image */
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .2s ease;
+        margin-top: 25px;
+    }
+
+        .btn-book-now:hover {
+            background: #689f38; /* Darker olive */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(124, 179, 66, 0.4);
+        }
+
+
+    /* Section styles */
+    .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #0a2447;
+        margin-top: 32px;
+        margin-bottom: 16px;
+    }
+
+    section {
+        margin-bottom: 32px;
+        scroll-margin-top: 80px;
+    }
+
+        section p {
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+    .overview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+        .overview-header .section-title {
+            margin: 0;
+        }
+
+    .date-updated {
+        font-size: 14px;
+        color: #666;
+        margin: 0;
+    }
+
+    .highlights-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .highlights-list li {
+            padding: 10px 0 10px 28px;
+            position: relative;
+            color: #444;
+            line-height: 1.6;
+        }
+
+            .highlights-list li::before {
+                content: '•';
+                position: absolute;
+                left: 10px;
+                color: #0a2447;
+                font-size: 20px;
+            }
+
+    /* Calendar Styles (unchanged) */
+    .calendar-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 20px;
+    }
+
+    .calendar-month {
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        padding: 16px;
+    }
+
+    .month-header {
+        margin-bottom: 16px;
+    }
+
+        .month-header h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #0a2447;
+        }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+    }
+
+    .calendar-day-name {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: #666;
+        padding: 8px 4px;
+    }
+
+    .calendar-day {
+        text-align: center;
+        padding: 10px 4px;
+        font-size: 14px;
+        color: #444;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+        .calendar-day.empty {
+            cursor: default;
+        }
+
+        .calendar-day:not(.empty):hover {
+            background: #f5f5f5;
+        }
+
+        .calendar-day.available {
+            background: #4caf50;
+            color: #fff;
+            font-weight: 600;
+        }
+
+    /* Reviews (unchanged) */
+    .overall-rating {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .rating-score {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0a2447;
+        margin-bottom: 4px;
+    }
+
+    .rating-count {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .review {
+        padding: 20px 0;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+        .review:last-child {
+            border-bottom: none;
+        }
+
+    .review-header {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .reviewer-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #0a2447;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .reviewer-info strong {
+        display: block;
+        color: #0a2447;
+        margin-bottom: 4px;
+    }
+
+    .review-rating {
+        font-size: 14px;
+        color: #f9a825;
+    }
+
+    .review p {
+        margin: 0 0 8px 0;
+        line-height: 1.6;
+        color: #444;
+    }
+
+    .review small {
+        font-size: 13px;
+        color: #888;
+    }
+
+    /* Recommendations (unchanged) */
+    .recommendations {
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding-bottom: 16px;
+    }
+
+    .recommendation-card {
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all .2s ease;
+        cursor: pointer;
+        width: 220px;
+        flex-shrink: 0;
+    }
+
+        .recommendation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(10, 36, 71, 0.1);
+        }
+
+        .recommendation-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+    .recommendation-info strong {
+        display: block;
+        color: #0a2447;
+        font-size: 15px;
+        margin-bottom: 4px;
+    }
+
+    .recommendation-info small {
+        display: block;
+        color: #666;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .recommendation-rating {
+        font-size: 13px;
+        color: #444;
+        font-weight: 500;
+    }
+
+    /* Activities Section */
+    .activities-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-top: 20px;
+    }
+
+    .activity-card {
+        display: grid;
+        grid-template-columns: 150px 1fr auto;
+        gap: 20px;
+        padding: 16px;
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(10, 36, 71, 0.04);
+    }
+
+    .activity-image-wrapper {
+        overflow: hidden;
+        border-radius: 6px;
+    }
+
+    .activity-image {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .activity-card:hover .activity-image {
+        transform: scale(1.05);
+    }
+
+    .activity-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .activity-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0a2447;
+        margin-bottom: 4px;
+    }
+
+    .activity-price {
+        font-size: 14px;
+        font-weight: 500;
+        color: #4caf50;
+        margin-bottom: 8px;
+    }
+
+    .activity-description {
+        font-size: 14px;
+        color: #444;
+        margin-bottom: 12px !important;
+        line-height: 1.5;
+    }
+
+    .activity-add-button {
+        grid-column: 3; /* Places button in the last column */
+        min-width: 80px; /* Ensure button space is fixed */
+    }
+
+    .btn-add-activity {
+        padding: 8px 15px;
+        background: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background .2s ease, transform .2s ease;
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+
+        .btn-add-activity:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+</style>
+
+<script>
+    // --- GLOBAL STATE FOR CART ---
+    let cart = {
+        adult: { qty: 0, price: @adultPrice.ToString(System.Globalization.CultureInfo.InvariantCulture) },
+        youth: { qty: 0, price: @youthPrice.ToString(System.Globalization.CultureInfo.InvariantCulture) },
+        child: { qty: 0, price: @childPrice.ToString(System.Globalization.CultureInfo.InvariantCulture) },
+        activities: {}, // Stores { activityId: { name, price, qty } }
+        selectedDate: '', // <-- NEW
+        selectedTime: ''  // <-- NEW
+    };
+
+    const isFree = @isFreeEntrance.ToString().ToLower();
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setupTabNavigation();
+
+        // Only initialize ticket/activity logic for paid entrances
+        if (!isFree) {
+            setupActivityButtons();
+            setupQuantityControls();
+            setupDateTimeListeners(); // <-- NEW
+            setupReserveNowButton(); // <-- NEW
+            setupInitialBaseEntry(); // Must run last to update initial display
+        }
+    });
+
+    function setupTabNavigation() {
+        // [Existing Tab Navigation Setup]
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const targetId = this.getAttribute('data-target');
+                const targetSection = document.getElementById(targetId);
+
+                if (targetSection) {
+                    const headerOffset = 70;
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+
+    function setupInitialBaseEntry() {
+        // Initializes the base ticket to 1 Adult if it's a paid entrance
+        const itemKey = 'adult';
+        if (!isFree && cart[itemKey].price > 0) {
+            cart[itemKey].qty = 1;
+            document.getElementById(`qty-adult`).textContent = cart[itemKey].qty;
+        }
+        updateTotal();
+    }
+
+    // *** TICKET QUANTITY PLUS/MINUS HANDLER ***
+    function setupQuantityControls() {
+        document.querySelectorAll('.qty-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const type = this.getAttribute('data-type'); // adult, youth, child
+                const displayElement = document.getElementById(`qty-${type}`);
+
+                if (cart[type]) {
+                    if (this.classList.contains('plus')) {
+                        cart[type].qty++;
+                    } else if (this.classList.contains('minus') && cart[type].qty > 0) {
+                        cart[type].qty--;
+                    }
+
+                    displayElement.textContent = cart[type].qty;
+                    updateTotal();
+                }
+            });
+        });
+    }
+
+    // *** ACTIVITY 'ADD' BUTTON HANDLER ***
+    function setupActivityButtons() {
+        document.querySelectorAll('.btn-add-activity').forEach(button => {
+            button.addEventListener('click', function() {
+                const activityId = this.getAttribute('data-activity-id');
+                const activityName = this.getAttribute('data-activity-name');
+                const activityPrice = parseFloat(this.getAttribute('data-activity-price'));
+                const itemKey = `activity_${activityId}`;
+
+                if (cart.activities[itemKey]) {
+                    cart.activities[itemKey].qty++;
+                } else {
+                    cart.activities[itemKey] = {
+                        name: activityName,
+                        price: activityPrice,
+                        qty: 1
+                    };
+                }
+                updateTotal();
+            });
+        });
+    }
+
+    // *** NEW FUNCTION: DATE/TIME LISTENERS ***
+    function setupDateTimeListeners() {
+        const dateInput = document.getElementById('selected-date');
+        const timeInput = document.getElementById('selected-time');
+
+        if (dateInput) {
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+            dateInput.min = today; // Prevent selecting past dates
+            cart.selectedDate = dateInput.value; // Save initial value
+
+            // Listen for changes
+            dateInput.addEventListener('change', function() {
+                cart.selectedDate = this.value;
+                console.log('Date saved to cart:', cart.selectedDate);
+            });
+        }
+
+        if (timeInput) {
+            // Set a default time (e.g., 09:00)
+            timeInput.value = "09:00";
+            cart.selectedTime = timeInput.value; // Save initial value
+
+            // Listen for changes
+            timeInput.addEventListener('change', function() {
+                cart.selectedTime = this.value;
+                console.log('Time saved to cart:', cart.selectedTime);
+            });
+        }
+    }
+
+    // *** NEW FUNCTION: RESERVE NOW BUTTON HANDLER ***
+    function setupReserveNowButton() {
+        // Use the unique ID we added to the HTML
+        const reserveBtn = document.getElementById('reserve-now-btn');
+        if (reserveBtn) {
+            reserveBtn.addEventListener('click', function() {
+                // Simple validation
+                if (!cart.selectedDate) {
+                    alert('Please select a date.');
+                    return;
+                }
+                if (!cart.selectedTime) {
+                    alert('Please select a time.');
+                    return;
+                }
+                if (cart.adult.qty === 0 && cart.youth.qty === 0 && cart.child.qty === 0) {
+                    alert('Please select at least one ticket.');
+                    return;
+                }
+
+                // All checks passed, log the "savable" data object
+                console.log('--- RESERVATION DETAILS (SAVABLE) ---');
+                console.log(JSON.stringify(cart, null, 2)); // Pretty print the JSON
+
+                // Show a confirmation message to the user
+                alert('Reservation details logged to console. Press F12 to see the "savable" data object.');
+            });
+        }
+    }
+
+    // --- DISPLAY UPDATE & CALCULATION ---
+    function updateTotal() {
+        let total = 0;
+        let hasActivities = false;
+        const activitySummaryList = document.getElementById('activity-summary-list');
+        const addedActivitiesSummary = document.getElementById('added-activities-summary');
+
+        // Clear previous activities list
+        activitySummaryList.innerHTML = '';
+
+        // Calculate total from base ticket types (Adult, Youth, Child)
+        for (const type in cart) {
+            if (type !== 'activities' && type !== 'selectedDate' && type !== 'selectedTime') {
+                total += cart[type].qty * cart[type].price;
+            }
+        }
+
+        // Calculate total from additional activities and update summary list
+        for (const id in cart.activities) {
+            const activity = cart.activities[id];
+            total += activity.qty * activity.price;
+
+            // Add to activity summary list
+            if (activity.qty > 0) {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<span>${activity.name} (x${activity.qty})</span> <span class="activity-item-qty">₱${(activity.qty * activity.price).toFixed(2)}</span>`;
+                activitySummaryList.appendChild(listItem);
+                hasActivities = true;
+            }
+        }
+
+        // Show/hide activity summary section
+        if (hasActivities) {
+            addedActivitiesSummary.style.display = 'block';
+        } else {
+            addedActivitiesSummary.style.display = 'none';
+        }
+
+        // Update the final total displayed
+        document.getElementById('final-total-amount').textContent = `₱${total.toFixed(2)}`;
+    }
+
+</script>
+

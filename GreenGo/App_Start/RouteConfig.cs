@@ -13,6 +13,13 @@ namespace GreenGo
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Specific route for CitiesMP must come before the Default route
+            routes.MapRoute(
+                name: "City",
+                url: "CitiesMP/{id}",
+                defaults: new { controller = "CitiesMP", action = "City" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -48,6 +48,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -101,9 +104,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -120,13 +120,20 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CitiesMPController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MuseumDescController.cs" />
     <Compile Include="Controllers\ParksDescController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PlacesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CardPaymentModel.cs" />
+    <Compile Include="Models\PaymentDetailsSession.cs" />
+    <Compile Include="Models\PaymentViewModel.cs" />
+    <Compile Include="Models\Place.cs" />
+    <Compile Include="Models\UserInfoSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +227,8 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="App_Data\places.json" />
+    <Content Include="Data\placesData.json" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -257,7 +266,7 @@
     <Content Include="Views\ParksDesc\LamesaEcoPark.cshtml" />
     <Content Include="Views\MuseumDesc\YuchengcoMuseum.cshtml" />
     <Content Include="Views\Payment\EnterInfo.cshtml" />
-    <Content Include="Views\Payment\Payment.cshtml" />
+    <Content Include="Views\Payment\CompletePayment.cshtml" />
     <Content Include="Views\ParksDesc\Arroceros.cshtml" />
     <Content Include="Views\Home\MuseumTopAttractions.cshtml" />
     <Content Include="Views\Home\ParksTopAttractions.cshtml" />
@@ -272,12 +281,30 @@
     <Content Include="Views\Admin\Reservations.cshtml" />
     <Content Include="Views\Admin\Transactions.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\CitiesMP\Caloocan.cshtml" />
+    <Content Include="Views\CitiesMP\LasPinas.cshtml" />
+    <Content Include="Views\CitiesMP\Makati.cshtml" />
+    <Content Include="Views\CitiesMP\Malabon.cshtml" />
+    <Content Include="Views\CitiesMP\Mandaluyong.cshtml" />
+    <Content Include="Views\CitiesMP\Manila.cshtml" />
+    <Content Include="Views\CitiesMP\Marikina.cshtml" />
+    <Content Include="Views\CitiesMP\Muntinlupa.cshtml" />
+    <Content Include="Views\CitiesMP\Navotas.cshtml" />
+    <Content Include="Views\CitiesMP\Paranaque.cshtml" />
+    <Content Include="Views\CitiesMP\Pasay.cshtml" />
+    <Content Include="Views\CitiesMP\Pasig.cshtml" />
+    <Content Include="Views\CitiesMP\QuezonCity.cshtml" />
+    <Content Include="Views\CitiesMP\SanJuan.cshtml" />
+    <Content Include="Views\CitiesMP\Taguig.cshtml" />
+    <Content Include="Views\CitiesMP\Valenzuela.cshtml" />
+    <Content Include="Views\CitiesMP\City.cshtml" />
+    <Content Include="Views\Shared\_PlaceCard.cshtml" />
+    <Content Include="Views\Places\Details.cshtml" />
+    <Content Include="Views\Places\CitySummary.cshtml" />
+    <Content Include="Views\Payment\EmailVerification.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Categories\" />
-    <Folder Include="Views\Parks\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
