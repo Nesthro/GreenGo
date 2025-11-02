@@ -117,6 +117,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Content Include="Content\CSS\UserSidebar.css" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Controllers\ParksDescController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PlacesController.cs" />
+    <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,6 +175,7 @@
     <Content Include="Content\Images\discovery.png" />
     <Content Include="Content\Images\energy-icon.png" />
     <Content Include="Content\Images\Fishing.jpg" />
+    <Content Include="Content\Images\fort-santiago.jpg" />
     <Content Include="Content\Images\intramuros.jpg" />
     <Content Include="Content\Images\la-mesa-eco-park.jpg" />
     <Content Include="Content\Images\lamesa-main.jpg" />
@@ -192,6 +195,7 @@
     <Content Include="Content\Images\national-museum.jpg" />
     <Content Include="Content\Images\nature-icon.png" />
     <Content Include="Content\Images\ncr-hero.jpg" />
+    <Content Include="Content\Images\ocean-park.jpg" />
     <Content Include="Content\Images\paco-park.jpg" />
     <Content Include="Content\Images\pasay-city.jpg" />
     <Content Include="Content\Images\plan-icon.png" />
@@ -302,6 +306,13 @@
     <Content Include="Views\Places\Details.cshtml" />
     <Content Include="Views\Places\CitySummary.cshtml" />
     <Content Include="Views\Payment\EmailVerification.cshtml" />
+    <Content Include="Views\UserProfile\Profile.cshtml" />
+    <Content Include="Views\UserProfile\Bookings.cshtml" />
+    <Content Include="Views\UserProfile\Reviews.cshtml" />
+    <Content Include="Views\UserProfile\Bookmarks.cshtml" />
+    <Content Include="Views\UserProfile\Settings.cshtml" />
+    <Content Include="Views\UserProfile\Help.cshtml" />
+    <Content Include="Views\Shared\_UserProfileSidebar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Categories\" />

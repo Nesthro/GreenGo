@@ -1,0 +1,233 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Reviews - GreenGo";
+}
+<div class="main-container">
+    @Html.Partial("_UserProfileSidebar")
+    <div class="reviews-container">
+        <div class="page-header">
+            <h1>Reviews</h1>
+        </div>
+        <div class="reviews-tabs">
+            <button class="tab-btn active" id="pendingTab">Pending</button>
+            <button class="tab-btn" id="reviewedTab">Reviewed</button>
+            <div class="sort-dropdown">
+                <label>Sort by :</label>
+                <select id="sortSelect">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+            </div>
+        </div>
+        <div class="tab-content" id="pendingContent">
+            <div class="review-card pending">
+                <img src="/Content/images/national-museum-exterior.jpg" class="review-img" />
+                <div class="review-info">
+                    <div class="review-location">Metro, Manila</div>
+                    <div class="review-place">National Museum of Fine Arts</div>
+                    <div class="review-trip">Trip Date: October 05, 2025</div>
+                    <div class="review-status">Status: Completed - Review Pending</div>
+                    <button class="btn-write-review" onclick="openReviewModal()">Write a review</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="reviewedContent" style="display:none;">
+            <div class="review-card reviewed">
+                <div class="review-header">
+                    <div class="review-place">National Museum of Fine Arts</div>
+                    <div class="review-stars">★ ★ ★ ★ ★</div>
+                </div>
+                <div class="review-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta ut metus eu semper. Fusce sed gravida risus, et tempor arcu. Maecenas convallis ante nec gravida varius.</div>
+                <div class="review-photos">
+                    <img src="/Content/images/national-museum-exterior.jpg" />
+                    <img src="/Content/images/national-museum-exterior.jpg" />
+                    <img src="/Content/images/national-museum-exterior.jpg" />
+                </div>
+                <div class="review-actions">
+                    <button class="btn-edit-review" onclick="openEditReviewModal()">Edit Review</button>
+                    <button class="btn-delete-review" onclick="openDeleteModal()">Delete Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal-bg" id="reviewModalBg" style="display:none;">
+        <div class="modal-container">
+            <button class="modal-back" onclick="closeReviewModal()">&lt;</button>
+            <div class="modal-title">Review</div>
+            <div class="modal-place-box">
+                <div class="modal-place-title">National Museum of Fine Arts</div>
+                <div class="modal-place-address">
+                    <i class="fa fa-map-marker"></i> Ground Floor, National Museum of Fine Arts Building, P Padre Burgos Ave, Ermita, Manila, 1000 Metro Manila
+                </div>
+            </div>
+            <div class="modal-section">
+                <div class="modal-label">How would you rate your experience?</div>
+                <div class="modal-stars" id="modalStars">
+                    <span data-star="1">★</span><span data-star="2">★</span><span data-star="3">★</span><span data-star="4">★</span><span data-star="5">★</span>
+                </div>
+            </div>
+            <div class="modal-section">
+                <div class="modal-label">Share your thoughts</div>
+                <div class="modal-sub">Write at least 25 characters</div>
+                <textarea id="modalReviewText" maxlength="1000" placeholder="Write a review and share your experience" oninput="updateCharCount()"></textarea>
+                <div class="modal-char-count"><span id="charCount">0</span>/1000</div>
+            </div>
+            <div class="modal-section">
+                <div class="modal-label">Uploaded Photos</div>
+                <div class="modal-photos">
+                    <img src="/Content/images/museum.jpg" />
+                    <img src="/Content/images/museum.jpg" />
+                    <img src="/Content/images/museum.jpg" />
+                    <label class="modal-photo-upload">
+                        <input type="file" style="display:none;" />
+                        <span>+</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-update-review" onclick="closeReviewModal()">Update Review</button>
+                <button class="btn-cancel-review" onclick="closeReviewModal()">Cancel Review</button>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal -->
+    <div class="modal-bg" id="deleteModalBg" style="display:none;">
+        <div class="modal-container delete">
+            <div class="modal-title">Delete Review</div>
+            <div class="modal-delete-text">Are you sure you want to delete this review?</div>
+            <div class="modal-actions">
+                <button class="btn-delete-confirm" onclick="closeDeleteModal()">Delete</button>
+                <button class="btn-cancel-delete" onclick="closeDeleteModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+    .main-container { display: flex; }
+    .reviews-container {
+        flex: 1;
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 0 40px 0;
+    }
+    .page-header h1 { font-size: 26px; font-weight: 700; margin-bottom: 18px; }
+    .reviews-tabs { display: flex; align-items: center; gap: 32px; margin-bottom: 18px; }
+    .tab-btn { background: none; border: none; font-size: 17px; font-weight: 500; color: #222; padding: 12px 18px; cursor: pointer; border-bottom: 2px solid transparent; transition: border 0.2s, color 0.2s; }
+    .tab-btn.active { color: #7cb342; border-bottom: 2px solid #7cb342; }
+    .sort-dropdown { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .sort-dropdown label { font-size: 14px; color: #666; }
+    .sort-dropdown select { padding: 8px 24px 8px 10px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; color: #1a1a1a; background: white; cursor: pointer; outline: none; }
+    .tab-content { width: 100%; }
+    .review-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 28px 28px 18px 28px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .review-card.pending { display: flex; align-items: center; gap: 28px; }
+    .review-img { width: 120px; height: 120px; border-radius: 10px; object-fit: cover; }
+    .review-info { flex: 1; }
+    .review-location { font-size: 14px; color: #666; margin-bottom: 4px; }
+    .review-place { font-size: 17px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+    .review-trip, .review-status { font-size: 14px; color: #888; margin-bottom: 2px; }
+    .btn-write-review { margin-top: 12px; padding: 8px 24px; background: #fff; color: #7cb342; border: 1.5px solid #7cb342; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .btn-write-review:hover { background: #7cb342; color: #fff; }
+    .review-card.reviewed { }
+    .review-header { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
+    .review-stars { color: #ffc107; font-size: 18px; }
+    .review-text { font-size: 15px; color: #222; margin-bottom: 16px; }
+    .review-photos { display: flex; gap: 12px; margin-bottom: 16px; }
+    .review-photos img { width: 90px; height: 90px; border-radius: 8px; object-fit: cover; }
+    .review-actions { display: flex; gap: 12px; }
+    .btn-edit-review, .btn-delete-review { padding: 8px 24px; border-radius: 8px; font-size: 15px; font-weight: 500; border: 1.5px solid #7cb342; background: #fff; color: #7cb342; cursor: pointer; transition: all 0.2s; }
+    .btn-edit-review:hover, .btn-delete-review:hover { background: #7cb342; color: #fff; }
+    .btn-delete-review { border: 1.5px solid #e53935; color: #e53935; }
+    .btn-delete-review:hover { background: #e53935; color: #fff; }
+    /* Modal Styles */
+    .modal-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.18); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+    .modal-container { background: #fff; border-radius: 18px; padding: 36px 36px 28px 36px; max-width: 540px; width: 100%; box-shadow: 0 4px 32px rgba(0,0,0,0.10); position: relative; }
+    .modal-container.delete { max-width: 340px; text-align: center; }
+    .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 18px; }
+    .modal-back { position: absolute; left: 18px; top: 18px; background: none; border: none; font-size: 22px; color: #222; cursor: pointer; }
+    .modal-place-box { border: 1px solid #e0e0e0; border-radius: 10px; padding: 16px 18px; margin-bottom: 24px; }
+    .modal-place-title { font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+    .modal-place-address { font-size: 14px; color: #444; display: flex; align-items: center; gap: 8px; }
+    .modal-section { margin-bottom: 24px; }
+    .modal-label { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 8px; }
+    .modal-stars { font-size: 24px; color: #ffc107; cursor: pointer; }
+    .modal-stars span { margin-right: 4px; transition: color 0.2s; }
+    .modal-stars span.selected { color: #ffc107; }
+    .modal-stars span:not(.selected) { color: #e0e0e0; }
+    .modal-sub { font-size: 13px; color: #888; margin-bottom: 8px; }
+    textarea#modalReviewText { width: 100%; min-height: 90px; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 15px; resize: vertical; margin-bottom: 4px; }
+    .modal-char-count { font-size: 13px; color: #888; text-align: right; margin-bottom: 0; }
+    .modal-photos { display: flex; gap: 14px; margin-top: 8px; }
+    .modal-photos img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; }
+    .modal-photo-upload { width: 70px; height: 70px; background: #ededed; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #888; cursor: pointer; border: 1.5px dashed #ccc; }
+    .modal-actions { display: flex; gap: 16px; margin-top: 18px; justify-content: flex-end; }
+    .btn-update-review, .btn-cancel-review { padding: 10px 28px; border-radius: 8px; font-size: 15px; font-weight: 500; border: 1.5px solid #7cb342; background: #fff; color: #7cb342; cursor: pointer; transition: all 0.2s; }
+    .btn-update-review:hover, .btn-cancel-review:hover { background: #7cb342; color: #fff; }
+    .btn-cancel-review { border: 1.5px solid #888; color: #888; }
+    .btn-cancel-review:hover { background: #888; color: #fff; }
+    .modal-delete-text { font-size: 16px; color: #222; margin-bottom: 24px; }
+    .btn-delete-confirm, .btn-cancel-delete { padding: 10px 28px; border-radius: 8px; font-size: 15px; font-weight: 500; border: 1.5px solid #e53935; background: #fff; color: #e53935; cursor: pointer; transition: all 0.2s; }
+    .btn-delete-confirm:hover { background: #e53935; color: #fff; }
+    .btn-cancel-delete { border: 1.5px solid #888; color: #888; }
+    .btn-cancel-delete:hover { background: #888; color: #fff; }
+</style>
+<script>
+// Tab switching
+const pendingTab = document.getElementById('pendingTab');
+const reviewedTab = document.getElementById('reviewedTab');
+const pendingContent = document.getElementById('pendingContent');
+const reviewedContent = document.getElementById('reviewedContent');
+pendingTab.onclick = function() {
+    pendingTab.classList.add('active');
+    reviewedTab.classList.remove('active');
+    pendingContent.style.display = '';
+    reviewedContent.style.display = 'none';
+}
+reviewedTab.onclick = function() {
+    reviewedTab.classList.add('active');
+    pendingTab.classList.remove('active');
+    reviewedContent.style.display = '';
+    pendingContent.style.display = 'none';
+}
+// Review Modal
+function openReviewModal() {
+    document.getElementById('reviewModalBg').style.display = 'flex';
+}
+function closeReviewModal() {
+    document.getElementById('reviewModalBg').style.display = 'none';
+}
+// Edit Review Modal (same as review modal for demo)
+function openEditReviewModal() {
+    openReviewModal();
+}
+// Delete Modal
+function openDeleteModal() {
+    document.getElementById('deleteModalBg').style.display = 'flex';
+}
+function closeDeleteModal() {
+    document.getElementById('deleteModalBg').style.display = 'none';
+}
+// Star rating in modal
+const modalStars = document.getElementById('modalStars').children;
+let selectedRating = 5;
+for (let i = 0; i < modalStars.length; i++) {
+    modalStars[i].onclick = function() {
+        selectedRating = i + 1;
+        for (let j = 0; j < modalStars.length; j++) {
+            modalStars[j].classList.toggle('selected', j <= i);
+        }
+    };
+}
+// Char count for textarea
+function updateCharCount() {
+    const text = document.getElementById('modalReviewText').value;
+    document.getElementById('charCount').textContent = text.length;
+}
+// Initialize stars
+for (let j = 0; j < modalStars.length; j++) {
+    modalStars[j].classList.toggle('selected', j < selectedRating);
+}
+</script>

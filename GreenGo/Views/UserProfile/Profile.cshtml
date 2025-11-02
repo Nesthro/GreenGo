@@ -1,0 +1,158 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Profile - GreenGo";
+}
+<style>
+    body {
+        background: #f7f9fb;
+    }
+    .main-container {
+        display: flex;
+        max-width: 1400px;
+        margin: 40px auto;
+        gap: 30px;
+        padding: 0 0;
+    }
+    .main-content {
+        flex: 1;
+        background: #fff;
+        border-radius: 20px;
+        padding: 48px 48px 32px 48px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 600px;
+    }
+    .content-header {
+        font-size: 20px;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 36px;
+    }
+    .form-group {
+        margin-bottom: 36px;
+    }
+    .form-label {
+        display: block;
+        font-size: 15px;
+        font-weight: 500;
+        color: #222;
+        margin-bottom: 8px;
+    }
+    .form-input-container {
+        position: relative;
+        border-bottom: 1.5px solid #222;
+        padding-bottom: 8px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+    }
+    .form-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        color: #222;
+        background: transparent;
+        padding: 0;
+    }
+    .edit-link {
+        position: static;
+        margin-left: auto;
+        color: #7cb342;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    .edit-link:hover {
+        text-decoration: underline;
+        color: #5a8c1b;
+    }
+    .save-button-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 48px;
+    }
+    .save-button {
+        padding: 14px 60px;
+        background-color: #fff;
+        color: #7cb342;
+        border: 1.5px solid #b7d88a;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: none;
+    }
+    .save-button:hover {
+        background-color: #f7f9fb;
+        color: #5a8c1b;
+    }
+    @@media (max-width: 1024px) {
+        .main-container {
+            flex-direction: column;
+            padding: 0 10px;
+        }
+        .main-content {
+            padding: 32px 12px;
+        }
+    }
+    @@media (max-width: 768px) {
+        .main-container {
+            padding: 0 0px;
+            margin: 10px auto;
+        }
+        .main-content {
+            padding: 16px 2px;
+        }
+    }
+</style>
+<div class="main-container">
+    @Html.Partial("_UserProfileSidebar")
+    <main class="main-content">
+        <div class="content-header">Personal Information</div>
+        <form method="post">
+            <div class="form-group">
+                <label class="form-label">Your name</label>
+                <div class="form-input-container">
+                    <input type="text" class="form-input" name="FullName" value="" readonly>
+                    <a href="#" class="edit-link">Edit</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Title</label>
+                <div class="form-input-container">
+                    <input type="text" class="form-input" name="Title" value="" readonly>
+                    <a href="#" class="edit-link">Edit</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <div class="form-input-container">
+                    <input type="text" class="form-input" name="DateOfBirth" value="" readonly>
+                    <a href="#" class="edit-link">Edit</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Country/region of residence</label>
+                <div class="form-input-container">
+                    <input type="text" class="form-input" name="Country" value="" readonly>
+                    <a href="#" class="edit-link">Edit</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Phone number/Email</label>
+                <div class="form-input-container">
+                    <input type="text" class="form-input" name="Contact" value="" readonly>
+                    <a href="#" class="edit-link">Edit</a>
+                </div>
+            </div>
+            <div class="save-button-container">
+                <button type="submit" class="save-button">Save</button>
+            </div>
+        </form>
+    </main>
+</div>

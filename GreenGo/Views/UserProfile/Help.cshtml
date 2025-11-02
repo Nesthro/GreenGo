@@ -1,0 +1,425 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Help - GreenGo";
+}
+<div class="main-container">
+    @Html.Partial("_UserProfileSidebar")
+    <main class="main-content help-main-content">
+        <div class="help-page-container">
+            <h1 class="help-title">Help</h1>
+
+            <div class="help-search-box">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="How can we help you today?" id="helpSearchInput" />
+                <button class="search-btn">Search</button>
+            </div>
+
+            <div class="help-accordion">
+                <!-- Booking and Reservation -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Booking and Reservation</span>
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-text">
+                            <p><strong>1. How do I make a booking?</strong></p>
+                            <p>To book a stay or activity, simply browse through our listings, select your desired date, and click "Book Now." You'll receive instant confirmation once your reservation is complete.</p>
+
+                            <p><strong>2. Can I modify or cancel my reservation?</strong></p>
+                            <p>Yes! Go to your Bookings page, choose the reservation you want to change, and select "Modify" or "Cancel." Please note that changes depend on the host or partner's policy.</p>
+
+                            <p><strong>3. I didn't receive a confirmation email – what should I do?</strong></p>
+                            <p>You haven't received a confirmation within a few minutes, check your spam or promotions folder. You can also view your booking history in your account dashboard.</p>
+
+                            <p><strong>4. Are my payments refundable?</strong></p>
+                            <p>Refund eligibility depends on the cancellation policy of your booking. You can view the policy before checkout or in your booking details.</p>
+
+                            <p><strong>5. How do I find eco-friendly destinations?</strong></p>
+                            <p>Use our search filters to browse destinations with eco-certifications, sustainable practices, and green initiatives. Look for the green leaf badge on listings.</p>
+
+                            <p><strong>6. Can I book for a group or multiple guests?</strong></p>
+                            <p>Yes, during the booking process, you can specify the number of guests. Make sure the destination accommodates your group size.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment and Refunds -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Payment and Refunds</span>
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-text">
+                            <p><strong>1. What payment methods do you accept?</strong></p>
+                            <p>We accept major credit/debit cards (Visa, Mastercard, American Express), PayPal, GCash, and other digital wallets. Payment options may vary by region.</p>
+
+                            <p><strong>2. Is my payment information secure?</strong></p>
+                            <p>Absolutely! We use industry-standard SSL encryption and secure payment gateways to protect your financial information. We never store your complete card details.</p>
+
+                            <p><strong>3. When will I be charged for my booking?</strong></p>
+                            <p>You'll be charged immediately upon confirming your reservation. For some bookings, a deposit may be required upfront with the balance due later.</p>
+
+                            <p><strong>4. How do refunds work?</strong></p>
+                            <p>Refunds are processed according to the cancellation policy of your booking. Once approved, refunds typically take 5-10 business days to appear in your account.</p>
+
+                            <p><strong>5. Can I get a receipt for my booking?</strong></p>
+                            <p>Yes! You can download your receipt from the Bookings page. Click on "View Details" and then "Download Receipt" to save or print your receipt.</p>
+
+                            <p><strong>6. What if I was charged incorrectly?</strong></p>
+                            <p>If you notice any incorrect charges, please contact our support team immediately with your booking ID and payment details. We'll investigate and resolve the issue promptly.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eco Travel Tips -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Eco Travel Tips</span>
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-text">
+                            <p><strong>1. What makes a destination eco-friendly?</strong></p>
+                            <p>Eco-friendly destinations prioritize sustainability through renewable energy, waste reduction, water conservation, local sourcing, and wildlife protection. They minimize environmental impact while supporting local communities.</p>
+
+                            <p><strong>2. How can I travel more sustainably?</strong></p>
+                            <p>Choose accommodations with green certifications, use public transportation or bike rentals, bring reusable water bottles and bags, support local businesses, and respect wildlife and natural habitats.</p>
+
+                            <p><strong>3. What should I pack for eco-friendly travel?</strong></p>
+                            <p>Pack reusable items (water bottles, utensils, shopping bags), biodegradable toiletries, rechargeable batteries, and multi-purpose clothing to minimize waste and luggage weight.</p>
+
+                            <p><strong>4. How can I offset my carbon footprint?</strong></p>
+                            <p>Consider carbon offset programs, choose direct flights when possible, use eco-friendly transportation at your destination, and stay longer in fewer places to reduce travel emissions.</p>
+
+                            <p><strong>5. What are some responsible wildlife viewing practices?</strong></p>
+                            <p>Maintain safe distances, never feed wild animals, choose ethical tour operators, avoid attractions that exploit animals, and follow local guidelines for wildlife interaction.</p>
+
+                            <p><strong>6. How can I support local communities while traveling?</strong></p>
+                            <p>Buy from local artisans and markets, eat at locally-owned restaurants, hire local guides, learn basic phrases in the local language, and respect cultural traditions and customs.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account and Setting -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Account and Setting</span>
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-text">
+                            <p><strong>1. How do I create a GreenGo account?</strong></p>
+                            <p>Click "Sign Up" at the top right corner, enter your email, create a password, and verify your email address. You can also sign up using your Google or Facebook account.</p>
+
+                            <p><strong>2. I forgot my password. How do I reset it?</strong></p>
+                            <p>Click "Forgot Password" on the login page, enter your email address, and we'll send you instructions to reset your password. Check your spam folder if you don't see the email.</p>
+
+                            <p><strong>3. How do I update my personal information?</strong></p>
+                            <p>Go to your Dashboard, click on "Update Personal Info," and edit your name, email, phone number, or profile picture. Don't forget to save your changes.</p>
+
+                            <p><strong>4. Can I change my email address?</strong></p>
+                            <p>Yes, navigate to Settings and update your email address. You'll need to verify the new email before the change takes effect.</p>
+
+                            <p><strong>5. How do I manage my notification preferences?</strong></p>
+                            <p>In Settings, you can customize which notifications you receive via email, SMS, or push notifications. Choose what updates you want about bookings, promotions, and tips.</p>
+
+                            <p><strong>6. How do I delete my account?</strong></p>
+                            <p>Go to Settings and scroll to "Delete Account." Please note that deleting your account will permanently remove all your data, including booking history and saved destinations.</p>
+
+                            <p><strong>7. Is my personal information secure?</strong></p>
+                            <p>Yes, we use advanced encryption and security measures to protect your data. We never share your personal information with third parties without your consent.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Support -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Contact Support</span>
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-text">
+                            <p><strong>1. How can I contact GreenGo support?</strong></p>
+                            <p>You can reach us through multiple channels: email us at support@greengo.com, use our live chat feature (bottom right corner), or call our hotline at 1-800-GREENGO during business hours.</p>
+
+                            <p><strong>2. What are your support hours?</strong></p>
+                            <p>Our support team is available Monday to Friday, 9:00 AM - 6:00 PM (PHT). For urgent matters outside these hours, please use our emergency hotline or email support.</p>
+
+                            <p><strong>3. How quickly will I receive a response?</strong></p>
+                            <p>We aim to respond to all inquiries within 24 hours. For urgent booking issues, our team typically responds within 2-4 hours during business hours.</p>
+
+                            <p><strong>4. Can I report a problem with a booking?</strong></p>
+                            <p>Yes, please contact us immediately with your booking ID and details of the issue. We'll work with you and the host to find a resolution as quickly as possible.</p>
+
+                            <p><strong>5. Where can I submit feedback or suggestions?</strong></p>
+                            <p>We love hearing from our users! Submit feedback through your account dashboard, email us at feedback@greengo.com, or use the feedback form on our Contact Us page.</p>
+
+                            <p><strong>6. Do you have social media support?</strong></p>
+                            <p>Yes! Follow us and reach out on Facebook, Instagram, and Twitter @@GreenGoTravel. Our social media team responds during business hours.</p>
+
+                            <p><strong>7. What if I need help during my trip?</strong></p>
+                            <p>Our 24/7 emergency support line is available for urgent travel assistance. The number is included in your booking confirmation email.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<style>
+    .main-container {
+        display: flex;
+        background: #fafafa;
+        min-height: 100vh;
+    }
+
+    .main-content.help-main-content {
+        flex: 1;
+        padding: 60px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .help-page-container {
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .help-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #2c2c2c;
+        margin-bottom: 32px;
+    }
+
+    .help-search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 4px 4px 4px 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .help-search-box i {
+        color: #999;
+        font-size: 16px;
+        margin-right: 12px;
+    }
+
+    .help-search-box input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        color: #333;
+        padding: 12px 8px;
+        background: transparent;
+    }
+
+    .help-search-box input::placeholder {
+        color: #999;
+    }
+
+    .search-btn {
+        padding: 12px 32px;
+        background: #8fb91c;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .search-btn:hover {
+        background: #7da619;
+    }
+
+    .help-accordion {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .accordion-item {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .accordion-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .accordion-header {
+        width: 100%;
+        padding: 20px 24px;
+        background: white;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        transition: all 0.3s;
+        text-align: left;
+    }
+
+    .accordion-header:hover {
+        background: #f8f8f8;
+    }
+
+    .accordion-header i {
+        font-size: 14px;
+        color: #666;
+        transition: transform 0.3s ease;
+    }
+
+    .accordion-item.active .accordion-header i {
+        transform: rotate(180deg);
+    }
+
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .accordion-item.active .accordion-content {
+        max-height: 2000px;
+    }
+
+    .accordion-text {
+        padding: 0 24px 24px 24px;
+        font-size: 14px;
+        color: #444;
+        line-height: 1.7;
+    }
+
+    .accordion-text p {
+        margin-bottom: 16px;
+    }
+
+    .accordion-text p:last-child {
+        margin-bottom: 0;
+    }
+
+    .accordion-text strong {
+        color: #2c2c2c;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 1024px) {
+        .main-content.help-main-content {
+            padding: 40px 40px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .main-container {
+            flex-direction: column;
+        }
+
+        .main-content.help-main-content {
+            padding: 24px 20px;
+        }
+
+        .help-title {
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+
+        .help-search-box {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 12px;
+            gap: 12px;
+        }
+
+        .help-search-box i {
+            position: absolute;
+            left: 24px;
+            top: 24px;
+        }
+
+        .help-search-box input {
+            padding-left: 36px;
+        }
+
+        .search-btn {
+            width: 100%;
+        }
+
+        .accordion-header {
+            padding: 16px 20px;
+            font-size: 15px;
+        }
+
+        .accordion-text {
+            padding: 0 20px 20px 20px;
+            font-size: 13px;
+        }
+    }
+</style>
+
+<script>
+    function toggleAccordion(element) {
+        const accordionItem = element.parentElement;
+        const allItems = document.querySelectorAll('.accordion-item');
+
+        // Close other accordions
+        allItems.forEach(item => {
+            if (item !== accordionItem && item.classList.contains('active')) {
+                item.classList.remove('active');
+            }
+        });
+
+        // Toggle current accordion
+        accordionItem.classList.toggle('active');
+    }
+
+    // Search functionality
+    document.getElementById('helpSearchInput').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header span').textContent.toLowerCase();
+            const content = item.querySelector('.accordion-text').textContent.toLowerCase();
+
+            if (header.includes(searchTerm) || content.includes(searchTerm)) {
+                item.style.display = 'block';
+                if (searchTerm.length > 0) {
+                    item.classList.add('active');
+                }
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+    // Search button click
+    document.querySelector('.search-btn').addEventListener('click', function() {
+        const searchInput = document.getElementById('helpSearchInput');
+        if (searchInput.value.trim() !== '') {
+            // Trigger the input event to perform search
+            searchInput.dispatchEvent(new Event('input'));
+        }
+    });
+</script>

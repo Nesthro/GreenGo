@@ -28,7 +28,7 @@
         /* ===== HEADER ===== */
         .header {
             background: #fff;
-            padding: 15px 60px;
+            padding: 12px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -38,67 +38,81 @@
         .left-section {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 40px;
         }
 
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            text-decoration: none;
         }
 
         .logo {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
         }
 
         .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: #0a2447;
+            font-size: 22px;
+            font-weight: 600;
+            color: #2A4020;
         }
 
         .search-bar {
             display: flex;
             align-items: center;
             background: #f0f0f0;
-            border-radius: 25px;
-            padding: 8px 18px;
-            width: 320px;
-            gap: 10px;
+            border-radius: 30px;
+            padding: 8px 16px;
+            width: 360px;
+            gap: 8px;
         }
 
-            .search-bar input {
-                border: none;
-                background: transparent;
-                outline: none;
-                width: 100%;
-                color: #333;
-                font-size: 14px;
-            }
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            color: #333;
+            font-size: 14px;
+        }
 
         .search-icon {
-            color: #777;
+            color: #666;
+            font-size: 14px;
         }
 
         .nav-menu {
             display: flex;
-            gap: 28px;
+            gap: 32px;
             align-items: center;
         }
 
         .nav-link {
             text-decoration: none;
             color: #444;
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 500;
             transition: color 0.3s;
         }
 
-            .nav-link:hover {
-                color: #8fb91c;
-            }
+        .nav-link:hover {
+            color: #8fb91c;
+        }
+
+        /* Authentication Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .user-profile {
+            display: none; /* Hidden by default */
+        }
 
         .btn-signup-header {
             border: 1.5px solid #8fb91c;
@@ -112,10 +126,10 @@
             transition: 0.3s;
         }
 
-            .btn-signup-header:hover {
-                background: #8fb91c;
-                color: #fff;
-            }
+        .btn-signup-header:hover {
+            background: #8fb91c;
+            color: #fff;
+        }
 
         .btn-login-header {
             background: #8fb91c;
@@ -128,13 +142,76 @@
             transition: 0.3s;
         }
 
-            .btn-login-header:hover {
-                background: #7da619;
-            }
+        .btn-login-header:hover {
+            background: #7da619;
+        }
 
         /* ===== MAIN CONTENT ===== */
         .body-content {
             flex: 1;
+        }
+
+        /* Updated Dropdown Styles */
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 40px;
+            margin-top: 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            min-width: 220px;
+            display: none;
+            z-index: 1000;
+            border: 1px solid #eee;
+        }
+
+        .user-dropdown.visible {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            color: #444;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .dropdown-item:last-child {
+            border-radius: 0 0 12px 12px;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .dropdown-item span {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .dropdown-item .arrow-icon {
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        .dropdown-separator {
+            height: 1px;
+            background: #eee;
         }
     </style>
 </head>
@@ -157,8 +234,30 @@
             <a href="@Url.Action("About", "Home")" class="nav-link">About Us</a>
             <a href="@Url.Action("Contact", "Home")" class="nav-link">Contact Us</a>
             <a href="@Url.Action("Tips", "Home")" class="nav-link">Tips</a>
-            <a href="@Url.Action("Register", "Account")" class="btn-signup-header">Sign Up</a>
-            <a href="@Url.Action("Login", "Account")" class="btn-login-header">Log In</a>
+            
+            <!-- Auth Buttons (Show when logged out) -->
+            <div class="auth-buttons" id="authButtons">
+                <a href="@Url.Action("Register", "Account")" class="btn-signup-header">Sign Up</a>
+                <a href="@Url.Action("Login", "Account")" class="btn-login-header">Log In</a>
+            </div>
+
+            <!-- User Profile (Show when logged in) -->
+            <div class="user-profile" id="userProfile">
+                <div class="user-icon" id="userMenuToggle" tabindex="0" style="cursor:pointer;">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="user-dropdown" id="userDropdownMenu">
+                    <a href="@Url.Action("Profile", "UserProfile")" class="dropdown-item">
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <div class="dropdown-separator"></div>
+                    <a href="#" class="dropdown-item" id="logoutButton">
+                        <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                        <span>Sign out</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -171,7 +270,62 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            checkAuthState();
 
+            // Toggle user dropdown on click and keyboard
+            const userMenuToggle = document.getElementById('userMenuToggle');
+            const userDropdown = document.getElementById('userDropdownMenu');
 
+            function toggleDropdown(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('visible');
+            }
+
+            userMenuToggle?.addEventListener('click', toggleDropdown);
+            userMenuToggle?.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    toggleDropdown(e);
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function () {
+                userDropdown?.classList.remove('visible');
+            });
+
+            // Prevent closing when clicking inside dropdown
+            userDropdown?.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Handle logout
+            document.getElementById('logoutButton')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                logout();
+            });
+        });
+
+        function checkAuthState() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const authButtons = document.getElementById('authButtons');
+            const userProfile = document.getElementById('userProfile');
+
+            if (isLoggedIn) {
+                authButtons.style.display = 'none';
+                userProfile.style.display = 'block';
+            } else {
+                authButtons.style.display = 'flex';
+                userProfile.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            window.location.href = '@Url.Action("Home", "Home")';
+        }
+    </script>
 </body>
 </html>

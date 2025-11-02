@@ -1,0 +1,57 @@
+@* Sidebar partial for UserProfile pages *@
+<link rel="stylesheet" href="~/Content/CSS/UserSidebar.css" />
+<div class="sidebar">
+    <div class="sidebar-title">Dashboard</div>
+    <div class="profile-card">
+        <div class="profile-avatar">
+            <svg class="avatar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="8" r="6" />
+                <path d="M2 20c0-4 8-6 10-6s10 2 10 6" />
+            </svg>
+        </div>
+        <div class="profile-name">Steve Rogers</div>
+        <a href="@Url.Action("Profile", "UserProfile")" class="update-info-link">
+            Update Personal Info
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </a>
+    </div>
+    <nav class="sidebar-menu">
+        <a href="@Url.Action("Bookings", "UserProfile")" class="menu-item">
+            <div class="menu-item-left">
+                <i class="fa-regular fa-calendar menu-icon"></i>
+                <span class="menu-text">Bookings</span>
+            </div>
+            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+        </a>
+        <a href="@Url.Action("Reviews", "UserProfile")" class="menu-item">
+            <div class="menu-item-left">
+                <i class="fa-regular fa-star menu-icon"></i>
+                <span class="menu-text">Reviews</span>
+            </div>
+            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+        </a>
+        <a href="@Url.Action("Bookmarks", "UserProfile")" class="menu-item">
+            <div class="menu-item-left">
+                <i class="fa-regular fa-bookmark menu-icon"></i>
+                <span class="menu-text">Bookmark</span>
+            </div>
+            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+        </a>
+        <a href="@Url.Action("Settings", "UserProfile")" class="menu-item">
+            <div class="menu-item-left">
+                <i class="fa-regular fa-gear menu-icon"></i>
+                <span class="menu-text">Settings</span>
+            </div>
+            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+        </a>
+        <a href="@Url.Action("Help", "UserProfile")" class="menu-item">
+            <div class="menu-item-left">
+                <i class="fa-regular fa-circle-question menu-icon"></i>
+                <span class="menu-text">Help</span>
+            </div>
+            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+        </a>
+    </nav>
+</div>

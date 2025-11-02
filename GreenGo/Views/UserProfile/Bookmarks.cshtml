@@ -1,0 +1,1080 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Bookmarks - GreenGo";
+}
+<div class="main-container">
+    @Html.Partial("_UserProfileSidebar")
+    <main class="main-content bookmarks-main-content">
+        <div class="bookmarks-page-container">
+            <div class="bookmarks-header">
+                <h1>Bookmarks</h1>
+                <div class="header-controls">
+                    <div class="search-box">
+                        <i class="fa fa-search"></i>
+                        <input type="text" placeholder="Search" id="searchInput">
+                    </div>
+                    <div class="sort-dropdown">
+                        <label>Sort by :</label>
+                        <select id="sortSelect">
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="name">Name</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="bookmarks-list" id="bookmarksList"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </main>
+    <!-- Details Modal -->
+    <div class="modal-bg" id="detailsModalBg" style="display:none;">
+        <div class="modal-container details">
+            <button class="modal-close" onclick="closeDetailsModal()">&times;</button>
+            <div class="modal-title">Place Summary</div>
+            <div id="modalDetailsContent"></div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+    .main-container {
+        display: flex;
+        background: #f8f9fb;
+        min-height: 100vh;
+    }
+
+    /* Main Content */
+    .main-content.bookmarks-main-content {
+        flex: 1;
+        padding: 60px 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    /* Page Wrapper */
+    .bookmarks-page-container {
+        width: 100%;
+        max-width: 980px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 40px 36px 48px 36px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Header */
+    .bookmarks-header {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+        .bookmarks-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin: 0;
+        }
+
+    .header-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    /* Search Box */
+    .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 400px;
+    }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            background-color: #fff;
+        }
+
+            .search-box input:focus {
+                border-color: #8fb91c;
+            }
+
+    /* Sort Dropdown */
+    .sort-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .sort-dropdown label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .sort-dropdown select {
+            padding: 10px 36px 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            background: #fff;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+    /* Bookmark Cards */
+    .bookmarks-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .bookmark-card {
+        display: flex;
+        gap: 24px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 20px 24px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s;
+    }
+
+        .bookmark-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+    .bookmark-image {
+        width: 170px;
+        height: 150px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+        .bookmark-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    /* Text Details */
+    .bookmark-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .bookmark-location {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .bookmark-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c2c2c;
+    }
+
+    .bookmark-rating {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .rating-star {
+        color: #ffc107;
+        font-size: 16px;
+    }
+
+    .rating-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c2c2c;
+    }
+
+    .rating-count {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .bookmark-description {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .bookmark-price {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2c2c2c;
+        margin-top: 6px;
+    }
+
+    /* Right Side Buttons */
+    .bookmark-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        min-width: 140px;
+    }
+
+    .btn-view-details {
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid #8fb91c;
+        color: #8fb91c;
+        background: #fff;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-view-details:hover {
+            background: #8fb91c;
+            color: #fff;
+        }
+
+    .bookmark-save {
+        font-size: 20px;
+        color: #444;
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+        .bookmark-save.active {
+            color: #8fb91c;
+        }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: .main-container {
+    display: flex;
+    background: #f8f9fb;
+    min-height: 100vh;
+}
+
+/* Main Content */
+.main-content.bookmarks-main-content {
+    flex: 1;
+    padding: 40px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Page Wrapper */
+.bookmarks-page-container {
+    width: 100%;
+    max-width: 980px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 40px 36px 48px 36px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+/* Header */
+.bookmarks-header {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.bookmarks-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin: 0;
+}
+
+.header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+/* Search Box */
+.search-box {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 15px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    background-color: #fff;
+}
+
+.search-box input:focus {
+    border-color: #8fb91c;
+}
+
+/* Sort Dropdown */
+.sort-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sort-dropdown label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.sort-dropdown select {
+    padding: 10px 36px 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+/* Bookmark Cards */
+.bookmarks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bookmark-card {
+    display: flex;
+    gap: 24px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+}
+
+.bookmark-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.bookmark-image {
+    width: 170px;
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.bookmark-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Text Details */
+.bookmark-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bookmark-location {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+.bookmark-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c2c2c;
+}
+
+.bookmark-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rating-star {
+    color: #ffc107;
+    font-size: 16px;
+}
+
+.rating-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c2c2c;
+}
+
+.rating-count {
+    font-size: 14px;
+    color: #666;
+}
+
+.bookmark-description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.bookmark-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-top: 6px;
+}
+
+/* Right Side Buttons */
+.bookmark-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    min-width: 140px;
+}
+
+.btn-view-details {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #8fb91c;
+    color: #8fb91c;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-view-details:hover {
+    background: #8fb91c;
+    color: #fff;
+}
+
+.bookmark-save {
+    font-size: 20px;
+    color: #444;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.bookmark-save.active {
+    color: #8fb91c;
+}
+
+/* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: .main-container
+
+    {
+        display: flex;
+        background: #f8f9fb;
+        min-height: 100vh;
+    }
+
+    /* Main Content */
+    .main-content.bookmarks-main-content {
+        flex: 1;
+        padding: 40px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    /* Page Wrapper */
+    .bookmarks-page-container {
+        width: 100%;
+        max-width: 980px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 40px 36px 48px 36px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Header */
+    .bookmarks-header {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+        .bookmarks-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin: 0;
+        }
+
+    .header-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    /* Search Box */
+    .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 400px;
+    }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            background-color: #fff;
+        }
+
+            .search-box input:focus {
+                border-color: #8fb91c;
+            }
+
+    /* Sort Dropdown */
+    .sort-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .sort-dropdown label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .sort-dropdown select {
+            padding: 10px 36px 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            background: #fff;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+    /* Bookmark Cards */
+    .bookmarks-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .bookmark-card {
+        display: flex;
+        gap: 24px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 20px 24px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s;
+    }
+
+        .bookmark-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+    .bookmark-image {
+        width: 170px;
+        height: 150px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+        .bookmark-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    /* Text Details */
+    .bookmark-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .bookmark-location {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .bookmark-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c2c2c;
+    }
+
+    .bookmark-rating {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .rating-star {
+        color: #ffc107;
+        font-size: 16px;
+    }
+
+    .rating-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c2c2c;
+    }
+
+    .rating-count {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .bookmark-description {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .bookmark-price {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2c2c2c;
+        margin-top: 6px;
+    }
+
+    /* Right Side Buttons */
+    .bookmark-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        min-width: 140px;
+    }
+
+    .btn-view-details {
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid #8fb91c;
+        color: #8fb91c;
+        background: #fff;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-view-details:hover {
+            background: #8fb91c;
+            color: #fff;
+        }
+
+    .bookmark-save {
+        font-size: 20px;
+        color: #444;
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+        .bookmark-save.active {
+            color: #8fb91c;
+        }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: flex-end;
+        gap: 6px;
+        margin-top: 24px;
+    }
+
+        .pagination button {
+            border: none;
+            background: #f1f3f5;
+            color: #333;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+            .pagination button.active {
+                background: #8fb91c;
+                color: #fff;
+            }
+
+            .pagination button:hover:not(.active) {
+                background: #e9ecef;
+            }
+
+    /* Modal */
+    .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.18);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-container.details {
+        background: #fff;
+        border-radius: 18px;
+        padding: 36px;
+        max-width: 520px;
+        width: 100%;
+        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+        position: relative;
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        color: #2c2c2c;
+    }
+
+    .modal-close {
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        border: none;
+        background: none;
+        font-size: 26px;
+        color: #2c2c2c;
+        cursor: pointer;
+    }
+;
+    gap: 6px;
+    margin-top: 24px;
+}
+
+.pagination button {
+    border: none;
+    background: #f1f3f5;
+    color: #333;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.pagination button.active {
+    background: #8fb91c;
+    color: #fff;
+}
+
+.pagination button:hover:not(.active) {
+    background: #e9ecef;
+}
+
+/* Modal */
+.modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-container.details {
+    background: #fff;
+    border-radius: 18px;
+    padding: 36px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+    position: relative;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #2c2c2c;
+}
+
+.modal-close {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    border: none;
+    background: none;
+    font-size: 26px;
+    color: #2c2c2c;
+    cursor: pointer;
+}
+;
+        gap: 6px;
+        margin-top: 24px;
+    }
+
+        .pagination button {
+            border: none;
+            background: #f1f3f5;
+            color: #333;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+            .pagination button.active {
+                background: #8fb91c;
+                color: #fff;
+            }
+
+            .pagination button:hover:not(.active) {
+                background: #e9ecef;
+            }
+
+    /* Modal */
+    .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.18);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-container.details {
+        background: #fff;
+        border-radius: 18px;
+        padding: 36px;
+        max-width: 520px;
+        width: 100%;
+        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+        position: relative;
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        color: #2c2c2c;
+    }
+
+    .modal-close {
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        border: none;
+        background: none;
+        font-size: 26px;
+        color: #2c2c2c;
+        cursor: pointer;
+    }
+
+</style>
+<script>
+const bookmarksData = [
+    {
+        id: 1,
+        name: 'National Museum of Fine Arts',
+        location: 'Metro, Manila',
+        rating: 4.8,
+        reviews: 269,
+        description: 'The National Museum of Fine Arts is home to 29 galleries and hallway exhibitions',
+        price: 530,
+        image: '/Content/images/national-museum-exterior.jpg'
+    },
+    {
+        id: 2,
+        name: 'National Museum of Fine Arts',
+        location: 'Metro, Manila',
+        rating: 4.8,
+        reviews: 269,
+        description: 'The National Museum of Fine Arts is home to 29 galleries and hallway exhibitions',
+        price: 530,
+        image: '/Content/images/national-museum-exterior.jpg'
+    }
+];
+let currentPage = 1;
+const itemsPerPage = 2;
+let filteredData = [...bookmarksData];
+function renderBookmarks() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pageData = filteredData.slice(startIndex, endIndex);
+    const bookmarksList = document.getElementById('bookmarksList');
+    bookmarksList.innerHTML = pageData.map(bookmark => `
+        <div class="bookmark-card">
+            <div class="bookmark-image">
+                <img src="${bookmark.image}" alt="${bookmark.name}" onerror="this.src='https://via.placeholder.com/180x180?text=Image'">
+            </div>
+            <div class="bookmark-details">
+                <div class="bookmark-location">${bookmark.location}</div>
+                <div class="bookmark-name">${bookmark.name}</div>
+                <div class="bookmark-rating">
+                    <span class="rating-star">★</span>
+                    <span class="rating-value">${bookmark.rating}</span>
+                    <span class="rating-count">(${bookmark.reviews})</span>
+                </div>
+                <div class="bookmark-description">${bookmark.description}</div>
+                <div class="bookmark-price">₱${bookmark.price.toFixed(2)}</div>
+            </div>
+            <div class="bookmark-actions">
+                <button class="btn-view-details" onclick="showDetails(${bookmark.id})">View Details</button>
+                <button class="bookmark-save active"><i class="fa-regular fa-bookmark"></i></button>
+            </div>
+        </div>
+    `).join('');
+    renderPagination();
+}
+function renderPagination() {
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+    const pagination = document.getElementById('pagination');
+    let paginationHTML = '';
+    paginationHTML += `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+        <i class="fa fa-chevron-left"></i>
+    </button>`;
+    for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+    }
+    paginationHTML += `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+        <i class="fa fa-chevron-right"></i>
+    </button>`;
+    pagination.innerHTML = paginationHTML;
+}
+function changePage(page) {
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    renderBookmarks();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showDetails(id) {
+    const place = bookmarksData.find(b => b.id === id);
+    if (!place) return;
+    const modal = document.getElementById('detailsModalBg');
+    const content = document.getElementById('modalDetailsContent');
+    content.innerHTML = `
+        <div style="display:flex;gap:18px;align-items:center;margin-bottom:18px;">
+            <img src="${place.image}" alt="${place.name}" style="width:120px;height:120px;border-radius:10px;object-fit:cover;" />
+            <div>
+                <div style="font-size:18px;font-weight:600;">${place.name}</div>
+                <div style="font-size:14px;color:#666;">${place.location}</div>
+                <div style="font-size:14px;color:#666;">${place.description}</div>
+                <div style="font-size:15px;font-weight:600;margin-top:8px;">₱${place.price.toFixed(2)}</div>
+            </div>
+        </div>
+        <div style="font-size:14px;color:#888;">Rating: <span style='color:#ffc107;'>${place.rating} ★</span> (${place.reviews} reviews)</div>
+    `;
+    modal.style.display = 'flex';
+}
+function closeDetailsModal() {
+    document.getElementById('detailsModalBg').style.display = 'none';
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        filteredData = bookmarksData.filter(bookmark =>
+            bookmark.name.toLowerCase().includes(searchTerm) ||
+            bookmark.location.toLowerCase().includes(searchTerm) ||
+            bookmark.description.toLowerCase().includes(searchTerm)
+        );
+        currentPage = 1;
+        renderBookmarks();
+    });
+    const sortSelect = document.getElementById('sortSelect');
+    sortSelect.addEventListener('change', function(e) {
+        const sortBy = e.target.value;
+        if (sortBy === 'newest') {
+            filteredData.sort((a, b) => b.id - a.id);
+        } else if (sortBy === 'oldest') {
+            filteredData.sort((a, b) => a.id - b.id);
+        } else if (sortBy === 'name') {
+            filteredData.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        currentPage = 1;
+        renderBookmarks();
+    });
+    renderBookmarks();
+});
+</script>
