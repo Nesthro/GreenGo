@@ -1,0 +1,692 @@
+﻿@model YourNamespace.Controllers.BookingViewModel
+
+@{
+    ViewBag.Title = "Enter Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #F5F7FA;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        overflow: hidden;
+    }
+
+    .payment-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        /* UPDATED padding */
+        padding: 16px 24px 12px 24px;
+        height: calc(100vh - 72px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        /* UPDATED size */
+        width: 32px;
+        height: 32px;
+        background: white;
+        border: 1px solid #E5E7EB;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        color: #374151;
+        flex-shrink: 0;
+    }
+
+        .back-button:hover {
+            background: #F9FAFB;
+            border-color: #D1D5DB;
+        }
+
+        .back-button svg {
+            /* UPDATED size */
+            width: 16px;
+            height: 16px;
+        }
+
+    /* Progress Bar */
+    .progress-bar-section {
+        background: white;
+        /* UPDATED padding */
+        padding: 14px 18px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-shrink: 0;
+    }
+
+    .progress-bar-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        max-width: 380px;
+        margin: 0 auto;
+        flex: 1;
+    }
+
+        .progress-bar-wrapper::before {
+            content: '';
+            position: absolute;
+            /* UPDATED position */
+            top: 14px;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: #E5E7EB;
+            z-index: 0;
+        }
+
+    .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        flex: 1;
+    }
+
+    .progress-circle {
+        /* UPDATED size */
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #F3F4F6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 4px;
+        font-weight: 600;
+        /* UPDATED font-size */
+        font-size: 12px;
+        transition: all 0.3s ease;
+        color: #9CA3AF;
+    }
+
+        .progress-circle.completed {
+            background: #7d9f35;
+            color: white;
+        }
+
+        .progress-circle.active {
+            border: 2px solid #7d9f35;
+            background: white;
+            color: #7d9f35;
+        }
+
+    .progress-label {
+        /* UPDATED font-size */
+        font-size: 11px;
+        font-weight: 500;
+        color: #9CA3AF;
+        text-align: center;
+    }
+
+    .progress-step:has(.active) .progress-label,
+    .progress-step:has(.completed) .progress-label {
+        color: #1F2937;
+        font-weight: 600;
+    }
+
+    /* Layout */
+    .info-content {
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 16px;
+        align-items: start;
+        flex: 1;
+        overflow: hidden;
+        max-height: 100%;
+    }
+
+    .info-section {
+        background: white;
+        border-radius: 8px;
+        /* UPDATED padding */
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        height: 100%;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .summary-section {
+        background: white;
+        border-radius: 8px;
+        /* UPDATED padding */
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .section-title {
+        /* UPDATED font-size */
+        font-size: 16px;
+        font-weight: 700;
+        /* UPDATED margin */
+        margin-bottom: 12px;
+        color: #1F2937;
+        letter-spacing: -0.02em;
+    }
+
+    .subsection-title {
+        /* UPDATED font-size */
+        font-size: 13px;
+        font-weight: 600;
+        /* UPDATED margin */
+        margin-top: 16px;
+        margin-bottom: 10px;
+        color: #374151;
+    }
+
+    /* Museum Card */
+    .museum-card {
+        display: flex;
+        align-items: center;
+        border: 1px solid #E5E7EB;
+        border-radius: 6px;
+        /* UPDATED padding */
+        padding: 12px;
+        /* UPDATED margin */
+        margin-bottom: 12px;
+        background: #FAFBFC;
+        transition: all 0.2s ease;
+        max-width: 650px;
+    }
+
+        .museum-card:hover {
+            border-color: #D1D5DB;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .museum-card img {
+            /* UPDATED size */
+            width: 44px;
+            height: 44px;
+            border-radius: 5px;
+            background: #E5E7EB;
+            /* UPDATED margin */
+            margin-right: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+    .museum-details {
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    .museum-name {
+        /* UPDATED font-size */
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        color: #1F2937;
+    }
+
+    .ticket-type {
+        color: #6B7280;
+        /* UPDATED font-size */
+        font-size: 11px;
+    }
+
+    /* Contact Form */
+    .contact-form {
+        border: 1px solid #E5E7EB;
+        border-radius: 6px;
+        /* UPDATED padding */
+        padding: 16px;
+        background: white;
+        /* UPDATED margin */
+        margin-bottom: 12px;
+        max-width: 650px;
+    }
+
+    .form-group {
+        /* UPDATED margin */
+        margin-bottom: 12px;
+    }
+
+        .form-group:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            /* UPDATED font-size */
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1F2937;
+            display: block;
+        }
+
+        .form-group input {
+            border: 1px solid #D1D5DB;
+            border-radius: 5px;
+            /* UPDATED padding */
+            padding: 8px 10px;
+            /* UPDATED font-size */
+            font-size: 12px;
+            width: 100%;
+            transition: all 0.2s ease;
+            background: white;
+            box-sizing: border-box;
+        }
+
+            .form-group input:focus {
+                outline: none;
+                border-color: #7d9f35;
+                box-shadow: 0 0 0 3px rgba(125, 159, 53, 0.1);
+            }
+
+            .form-group input::placeholder {
+                color: #9CA3AF;
+            }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* UPDATED gap */
+        gap: 12px;
+    }
+
+    /* Targeting the +63 input specifically */
+    .form-group input[value="+63"] {
+        /* UPDATED width */
+        width: 54px;
+        background: #F3F4F6;
+        cursor: not-allowed;
+        flex-shrink: 0;
+    }
+
+
+    .save-btn-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        /* UPDATED margin */
+        margin-top: 10px;
+    }
+
+    .save-btn {
+        border: 1px solid #7d9f35;
+        background: white;
+        color: #7d9f35;
+        font-weight: 600;
+        /* UPDATED padding */
+        padding: 6px 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        /* UPDATED font-size */
+        font-size: 12px;
+    }
+
+        .save-btn:hover {
+            background: #7d9f35;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(125, 159, 53, 0.25);
+        }
+
+    .note-box {
+        border: 1px solid #FCD34D;
+        border-radius: 5px;
+        background: #FFFBEB;
+        /* UPDATED padding */
+        padding: 10px;
+        /* UPDATED margin */
+        margin-top: 12px;
+        /* UPDATED font-size */
+        font-size: 11px;
+        color: #92400E;
+        display: flex;
+        align-items: start;
+        gap: 4px;
+        line-height: 1.4;
+        max-width: 650px;
+    }
+
+        .note-box::before {
+            content: '💡';
+            /* UPDATED font-size */
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+    .proceed-btn {
+        background: #7d9f35;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        width: 100%;
+        max-width: 650px;
+        /* UPDATED padding */
+        padding: 10px;
+        /* UPDATED font-size */
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        /* UPDATED margin */
+        margin-top: 12px;
+        transition: all 0.2s ease;
+    }
+
+        .proceed-btn:hover {
+            background: #6c8f2d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(125, 159, 53, 0.3);
+        }
+
+        .proceed-btn:active {
+            transform: translateY(0);
+        }
+
+    /* Summary Section */
+    .summary-section .section-title {
+        /* UPDATED font-size */
+        font-size: 15px;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #E5E7EB;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 9px;
+        /* UPDATED font-size */
+        font-size: 12px;
+        gap: 8px;
+    }
+
+    .summary-label {
+        color: #6B7280;
+        flex-shrink: 0;
+    }
+
+    .summary-row span:last-child {
+        font-weight: 500;
+        color: #1F2937;
+        text-align: right;
+        word-break: break-word;
+    }
+
+    .summary-total {
+        border-top: 2px solid #E5E7EB;
+        padding-top: 9px;
+        margin-top: 9px;
+        /* UPDATED font-size */
+        font-size: 13px;
+    }
+
+        .summary-total .summary-label {
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .summary-total span:last-child {
+            /* UPDATED font-size */
+            font-size: 18px;
+            font-weight: 700;
+            color: #7d9f35;
+        }
+
+    #errorMessage {
+        background: #FEE2E2;
+        color: #991B1B;
+        border: 1px solid #FECACA;
+        margin-top: 7px;
+        padding: 6px 8px;
+        border-radius: 5px;
+        /* UPDATED font-size */
+        font-size: 11px;
+        display: none;
+        align-items: center;
+        gap: 4px;
+    }
+
+        #errorMessage::before {
+            content: '⚠️';
+        }
+
+    /* Responsive */
+    =
+
+    .summary-section {
+        position: static;
+    }
+
+    body {
+        overflow-y: auto;
+    }
+
+    .payment-container {
+        height: auto;
+    }
+
+    .info-section {
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    }
+
+    =
+    .info-section, .summary-section {
+        padding: 12px;
+    }
+    }
+</style>
+
+<div class="payment-container">
+    <!-- Progress Bar with Back Button -->
+    <div class="progress-bar-section">
+        <a href="@Url.Action("Booking", "Payment")" class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
+
+        <div class="progress-bar-wrapper">
+            <div class="progress-step">
+                <div class="progress-circle completed">✓</div>
+                <div class="progress-label">Choose Booking</div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-circle active">2</div>
+                <div class="progress-label">Enter Info</div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-circle">3</div>
+                <div class="progress-label">Pay</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-content">
+        <!-- Left Section -->
+        <div class="info-section">
+            <h2 class="section-title">Enter Information</h2>
+
+            <h3 class="subsection-title">Booking Details</h3>
+            <div class="museum-card">
+                <img src="~/Content/Images/museum-placeholder.png" alt="Museum">
+                <div class="museum-details">
+                    <div class="museum-name">Yuchengco Museum</div>
+                    <div class="ticket-type">Single Ticket</div>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Contact Information</h3>
+
+            <div class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="firstName">Name</label>
+                    <div class="form-row">
+                        <input type="text" id="firstName" placeholder="First name" required pattern="[A-Za-z\s]{2,}" title="First name must be at least 2 characters and contain only letters">
+                        <input type="text" id="lastName" placeholder="Last name" required pattern="[A-Za-z\s]{2,}" title="Last name must be at least 2 characters and contain only letters">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="youremail@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <div style="display: flex; gap: 6px;">
+                        <input type="text" value="+63" readonly style="width: 54px; background: #F3F4F6; cursor: not-allowed; flex-shrink: 0;">
+                        <input type="tel" id="phone" placeholder="9XX XXX XXXX" required maxlength="10" style="flex: 1; min-width: 0;">
+                    </div>
+                </div>
+                <div class="save-btn-wrapper">
+                    <button class="save-btn" type="button" onclick="saveContact()">Save</button>
+                </div>
+            </div>
+
+            <div id="errorMessage">Please fill out all fields before saving.</div>
+
+            <div class="note-box">
+                Once your information is submitted, it cannot be changed. Please double-check all details before proceeding.
+            </div>
+
+            <button class="proceed-btn" type="button" onclick="validateAndProceed()">Continue</button>
+
+        </div>
+
+        <!-- Right Section - Summary -->
+        <div class="summary-section">
+            <h2 class="section-title">Order Summary</h2>
+
+            <div class="summary-row">
+                <span class="summary-label">Museum</span>
+                <span>National Museum of Fine Arts</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Visit Date</span>
+                <span>September 09, 2025</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Ticket Type</span>
+                <span>University Student × 1</span>
+            </div>
+            <div class="summary-row summary-total">
+                <span class="summary-label">Total Amount</span>
+                <span>₱530.00</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+function saveContact() {
+    const first = document.getElementById('firstName');
+    const last = document.getElementById('lastName');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    const error = document.getElementById('errorMessage');
+
+    // Reset previous messages
+    error.style.display = 'none';
+    document.querySelectorAll('.input-error').forEach(e => e.remove());
+
+    // ✅ Razor-safe regex with @@
+    const namePattern = new RegExp("^[A-Za-z\\s]{2,}$");
+    const emailPattern = new RegExp("^[^\\s@@]+@@[^\\s@@]+\\.[^\\s@@]+$");
+    const phonePattern = new RegExp("^[0-9]{10}$");
+
+    let isValid = true;
+
+    function showError(input, message) {
+        const small = document.createElement('small');
+        small.textContent = message;
+        small.classList.add('input-error');
+        small.style.color = '#991B1B';
+        // UPDATED font-size
+        small.style.fontSize = '11px';
+        small.style.display = 'block';
+        small.style.marginTop = '2px';
+        input.insertAdjacentElement('afterend', small);
+    }
+
+    if (!namePattern.test(first.value.trim())) {
+        showError(first, 'Please enter a valid first name.');
+        isValid = false;
+    }
+
+    if (!namePattern.test(last.value.trim())) {
+        showError(last, 'Please enter a valid last name.');
+        isValid = false;
+    }
+
+    if (!emailPattern.test(email.value.trim())) {
+        showError(email, 'Please enter a valid email address.');
+        isValid = false;
+    }
+
+    // Phone validation for 10 digits starting with 9
+    const phoneValue = phone.value.trim();
+    if (!phonePattern.test(phoneValue) || phoneValue[0] !== '9') {
+        showError(phone, 'Please enter a valid 10-digit phone number starting with 9.');
+        isValid = false;
+    }
+
+    if (!isValid) {
+        error.style.display = 'flex';
+        error.textContent = '⚠️ Please correct the highlighted fields.';
+        error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
+
+    error.style.display = 'none';
+    // NOTE: Replaced alert with a console log to avoid disruptive popups.
+    // You can replace this with a more graceful notification if needed.
+    console.log('Contact information saved successfully!');
+    // A simple visual feedback:
+    const saveBtn = document.querySelector('.save-btn');
+    saveBtn.textContent = 'Saved!';
+    saveBtn.style.background = '#7d9f35';
+    saveBtn.style.color = 'white';
+    setTimeout(() => {
+        saveBtn.textContent = 'Save';
+        saveBtn.style.background = 'white';
+        saveBtn.style.color = '#7d9f35';
+    }, 2000);
+}
+
+function validateAndProceed() {
+    saveContact();
+
+    // Check if errors were generated by saveContact
+    if (document.querySelectorAll('.input-error').length > 0) {
+        // Stop proceeding if there are errors
+        return;
+    }
+
+    // If no errors, proceed to the next page
+    // NOTE: This assumes 'EnterInfo' is the *next* step.
+    // You might want to change this to "Pay" or "Verification"
+    window.location.href = '@Url.Action("EnterInfo", "Payment")';
+}
+    </script>
+}
+
+
+

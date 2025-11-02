@@ -1,56 +1,88 @@
-﻿@model GreenGo.Models.PaymentViewModel
+﻿
+
+
+
+@model YourNamespace.Controllers.EnterInfoViewModel
 @{
-    ViewBag.Title = "Enter Payment Info";
+    ViewBag.Title = "Enter Info";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
     body {
-        background-color: #ffffff;
+        background-color: #F5F7FA;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        overflow: hidden;
     }
 
-    .reservation-container {
-        max-width: 1000px;
+    .payment-container {
+        max-width: 1200px;
         margin: 0 auto;
-        padding: 40px 20px;
+        padding: 10px 20px 8px 20px;
+        height: calc(100vh - 72px);
         display: flex;
-        gap: 40px;
+        flex-direction: column;
     }
 
-    .main-section {
-        flex: 1;
-    }
-
-    .sidebar-section {
-        width: 320px;
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px; /* MODIFIED - Increased size */
+        height: 32px; /* MODIFIED - Increased size */
+        background: white;
+        border: 1px solid #E5E7EB;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        color: #374151;
         flex-shrink: 0;
     }
 
-    /* Progress Indicator */
-    .progress-header {
+        .back-button:hover {
+            background: #F9FAFB;
+            border-color: #D1D5DB;
+        }
+
+        .back-button svg {
+            width: 16px; /* MODIFIED - Increased size */
+            height: 16px; /* MODIFIED - Increased size */
+        }
+
+    /* Progress Bar */
+    .progress-bar-section {
+        background: white;
+        padding: 14px 18px; /* MODIFIED - Increased padding */
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        margin-bottom: 50px;
+        gap: 16px;
+        flex-shrink: 0;
+    }
+
+    .progress-bar-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: relative;
-        max-width: 500px;
+        max-width: 380px;
+        margin: 0 auto;
+        flex: 1;
     }
 
-    .progress-line {
-        position: absolute;
-        top: 15px;
-        left: 30px;
-        right: 30px;
-        height: 2px;
-        background-color: #E0E0E0;
-        z-index: 0;
-    }
-
-    .progress-line-fill {
-        height: 100%;
-        width: 50%;
-        background-color: #7CB342;
-    }
+        .progress-bar-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 14px; /* MODIFIED - Adjusted for larger circle */
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: #E5E7EB;
+            z-index: 0;
+        }
 
     .progress-step {
         display: flex;
@@ -58,512 +90,664 @@
         align-items: center;
         position: relative;
         z-index: 1;
+        flex: 1;
     }
 
     .progress-circle {
-        width: 30px;
-        height: 30px;
+        width: 28px; /* MODIFIED - Increased size */
+        height: 28px; /* MODIFIED - Increased size */
         border-radius: 50%;
+        background: #F3F4F6;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 8px;
-        font-size: 14px;
+        margin-bottom: 4px;
         font-weight: 600;
-        background-color: #E0E0E0;
-        color: #fff;
+        font-size: 13px; /* MODIFIED - Increased font size */
+        transition: all 0.3s ease;
+        color: #9CA3AF;
     }
 
-    .progress-circle.completed {
-        background-color: #7CB342;
-    }
+        .progress-circle.completed {
+            background: #7d9f35;
+            color: white;
+        }
 
-    .progress-circle.current {
-        background-color: #9E9E9E;
-    }
+        .progress-circle.active {
+            border: 2px solid #7d9f35;
+            background: white;
+            color: #7d9f35;
+        }
 
     .progress-label {
-        font-size: 13px;
-        color: #666;
-        white-space: nowrap;
+        font-size: 11px; /* MODIFIED - Increased font size */
+        font-weight: 500;
+        color: #9CA3AF;
+        text-align: center;
     }
 
-    .progress-step.current .progress-label {
+    .progress-step:has(.active) .progress-label,
+    .progress-step:has(.completed) .progress-label {
+        color: #1F2937;
         font-weight: 600;
-        color: #333;
     }
 
-    /* Section Headers */
-    .section-header {
-        font-size: 20px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .section-subheader {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 15px;
-    }
-
-    /* Cards */
-    .info-card {
-        background-color: #FAFAFA;
-        border: 1px solid #E0E0E0;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-
-    /* Other Info Card */
-    .booking-item {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .booking-image {
-        width: 60px;
-        height: 60px;
-        background-color: #E0E0E0;
-        border-radius: 6px;
-        flex-shrink: 0;
-    }
-
-    .booking-details h4 {
-        font-size: 15px;
-        font-weight: 600;
-        color: #333;
-        margin: 0 0 4px 0;
-    }
-
-    .booking-details p {
-        font-size: 13px;
-        color: #666;
-        margin: 0;
-    }
-
-    /* Contact Info */
-    .contact-description {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 15px;
-        line-height: 1.5;
-    }
-
-    .add-btn {
-        background: transparent;
-        border: 1px dashed #999;
-        color: #666;
-        padding: 8px 16px;
-        border-radius: 4px;
-        font-size: 13px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        margin-bottom: 20px;
-        transition: all 0.2s;
-    }
-
-    .add-btn:hover {
-        border-color: #7CB342;
-        color: #7CB342;
-    }
-
-    /* Form Elements */
-    .form-field {
-        margin-bottom: 16px;
-    }
-
-    .form-field label {
-        display: block;
-        font-size: 13px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 6px;
-    }
-
-    .form-field input[type="text"],
-    .form-field input[type="email"],
-    .form-field input[type="tel"] {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #E0E0E0;
-        border-radius: 4px;
-        font-size: 14px;
-        color: #333;
-        background-color: #fff;
-        transition: border-color 0.2s;
-    }
-
-    .form-field input::placeholder {
-        color: #999;
-    }
-
-    .form-field input:focus {
-        outline: none;
-        border-color: #7CB342;
-    }
-
-    .phone-wrapper {
-        display: flex;
-        gap: 10px;
-    }
-
-    .phone-wrapper select {
-        width: 80px;
-        padding: 10px 8px;
-        border: 1px solid #E0E0E0;
-        border-radius: 4px;
-        font-size: 14px;
-        background-color: #fff;
-        cursor: pointer;
-    }
-
-    .phone-wrapper input {
+    /* Layout */
+    .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 300px; /* MODIFIED - Widened summary column */
+        gap: 16px;
+        align-items: start;
         flex: 1;
+        overflow: hidden;
+        max-height: 100%;
     }
 
-    .save-btn {
-        background-color: #E0E0E0;
-        color: #666;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        font-size: 14px;
-        cursor: pointer;
-        float: right;
-        transition: background-color 0.2s;
-    }
-
-    .save-btn:hover {
-        background-color: #D0D0D0;
-    }
-
-    .clearfix::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-
-    /* Terms and Info Banner */
-    .terms-note {
-        font-size: 12px;
-        color: #666;
-        line-height: 1.6;
-        margin: 30px 0 15px 0;
-    }
-
-    .terms-note a {
-        color: #1976D2;
-        text-decoration: none;
-    }
-
-    .terms-note a:hover {
-        text-decoration: underline;
-    }
-
-    .info-alert {
-        background-color: #FFF9E6;
-        border: 1px solid #FFE082;
-        border-radius: 6px;
-        padding: 15px;
-        font-size: 13px;
-        color: #666;
-        line-height: 1.6;
-        margin-bottom: 30px;
-    }
-
-    /* Action Section */
-    .action-section {
-        background-color: #FAFAFA;
-        border-top: 1px solid #E0E0E0;
-        padding: 20px;
-        margin: 30px -20px -20px -20px;
-        text-align: right;
-        border-radius: 0 0 8px 8px;
-    }
-
-    .action-section p {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 15px;
-    }
-
-    .payment-btn {
-        background-color: #7CB342;
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 4px;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    .payment-btn:hover {
-        background-color: #689F38;
-    }
-
-    /* Sidebar */
-    .summary-card {
-        background-color: #FAFAFA;
-        border: 1px solid #E0E0E0;
+    .form-section {
+        background: white;
         border-radius: 8px;
-        padding: 20px;
-    }
-
-    .summary-card h3 {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin: 0 0 20px 0;
+        padding: 20px; /* MODIFIED - Increased padding */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        height: 100%;
+        overflow-y: auto;
     }
 
     .summary-section {
-        margin-bottom: 20px;
+        background: white;
+        border-radius: 8px;
+        padding: 20px; /* MODIFIED - Increased padding */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
-    .summary-section h4 {
-        font-size: 14px;
+    .section-title {
+        font-size: 16px; /* MODIFIED - Increased font size */
+        font-weight: 700;
+        margin-bottom: 12px; /* MODIFIED - Increased margin */
+        color: #1F2937;
+        letter-spacing: -0.02em;
+    }
+
+    /* Security Notice */
+    .security-notice {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #FFFBEB;
+        border: 1px solid #FDE68A;
+        border-radius: 6px;
+        padding: 10px 12px; /* MODIFIED - Increased padding */
+        margin-bottom: 12px;
+        font-size: 11px; /* MODIFIED - Increased font size */
+        color: #92400E;
+        max-width: 650px;
+    }
+
+        .security-notice svg {
+            width: 16px; /* MODIFIED - Increased size */
+            height: 16px; /* MODIFIED - Increased size */
+            flex-shrink: 0;
+            color: #D97706;
+        }
+
+    /* Payment Options */
+    .payment-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px; /* MODIFIED - Increased padding */
+        border: 2px solid #E5E7EB;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        max-width: 650px;
+    }
+
+        .payment-option:hover {
+            border-color: #D1D5DB;
+            background: #F9FAFB;
+        }
+
+        .payment-option.selected {
+            border-color: #7d9f35;
+            background: #F9FBF6;
+        }
+
+        .payment-option input[type="radio"] {
+            width: 18px; /* MODIFIED - Increased size */
+            height: 18px; /* MODIFIED - Increased size */
+            accent-color: #7d9f35;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+    .payment-option-label {
+        font-size: 14px; /* MODIFIED - Increased font size */
         font-weight: 600;
-        color: #333;
-        margin: 0 0 12px 0;
+        color: #1F2937;
+        cursor: pointer;
     }
 
-    .summary-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    /* Payment Forms */
+    .payment-form {
+        display: none;
+        border: 1px solid #E5E7EB;
+        border-radius: 6px;
+        padding: 14px; /* MODIFIED - Increased padding */
+        margin-top: 10px;
+        background: white;
+        max-width: 650px;
     }
 
-    .summary-list li {
+        .payment-form.active {
+            display: block;
+        }
+
+    .form-group {
+        margin-bottom: 12px; /* MODIFIED - Increased margin */
+    }
+
+    .form-label {
+        font-size: 12px; /* MODIFIED - Increased font size */
+        font-weight: 500;
+        margin-bottom: 4px;
+        color: #374151;
+        display: block;
+    }
+
+    .form-input {
+        border: 1px solid #D1D5DB;
+        border-radius: 5px;
+        padding: 8px 10px; /* MODIFIED - Increased padding */
+        font-size: 12px; /* MODIFIED - Increased font size */
+        width: 100%;
+        transition: all 0.2s ease;
+        background: white;
+        box-sizing: border-box;
+    }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #7d9f35;
+            box-shadow: 0 0 0 3px rgba(125, 159, 53, 0.1);
+        }
+
+    /* NEW STYLES for Gcash input prefix */
+    .input-with-prefix {
+        display: flex;
+        align-items: center;
+        border: 1px solid #D1D5DB;
+        border-radius: 5px;
+        background: white;
+        transition: all 0.2s ease;
+    }
+
+        .input-with-prefix .form-input {
+            border: none; /* Remove border from input itself */
+            flex-grow: 1;
+            box-shadow: none !important; /* Override focus shadow */
+            border-radius: 0 5px 5px 0;
+        }
+
+            .input-with-prefix .form-input:focus {
+                border: none;
+                outline: none;
+            }
+
+        .input-with-prefix:focus-within {
+            /* Apply focus style to wrapper */
+            border-color: #7d9f35;
+            box-shadow: 0 0 0 3px rgba(125, 159, 53, 0.1);
+        }
+
+    .input-prefix {
+        font-size: 12px; /* MODIFIED - Increased font size */
+        padding-left: 10px; /* MODIFIED - Increased padding */
+        color: #6B7280;
+        background: #F9FAFB;
+        display: flex;
+        align-items: center;
+        padding-right: 8px; /* MODIFIED - Increased padding */
+        border-right: 1px solid #D1D5DB;
+        /* Ensure prefix has same height as input */
+        align-self: stretch;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    /* END NEW STYLES */
+
+    .form-input::placeholder {
+        color: #9CA3AF;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 16px; /* MODIFIED - Increased size */
+            height: 16px; /* MODIFIED - Increased size */
+            accent-color: #7d9f35;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+    .checkbox-label {
+        font-size: 12px; /* MODIFIED - Increased font size */
+        color: #6B7280;
+        cursor: pointer;
+    }
+
+    .terms-text {
+        font-size: 11px; /* MODIFIED - Increased font size */
+        color: #6B7280;
+        margin-top: 12px;
+        line-height: 1.4;
+        max-width: 650px;
+    }
+
+        .terms-text a {
+            color: #7d9f35;
+            text-decoration: none;
+        }
+
+            .terms-text a:hover {
+                text-decoration: underline;
+            }
+
+    /* Payment Button Section */
+    .payment-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 8px;
-        line-height: 1.4;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid #E5E7EB;
+        max-width: 650px;
     }
 
-    .summary-list li span:first-child {
-        flex: 1;
+    .total-amount {
+        font-size: 18px; /* MODIFIED - Increased font size */
+        font-weight: 700;
+        color: #7d9f35;
     }
 
-    .summary-list li span:last-child {
-        font-weight: 600;
-        color: #333;
-    }
-
-    .summary-divider {
+    .payment-button {
+        background: #7d9f35;
+        color: white;
         border: none;
-        border-top: 1px solid #E0E0E0;
-        margin: 20px 0;
+        border-radius: 6px;
+        padding: 10px 32px; /* MODIFIED - Increased padding */
+        font-size: 14px; /* MODIFIED - Increased font size */
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+        .payment-button:hover {
+            background: #6c8f2d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(125, 159, 53, 0.3);
+        }
+
+        .payment-button:active {
+            transform: translateY(0);
+        }
+
+    /* Summary Section */
+    .summary-section .section-title {
+        font-size: 15px; /* MODIFIED - Increased font size */
+        margin-bottom: 6px;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .summary-section .ticket-type {
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #E5E7EB;
+        color: #6B7280;
+        font-size: 12px; /* MODIFIED - Increased font size */
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 10px;
+        font-size: 12px; /* MODIFIED - Increased font size */
+        gap: 8px;
+    }
+
+    .summary-label {
+        color: #6B7280;
+        flex-shrink: 0;
+    }
+
+    .summary-row span:last-child {
+        font-weight: 500;
+        color: #1F2937;
+        text-align: right;
+        word-break: break-word;
     }
 
     .summary-total {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
+        border-top: 1px solid #E5E7EB;
+        padding-top: 10px;
+        margin-top: 10px;
+        font-size: 13px; /* MODIFIED - Increased font size */
     }
 
-    .summary-total .amount {
-        color: #7CB342;
-        font-size: 18px;
+        .summary-total .summary-label {
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .summary-total span:last-child {
+            font-size: 17px; /* MODIFIED - Increased font size */
+            font-weight: 700;
+            color: #000;
+        }
+
+
+    .summary-section {
+        position: static;
     }
 
-  
+    body {
+        overflow-y: auto;
+    }
 
-        .sidebar-section {
-            width: 100%;
-        }
+    .payment-container {
+        height: auto;
+    }
 
-        .progress-header {
-            max-width: 100%;
-        }
+    .form-section {
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .payment-footer {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .payment-button {
+        width: 100%;
+    }
+
+    }
+
+
+    .progress-circle {
+        width: 24px; /* MODIFIED - Increased size */
+        height: 24px; /* MODIFIED - Increased size */
+        font-size: 12px; /* MODIFIED - Increased font size */
+    }
+
+    .form-section,
+    .summary-section {
+        padding: 16px; /* MODIFIED - Increased padding */
+    }
     }
 </style>
 
-<div class="reservation-container">
-    <div class="main-section">
-        <!-- Progress Header -->
-        <div class="progress-header">
-            <div class="progress-line">
-                <div class="progress-line-fill"></div>
-            </div>
-            <div class="progress-step completed">
+<div class="payment-container">
+    <div class="progress-bar-section">
+        <a href="@Url.Action("Booking", "Payment")" class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
+
+        <div class="progress-bar-wrapper">
+            <div class="progress-step">
                 <div class="progress-circle completed">✓</div>
-                <span class="progress-label">Choose Booking</span>
-            </div>
-            <div class="progress-step current">
-                <div class="progress-circle current"></div>
-                <span class="progress-label">Enter Info</span>
+                <div class="progress-label">Choose Booking</div>
             </div>
             <div class="progress-step">
-                <div class="progress-circle"></div>
-                <span class="progress-label">Pay</span>
+                <div class="progress-circle completed">✓</div>
+                <div class="progress-label">Enter Info</div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-circle active">3</div>
+                <div class="progress-label">Pay</div>
             </div>
         </div>
-
-        <h1 class="section-header">Enter Info</h1>
-
-        <form action="@Url.Action("ProcessPayment", "Payment")" method="post">
-            @Html.AntiForgeryToken()
-
-            <input type="hidden" name="PlaceName" value="@Model.PlaceName" />
-            <input type="hidden" name="TotalFee" value="@Model.TotalFee" />
-            <input type="hidden" name="CartDataJson" value="@Model.CartDataJson" />
-
-            <!-- Other Info Section -->
-            <div>
-                <h2 class="section-subheader">Other Info</h2>
-                <div class="info-card">
-                    <div class="booking-item">
-                        <div class="booking-image"></div>
-                        <div class="booking-details">
-                            <h4>@Model.PlaceName</h4>
-                            <p>Single Ticket</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Info Section -->
-            <div>
-                <h2 class="section-subheader">Contact Info</h2>
-                <div class="info-card">
-                    <p class="contact-description">We'll contact you only if there's any updates to your booking.</p>
-
-                    <button type="button" class="add-btn">
-                        <span>+</span> Add
-                    </button>
-
-                    <div class="form-field">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="Name" placeholder="First name" required />
-                    </div>
-
-                    <div class="form-field">
-                        <input type="text" id="lastName" name="LastName" placeholder="Last name" required />
-                    </div>
-
-                    <div class="form-field">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="Email" placeholder="Your email" required />
-                    </div>
-
-                    <div class="form-field">
-                        <label for="phone">Phone</label>
-                        <div class="phone-wrapper">
-                            <select name="PhoneCountryCode">
-                                <option value="+63">🇵🇭 +63</option>
-                                <option value="+1">🇺🇸 +1</option>
-                                <option value="+44">🇬🇧 +44</option>
-                                <option value="+86">🇨🇳 +86</option>
-                            </select>
-                            <input type="tel" id="phone" name="PhoneNumber" placeholder="9XX XXX XXXX" required />
-                        </div>
-                    </div>
-
-                    <div class="clearfix">
-                        <button type="button" class="save-btn">Save</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Terms -->
-            <p class="terms-note">
-                By continuing, you acknowledge and accept our <a href="#">General Terms of Use</a> and <a href="#">Privacy Policy</a>.
-            </p>
-
-            <!-- Info Banner -->
-            <div class="info-alert">
-                Once your info is submitted, it cannot be changed. Please double-check before proceeding.
-                <br>Your booking will be submitted to the venue, and you can choose your payment method in the next step.
-            </div>
-
-            <!-- Action Section -->
-            <div class="action-section">
-                <p>Your booking will be submitted to the venue.</p>
-                <button type="submit" class="payment-btn">Go to Payment</button>
-            </div>
-        </form>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar-section">
-        <div class="summary-card">
-            <h3>@Model.PlaceName</h3>
+    @using (Html.BeginForm("EnterInfo", "Payment", FormMethod.Post, new { id = "paymentForm" }))
+
+
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.BookingId)
+
+
+
+        <div class="content-wrapper">
+            <div class="form-section">
+                <h2 class="section-title">Complete Payment</h2>
+
+                <div class="security-notice">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span>All card information is fully encrypted, secure, and protected</span>
+                </div>
+
+                <div class="payment-option" onclick="selectPayment('gcash')">
+                    <input type="radio" name="PaymentMethod" id="gcashRadio" value="Gcash">
+                    <label for="gcashRadio" class="payment-option-label">Gcash</label>
+                </div>
+
+                <div id="gcashForm" class="payment-form">
+                    <div class="form-group">
+                        <label class="form-label">Gcash Number</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix">(63+)</span>
+                            <input type="text" class="form-input" name="GcashNumber" placeholder="9XX XXX XXXX" maxlength="10">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-option" onclick="selectPayment('card')">
+                    <input type="radio" name="PaymentMethod" id="cardRadio" value="Credit/Debit Card">
+                    <label for="cardRadio" class="payment-option-label">Credit/Debit Card</label>
+                </div>
+
+                <div id="cardForm" class="payment-form">
+                    <div class="form-group">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" class="form-input" name="CardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Expiration date</label>
+                        <input type="text" class="form-input" name="ExpirationDate" placeholder="MM/YY" maxlength="5">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Security code</label>
+                        <input type="text" class="form-input" name="SecurityCode" placeholder="CVV" maxlength="4">
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="saveCard" name="SaveCard">
+                        <label for="saveCard" class="checkbox-label">Save card details</label>
+                    </div>
+                </div>
+
+                <div class="terms-text">
+                    By clicking "Pay now", you agree that you have read and understood our <a href="#">Terms & Conditions</a> and <a href="#">Cancellation policy</a>.
+                </div>
+
+                <div class="payment-footer">
+                    <div class="total-amount">₱530.00</div>
+                    <button type="submit" class="payment-button">Pay</button>
+                </div>
+            </div>
 
             <div class="summary-section">
-                <h4>Single Ticket</h4>
-                <ul class="summary-list" id="booking-summary-list">
-                    <li>
-                        <span>Planned participation date</span>
-                        <span>05 Sep 2025</span>
-                    </li>
-                    <li>
-                        <span>Quantity</span>
-                        <span>University student x 1</span>
-                    </li>
-                </ul>
-            </div>
+                <h2 class="section-title">National Museum of Fine Arts</h2>
+                <div class="ticket-type">Single Ticket</div>
 
-            <hr class="summary-divider" />
+                <div class="summary-row">
+                    <span class="summary-label">Planned participation date</span>
+                    <span>09 Sep 2025</span>
+                </div>
 
-            <div class="summary-total">
-                <span>Total</span>
-                <span class="amount">₱@Model.TotalFee.ToString("N2")</span>
+                <div class="summary-row">
+                    <span class="summary-label">Quantity</span>
+                    <span>University student × 1</span>
+                </div>
+
+                <div class="summary-row summary-total">
+                    <span class="summary-label">Total</span>
+                    <span>₱530.00</span>
+                </div>
             </div>
         </div>
+    }
+</div>
+
+<div id="customAlert" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div style="background-color: #fff; margin: 15% auto; padding: 24px; /* MODIFIED */ border: 1px solid #888; width: 80%; max-width: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;">
+        <p id="customAlertMessage" style="font-size: 16px; /* MODIFIED */ color: #374151; margin-bottom: 20px;"></p>
+        <button id="customAlertClose" style="background: #7d9f35; color: white; border: none; border-radius: 6px; padding: 10px 32px; /* MODIFIED */ font-size: 14px; /* MODIFIED */ font-weight: 600; cursor: pointer; transition: all 0.2s ease;">OK</button>
     </div>
 </div>
 
-@section scripts {
+@section Scripts {
     <script>
-    $(document).ready(function() {
-        // Parse cart data if available
-        var cartData = '@Html.Raw(Model.CartDataJson)';
-        if (cartData && cartData !== '') {
-            try {
-                var items = JSON.parse(cartData);
-                var listHtml = '';
-                items.forEach(function(item) {
-                    listHtml += '<li><span>' + item.name + '</span><span>' + item.quantity + '</span></li>';
-                });
-                $('#booking-summary-list').html(listHtml);
-            } catch (e) {
-                console.error('Error parsing cart data:', e);
+function showError(input, message) {
+    const existingError = input.closest('.form-group, .form-field, .input-container')?.querySelector('.input-error');
+    if (existingError) existingError.remove();
+
+    const small = document.createElement('small');
+    small.textContent = message;
+    small.classList.add('input-error');
+    small.style.color = '#991B1B';
+    small.style.fontSize = '11px';
+    small.style.display = 'block';
+    small.style.marginTop = '4px';
+
+    const parent = input.closest('.form-group, .form-field, .input-container') || input.parentNode;
+    parent.insertAdjacentElement('afterend', small);
+}
+
+function clearErrors() {
+    document.querySelectorAll('.input-error').forEach(e => e.remove());
+}
+
+function selectPayment(method) {
+    if (method === 'gcash') {
+        $('#gcashRadio').prop('checked', true);
+        $('#cardRadio').prop('checked', false);
+    } else {
+        $('#cardRadio').prop('checked', true);
+        $('#gcashRadio').prop('checked', false);
+    }
+
+    $('.payment-option').removeClass('selected');
+    $('#' + method + 'Radio').closest('.payment-option').addClass('selected');
+
+    $('.payment-form').removeClass('active');
+    if (method === 'gcash') {
+        $('#gcashForm').addClass('active');
+    } else {
+        $('#cardForm').addClass('active');
+    }
+
+    clearErrors();
+}
+
+$(document).ready(function () {
+    $('input[name="CardNumber"]').on('input', function () {
+        let value = this.value.replace(/\s/g, '');
+        let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+        this.value = formatted;
+    });
+
+    $('input[name="ExpirationDate"]').on('input', function () {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            this.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        } else {
+            this.value = value;
+        }
+    });
+
+    $('input[name="SecurityCode"]').on('input', function () {
+        this.value = this.value.replace(/\D/g, '');
+    });
+
+    $('input[name="GcashNumber"]').on('input', function () {
+        this.value = this.value.replace(/\D/g, '');
+    });
+
+    $('#paymentForm').on('submit', function (e) {
+        clearErrors();
+        let isValid = true;
+
+        const paymentMethod = $('input[name="PaymentMethod"]:checked').val();
+
+        if (!paymentMethod) {
+            const label = document.querySelector('.payment-option-label');
+            showError(label, 'Please select a payment method.');
+            isValid = false;
+        }
+
+        if (paymentMethod === 'Gcash') {
+            const gcashInput = document.querySelector('input[name="GcashNumber"]');
+            const value = gcashInput.value.trim();
+            const pattern = /^[0-9]{10}$/;
+
+            if (!pattern.test(value) || value[0] !== '9') {
+                showError(gcashInput, 'Please enter a valid 10-digit GCash number starting with 9.');
+                isValid = false;
+            }
+        } else if (paymentMethod === 'Credit/Debit Card') {
+            const cardNumber = document.querySelector('input[name="CardNumber"]');
+            const exp = document.querySelector('input[name="ExpirationDate"]');
+            const cvv = document.querySelector('input[name="SecurityCode"]');
+
+            if (cardNumber.value.replace(/\s/g, '').length < 13) {
+                showError(cardNumber, 'Please enter a valid card number.');
+                isValid = false;
+            }
+
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(exp.value)) {
+                showError(exp, 'Please enter a valid expiration date (MM/YY).');
+                isValid = false;
+            }
+
+            if (!/^[0-9]{3,4}$/.test(cvv.value)) {
+                showError(cvv, 'Please enter a valid CVV.');
+                isValid = false;
             }
         }
 
-        // Save button functionality
-        $('.save-btn').click(function() {
-            // Validate form fields
-            var isValid = true;
-            $('.form-field input[required]').each(function() {
-                if (!$(this).val()) {
-                    isValid = false;
-                    $(this).css('border-color', '#f44336');
-                } else {
-                    $(this).css('border-color', '#E0E0E0');
-                }
-            });
-
-            if (isValid) {
-                alert('Contact information saved!');
-            } else {
-                alert('Please fill in all required fields.');
-            }
-        });
+        if (!isValid) {
+            e.preventDefault();
+            document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     });
+});
+
+// ✅ This function must be OUTSIDE the submit block
+function goToVerification() {
+    // Option 1: If you just want to navigate without submitting
+    window.location.href = '/Payment/Verification';
+
+    // Option 2 (if you want to actually post form before navigating)
+    // document.getElementById('paymentForm').submit();
+}
     </script>
 }

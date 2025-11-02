@@ -269,8 +269,6 @@
     <Content Include="Views\MuseumDesc\NationalMuseum.cshtml" />
     <Content Include="Views\ParksDesc\LamesaEcoPark.cshtml" />
     <Content Include="Views\MuseumDesc\YuchengcoMuseum.cshtml" />
-    <Content Include="Views\Payment\EnterInfo.cshtml" />
-    <Content Include="Views\Payment\CompletePayment.cshtml" />
     <Content Include="Views\ParksDesc\Arroceros.cshtml" />
     <Content Include="Views\Home\MuseumTopAttractions.cshtml" />
     <Content Include="Views\Home\ParksTopAttractions.cshtml" />
@@ -305,7 +303,6 @@
     <Content Include="Views\Shared\_PlaceCard.cshtml" />
     <Content Include="Views\Places\Details.cshtml" />
     <Content Include="Views\Places\CitySummary.cshtml" />
-    <Content Include="Views\Payment\EmailVerification.cshtml" />
     <Content Include="Views\UserProfile\Profile.cshtml" />
     <Content Include="Views\UserProfile\Bookings.cshtml" />
     <Content Include="Views\UserProfile\Reviews.cshtml" />
@@ -313,6 +310,9 @@
     <Content Include="Views\UserProfile\Settings.cshtml" />
     <Content Include="Views\UserProfile\Help.cshtml" />
     <Content Include="Views\Shared\_UserProfileSidebar.cshtml" />
+    <Content Include="Views\Payment\Booking.cshtml" />
+    <Content Include="Views\Payment\EnterInfo.cshtml" />
+    <Content Include="Views\Payment\Verification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Categories\" />
