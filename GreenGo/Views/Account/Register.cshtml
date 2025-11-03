@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Sign Up - GreenGo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -38,7 +39,6 @@
             align-items: center;
             background: #ffffff;
             padding: 0 20px;
-            overflow: hidden;
         }
 
         .form-wrapper {
@@ -59,7 +59,7 @@
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
             .form-group label {
@@ -70,19 +70,47 @@
                 font-size: 14px;
             }
 
-            .form-group input {
+        /* ===== UNIFIED INPUT STYLING ===== */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+            .input-wrapper input {
                 width: 100%;
-                padding: 12px 14px;
+                height: 44px;
+                padding: 12px 45px 12px 15px;
                 border: 1px solid #dcdcdc;
                 border-radius: 25px;
                 font-size: 14px;
                 outline: none;
-                transition: all 0.3s;
+                transition: all 0.3s ease;
             }
 
-                .form-group input:focus {
+                .input-wrapper input:focus {
                     border-color: #8fb91c;
                 }
+
+        /* For inputs without icons */
+        .no-icon input {
+            padding-right: 15px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            color: #777;
+            cursor: pointer;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+            .toggle-password:hover {
+                color: #8fb91c;
+            }
 
         .btn-submit {
             width: 100%;
@@ -142,22 +170,32 @@
             <form id="registerForm">
                 <div class="form-group">
                     <label for="fullname">What should we call you?</label>
-                    <input type="text" id="fullname" placeholder="Enter your profile name" autocomplete="name" />
+                    <div class="input-wrapper no-icon">
+                        <input type="text" id="fullname" placeholder="Enter your profile name" autocomplete="name" />
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email address</label>
-                    <input type="email" id="email" placeholder="Email" autocomplete="email" />
+                    <div class="input-wrapper no-icon">
+                        <input type="email" id="email" placeholder="Email" autocomplete="email" />
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Password" autocomplete="new-password" />
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="Password" autocomplete="new-password" />
+                        <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="confirmPassword">Confirm password</label>
-                    <input type="password" id="confirmPassword" placeholder="Confirm your Password" autocomplete="new-password" />
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" placeholder="Confirm your Password" autocomplete="new-password" />
+                        <i class="fa-solid fa-eye toggle-password" data-target="confirmPassword"></i>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-submit">Sign Up</button>
@@ -171,16 +209,16 @@
     </div>
 
     <script>
+        // Password validation
         document.getElementById("registerForm").addEventListener("submit", function (event) {
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
 
-            // Regular expression: at least 8 characters, 1 uppercase, 1 number
             const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
             if (!passwordPattern.test(password)) {
                 alert("Password must be at least 8 characters long and include at least one uppercase letter and one number.");
-                event.preventDefault(); // Stop form from submitting
+                event.preventDefault();
                 return;
             }
 
@@ -189,7 +227,25 @@
                 event.preventDefault();
             }
         });
-    </script>
 
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function () {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    this.classList.replace("fa-eye", "fa-eye-slash");
+                    this.style.color = "#8fb91c";
+                } else {
+                    input.type = "password";
+                    this.classList.replace("fa-eye-slash", "fa-eye");
+                    this.style.color = "#777";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+ 

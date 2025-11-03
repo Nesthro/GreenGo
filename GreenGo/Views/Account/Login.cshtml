@@ -3,6 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- Make sure Font Awesome is included -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 <style>
     .login-container {
         max-width: 400px;
@@ -32,18 +35,43 @@
         font-weight: 500;
     }
 
+    .input-wrapper {
+        position: relative;
+    }
+
     .form-input {
         width: 100%;
-        padding: 12px 16px;
+        padding: 12px 44px 12px 16px;
         border: 1px solid #ddd;
         border-radius: 8px;
         font-size: 14px;
+        box-sizing: border-box;
     }
 
-    .form-input:focus {
-        outline: none;
-        border-color: #8fb91c;
+        .form-input:focus {
+            outline: none;
+            border-color: #8fb91c;
+        }
+
+    /* Eye icon */
+    .toggle-password {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #666;
+        font-size: 18px;
+        transition: color 0.25s ease;
     }
+
+        .toggle-password:hover {
+            color: #2A4020;
+        }
+
+        .toggle-password.active {
+            color: #8fb91c;
+        }
 
     .login-button {
         width: 100%;
@@ -58,9 +86,9 @@
         transition: background 0.3s;
     }
 
-    .login-button:hover {
-        background: #7da619;
-    }
+        .login-button:hover {
+            background: #7da619;
+        }
 
     .error-message {
         color: #dc3545;
@@ -73,24 +101,24 @@
         text-align: center;
     }
 
-    .error-message.visible {
-        display: block;
-    }
+        .error-message.visible {
+            display: block;
+        }
 
     .forgot-password {
         text-align: center;
         margin-top: 16px;
     }
 
-    .forgot-password a {
-        color: #8fb91c;
-        text-decoration: none;
-        font-size: 14px;
-    }
+        .forgot-password a {
+            color: #8fb91c;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
-    .forgot-password a:hover {
-        text-decoration: underline;
-    }
+            .forgot-password a:hover {
+                text-decoration: underline;
+            }
 
     .register-link {
         text-align: center;
@@ -99,15 +127,15 @@
         color: #666;
     }
 
-    .register-link a {
-        color: #8fb91c;
-        text-decoration: none;
-        font-weight: 500;
-    }
+        .register-link a {
+            color: #8fb91c;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-    .register-link a:hover {
-        text-decoration: underline;
-    }
+            .register-link a:hover {
+                text-decoration: underline;
+            }
 </style>
 
 <div class="login-container">
@@ -117,17 +145,25 @@
             <label class="form-label">Email</label>
             <input type="email" class="form-input" id="email" required placeholder="Enter your email">
         </div>
+
         <div class="form-group">
             <label class="form-label">Password</label>
-            <input type="password" class="form-input" id="password" required placeholder="Enter your password">
+            <div class="input-wrapper">
+                <input type="password" class="form-input" id="password" required placeholder="Enter your password">
+                <i id="togglePassword" class="fa-solid fa-eye toggle-password"></i>
+            </div>
+
             <div class="error-message" id="loginError">
                 Invalid email or password. Please try again.
             </div>
         </div>
+
         <button type="submit" class="login-button">Log In</button>
+
         <div class="forgot-password">
             <a href="@Url.Action("ForgotPassword", "Account")">Forgot your password?</a>
         </div>
+
         <div class="register-link">
             Don't have an account? <a href="@Url.Action("Register", "Account")">Sign up</a>
         </div>
@@ -135,46 +171,53 @@
 </div>
 
 <script>
-    // Check if user is already logged in
-    document.addEventListener('DOMContentLoaded', function() {
+    // Eye icon toggle
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const icon = this;
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash', 'active');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash', 'active');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    // Redirect if already logged in
+    document.addEventListener('DOMContentLoaded', function () {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (isLoggedIn) {
             window.location.href = '@Url.Action("Home", "Home")';
         }
     });
 
-    // Handle login form submission
+    // Handle login
     function handleLogin(event) {
         event.preventDefault();
-        
+
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const errorMessage = document.getElementById('loginError');
 
-        // Static account for demo (in real app, this would be server-side validation)
         const validCredentials = {
             email: 'user@example.com',
             password: 'password123'
         };
 
-        // Check credentials
         if (email === validCredentials.email && password === validCredentials.password) {
-            // Set login state
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userEmail', email);
-            
-            // Redirect to home page
             window.location.href = '@Url.Action("Home", "Home")';
         } else {
-            // Show error message
             errorMessage.classList.add('visible');
-            
-            // Hide error message after 3 seconds
             setTimeout(() => {
                 errorMessage.classList.remove('visible');
             }, 3000);
         }
-
         return false;
     }
 </script>
