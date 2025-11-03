@@ -125,7 +125,7 @@
         max-width: 1280px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 2fr;
+        grid-template-columns: 2fr 1fr 1fr 1.3fr 2fr;
         gap: 50px;
         padding-bottom: 30px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -267,7 +267,7 @@
             <div class="footer-section">
                 <h3>Company</h3>
                 <ul class="footer-links">
-                    <li><a href="">About Us</a></li>
+                    <li><a href="@Url.Action("About", "Home")">About Us</a></li>
                     <li><a href="#">Careers</a></li>
                     <li><a href="#">Sustainability</a></li>
                 </ul>
@@ -276,9 +276,17 @@
                 <h3>Destinations</h3>
                 <ul class="footer-links">
                     <li><a href="#">Manila</a></li>
-                    <li><a href="#">Makati City</a></li>
+                    <li><a href="#">Pasay City</a></li>
                     <li><a href="#">Quezon City</a></li>
                     <li><a href="#">Taguig</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Terms of Use</h3>
+                <ul class="footer-links">
+                    <li><a href="@Url.Action("GeneralTerms", "Home")">General Terms of Use</a></li>
+                    <li><a href="@Url.Action("PrivacyPolicy", "Home")">Privacy Policy</a></li>
+
                 </ul>
             </div>
             <div class="footer-section">
@@ -290,5 +298,5 @@
                 <p style="margin-top: 12px; font-size: 12px;">* We'll send you weekly updates for your better tour packages.</p>
             </div>
         </div>
-        </footer>
+    </div>
 </main>

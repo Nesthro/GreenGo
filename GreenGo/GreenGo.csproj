@@ -313,6 +313,8 @@
     <Content Include="Views\Payment\Booking.cshtml" />
     <Content Include="Views\Payment\EnterInfo.cshtml" />
     <Content Include="Views\Payment\Verification.cshtml" />
+    <Content Include="Views\Home\GeneralTerms.cshtml" />
+    <Content Include="Views\Home\PrivacyPolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Categories\" />

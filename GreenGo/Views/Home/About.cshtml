@@ -26,7 +26,7 @@
         position: relative;
         height: 450px;
         background-size: cover;
-        background-position: center;
+        background-position: center top 30%; /* 👈 Moves image slightly down */
         color: white;
         display: flex;
         align-items: center;
@@ -34,6 +34,7 @@
         overflow: hidden;
         animation: fadeIn 1s ease-out;
     }
+
 
     .hero-overlay {
         position: absolute;
@@ -94,30 +95,32 @@
     .greengo-list {
         list-style: none;
         padding: 0;
-        margin: 30px auto;
+        margin: 40px auto;
         max-width: 650px;
         text-align: left;
+        display: inline-block; /* keeps list centered under text */
+    }
+
+    .about-section.what-is-greengo {
+        text-align: center;
     }
 
     .greengo-list li {
         margin-bottom: 15px;
         padding-left: 35px;
         position: relative;
-        transition: transform 0.3s ease;
+        color: #333;
+        font-size: 1.05em;
     }
 
-    .greengo-list li:before {
-        content: '🌱';
-        position: absolute;
-        left: 0;
-        top: -2px;
-        font-size: 1.4em;
-    }
+        .greengo-list li::before {
+            content: '🌱';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.3em;
+        }
 
-    .greengo-list li:hover {
-        transform: translateX(8px);
-        color: #6fa524;
-    }
 
     /* Promise Section */
     .promise-section {

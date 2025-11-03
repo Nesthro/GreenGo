@@ -76,6 +76,16 @@ namespace GreenGo.Controllers
             return View();
         }
 
+        public ActionResult PrivacyPolicy()
+        {
+            return View();
+        }
+
+        public ActionResult GeneralTerms()
+        {
+            return View();
+        }
+
         public ActionResult Tips()
         {
             return View();

@@ -1,0 +1,386 @@
+﻿@{
+    ViewBag.Title = "General Terms of Use - GreenGo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    .terms-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px 100px;
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 40px;
+    }
+
+    .navbar a {
+        font-weight: 500 !important;
+        color: #0a2447;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar-nav {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+    }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-left: 3px solid #e0e0e0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 10px 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            margin-left: -3px;
+        }
+
+            .sidebar-nav a:hover {
+                color: #5a7a2a;
+                background-color: #f0f4e8;
+            }
+
+            .sidebar-nav a.active {
+                color: #5a7a2a;
+                font-weight: 600;
+                border-left-color: #8fb91c;
+                background-color: #f0f4e8;
+            }
+
+    /* Main Content */
+    .terms-content {
+        background: white;
+        padding: 50px 60px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+        .terms-content h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 40px;
+        }
+
+    .terms-section {
+        margin-bottom: 35px;
+    }
+
+        .terms-section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        .terms-section p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .terms-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .terms-section li {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+            .terms-section li::before {
+                content: '';
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                width: 4px;
+                height: 4px;
+                background: #8fb91c;
+                border-radius: 50%;
+            }
+
+    .last-updated {
+        font-size: 13px;
+        color: #999;
+        font-style: italic;
+        margin-top: 50px;
+        padding-top: 30px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+        background: #5a7a2a;
+        color: white;
+        padding: 50px 60px 25px;
+        margin-top: 80px;
+    }
+
+    .footer-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.3fr 2fr;
+        gap: 50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-section h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .footer-section p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+            .footer-links a:hover {
+                color: #fff;
+                padding-left: 5px;
+            }
+
+    .newsletter-input {
+        display: flex;
+        margin-top: 16px;
+    }
+
+        .newsletter-input input {
+            flex: 1;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .newsletter-input button {
+            padding: 12px 28px;
+            background: #8fb91c;
+            color: white;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+            .newsletter-input button:hover {
+                background: #7da619;
+            }
+
+    .social-icons {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .social-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 12px;
+    }
+
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 25px;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+</style>
+
+<main>
+    <div class="terms-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar-nav">
+            <ul>
+                <li><a href="#" class="active">General Terms of Use</a></li>
+                <li><a href="@Url.Action("PrivacyPolicy", "Home")">Privacy Policy</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="terms-content">
+            <h1>General Terms of Use</h1>
+
+            <div class="terms-section">
+                <h2>1. Acceptance of Terms</h2>
+                <p>By using GreenGo, you acknowledge that you have read, understood, and agreed to be bound by these Terms. If you do not agree, please discontinue using the platform.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>2. Use of the Platform</h2>
+                <ul>
+                    <li>2.1 GreenGo provides information on tourist attractions, destinations, and eco-friendly travel tips within the Philippines.</li>
+                    <li>2.2 Users are responsible for the accuracy of the information they provide when creating an account, booking services, or submitting reviews.</li>
+                    <li>2.3 GreenGo may update content, features, or policies without prior notice to improve user experience.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>3. User Account</h2>
+                <ul>
+                    <li>3.1 You must register an account to access certain features such as booking, reviews, and bookmarks.</li>
+                    <li>3.2 You are responsible for maintaining the confidentiality of your login credentials.</li>
+                    <li>3.3 Any unauthorized use of your account should be reported immediately to GreenGo.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>4. Bookings and Payments</h2>
+                <ul>
+                    <li>4.1 Bookings made through GreenGo are subject to the terms of the respective attraction or service provider.</li>
+                    <li>4.2 GreenGo acts as an information and booking intermediary and is not liable for any cancellations, service issues, or payment disputes directly related to the attraction.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>5. User Conduct</h2>
+                <p>Users agree not to:</p>
+                <ul>
+                    <li>5.1 Post false, misleading, or inappropriate content.</li>
+                    <li>5.2 Use the platform for fraudulent or unlawful purposes.</li>
+                    <li>5.3 Attempt to damage, disable, or interfere with the site's security or operations.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>6. Content Ownership</h2>
+                <ul>
+                    <li>6.1 All texts, images, logos, and designs on the GreenGo website are owned by GreenGo or its partners.</li>
+                    <li>6.2 Users may not copy, reproduce, or distribute any part of the website without written permission.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>7. Disclaimer and Limitation of Liability</h2>
+                <ul>
+                    <li>7.1 GreenGo provides tourism-related information "as is" without warranties of accuracy or completeness.</li>
+                    <li>7.2 GreenGo is not liable for injuries, issues, accidents, or losses incurred during travel or bookings made through partner establishments.</li>
+                    <li>7.2 Users agree to use GreenGo services at their own discretion and responsibility.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>8. Termination of Use</h2>
+                <p>8.1 GreenGo reserves the right to suspend or terminate user accounts that violate these Terms or engage in prohibited activities.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>9. Contact</h2>
+                <p>9.1 Please contact GreenGo at support@GreenGo.com to report any violations of these Terms of Use or to pose any questions regarding this Terms of Use or the Service.</p>
+            </div>
+
+            <p class="last-updated">Last Updated: November 2025</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <p>Travel help companies manage payments easily</p>
+                <div class="social-icons">
+                    <div class="social-icon">in</div>
+                    <div class="social-icon">IG</div>
+                    <div class="social-icon">tw</div>
+                    <div class="social-icon">yt</div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Destinations</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Manila</a></li>
+                    <li><a href="#">Pasay City</a></li>
+                    <li><a href="#">Quezon City</a></li>
+                    <li><a href="#">Taguig</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Terms of Use</h3>
+                <ul class="footer-links">
+                    <li><a href="@Url.Action("GeneralTerms", "Home")">General Terms of Use</a></li>
+                    <li><a href="@Url.Action("PrivacyPolicy", "Home")">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Join Our Newsletter</h3>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Your email address" />
+                    <button>Subscribe</button>
+                </div>
+                <p style="margin-top: 12px; font-size: 12px;">* We'll send you weekly updates for your better tour packages.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 GreenGo NCR - Eco Travel Hub
+        </div>
+    </div>
+</main>

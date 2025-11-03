@@ -21,7 +21,7 @@
             "Manila Ocean Park",
             "The Mind Museum",
             "Yuchengco Museum"
-                };
+                        };
 
         topAttractions = Model.Where(p => topAttractionNames.Contains(p.Name))
                               .OrderBy(p => Array.IndexOf(topAttractionNames, p.Name))
@@ -39,905 +39,1237 @@
     }
 }
 
-<style>
-    .header {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
-
-    /* ===== HERO SECTION ===== */
-    .hero-section {
-        padding: 80px 60px;
-        background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('@Url.Content("~/Content/Images/ncr-hero.jpg")') center/cover no-repeat;
-    }
-
-    .hero-content {
-        text-align: left;
-        color: white;
-        max-width: 720px;
-        margin: 0;
-        margin-left: 100px;
-    }
-
-        .hero-content h1 {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            line-height: 1.2;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenGo - Discover NCR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .hero-content p {
-            font-size: 16px;
-            margin-bottom: 28px;
-            opacity: 0.95;
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
         }
 
-    .hero-search-box {
-        display: flex;
-        max-width: 520px;
-        background: white;
-        border-radius: 6px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-        .hero-search-box input {
-            flex: 1;
-            padding: 13px 18px;
-            border: none;
-            outline: none;
-            font-size: 14px;
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .hero-search-box button {
-            padding: 13px 32px;
-            background: #576b24;
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            padding: 80px 60px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('@Url.Content("~/Content/Images/ncr-hero.jpg")') center/cover no-repeat;
+        }
+
+        .hero-content {
+            text-align: left;
             color: white;
-            border: none;
-            font-weight: 600;
+            max-width: 720px;
+            margin: 0;
+            margin-left: 100px;
+        }
+
+            .hero-content h1 {
+                font-size: 40px;
+                font-weight: 700;
+                margin-bottom: 14px;
+                line-height: 1.2;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+                margin-bottom: 28px;
+                opacity: 0.95;
+            }
+
+        .hero-search-box {
+            display: flex;
+            max-width: 520px;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+            .hero-search-box input {
+                flex: 1;
+                padding: 13px 18px;
+                border: none;
+                outline: none;
+                font-size: 14px;
+            }
+
+            .hero-search-box button {
+                padding: 13px 32px;
+                background: #576b24;
+                color: white;
+                border: none;
+                font-weight: 600;
+                font-size: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+                .hero-search-box button:hover {
+                    background: #465720;
+                }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 50px 60px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0a2447;
+        }
+
+        .see-all {
+            color: #8fb91c;
+            text-decoration: none;
             font-size: 15px;
-            cursor: pointer;
+            font-weight: 600;
             transition: 0.3s;
         }
 
-            .hero-search-box button:hover {
-                background: #465720;
+            .see-all:hover {
+                color: #7da619;
+                text-decoration: underline;
             }
 
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 50px 60px;
-    }
-
-    .section-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 28px;
-    }
-
-    .section-title {
-        font-size: 26px;
-        font-weight: 700;
-        color: #0a2447;
-    }
-
-    .see-all {
-        color: #8fb91c;
-        text-decoration: none;
-        font-size: 15px;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-
-        .see-all:hover {
-            color: #7da619;
-            text-decoration: underline;
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 50px;
         }
 
-    .attractions-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-        margin-bottom: 50px;
-    }
-
-    .attraction-card {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 12px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-decoration: none;
-        color: inherit;
-    }
-
-        .attraction-card:hover {
-            background: #f8f8f8;
-            transform: translateX(5px);
+        .attraction-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
 
-    .attraction-image {
-        width: 70px;
-        height: 70px;
-        border-radius: 10px;
-        object-fit: cover;
-    }
+            .attraction-card:hover {
+                background: #f8f8f8;
+                transform: translateX(5px);
+            }
 
-    .attraction-info h3 {
-        font-size: 16px;
-        font-weight: 600;
-        color: #0a2447;
-        margin-bottom: 4px;
-    }
-
-    .attraction-info p {
-        font-size: 13px;
-        color: #999;
-    }
-
-    .destinations-wrapper {
-        position: relative;
-        margin-bottom: 20px;
-    }
-
-    /* --- NEW/MODIFIED CSS FOR SCROLLER --- */
-
-    /* This is the new 'viewport' container */
-    .destinations-container {
-        overflow-x: scroll;     /* Allows horizontal scrolling */
-        scroll-behavior: smooth;  /* Makes the scroll animated */
-
-        /* Hides the default scrollbar */
-        scrollbar-width: none; /* For Firefox */
-        -ms-overflow-style: none; /* For IE/Edge */
-    }
-
-    /* Hides scrollbar for Chrome/Safari */
-    .destinations-container::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* MODIFY .destinations-grid */
-    .destinations-grid {
-        display: flex;        /* Change from grid to flex */
-        flex-wrap: nowrap;    /* Ensures all items stay in one line */
-        gap: 20px;
-        padding-bottom: 10px; /* Adds space for box-shadow on hover */
-    }
-
-    /* MODIFY .destination-card */
-    .destination-card {
-        /* Set a fixed base width so it doesn't shrink */
-        flex: 0 0 280px;
-
-        border-radius: 12px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        text-decoration: none;
-        color: inherit;
-    }
-
-        .destination-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        .attraction-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            object-fit: cover;
         }
 
-    .destination-image {
-        width: 100%;
-        height: 280px;
-        object-fit: cover;
-    }
-
-    .destination-info {
-        padding: 18px 20px;
-        background: white;
-    }
-
-        .destination-info h3 {
-            font-size: 17px;
+        .attraction-info h3 {
+            font-size: 16px;
             font-weight: 600;
             color: #0a2447;
             margin-bottom: 4px;
         }
 
-        .destination-info p {
+        .attraction-info p {
             font-size: 13px;
             color: #999;
         }
 
-    /* MODIFY .scroll-arrow-btn */
-    .scroll-arrow-btn {
-        position: absolute;
-        top: 50%; /* Center vertically */
-        transform: translateY(-50%); /* Precise vertical centering */
-        width: 44px;
-        height: 44px;
-        background: white;
-        border-radius: 50%;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        transition: 0.3s;
-        z-index: 10; /* Make sure it's on top of the images */
-    }
-
-    .scroll-arrow-btn:hover {
-        background: #f5f5f5;
-        transform: scale(1.1) translateY(-45%); /* Maintain relative position on hover */
-    }
-
-    /* ADD these new classes for the left/right buttons */
-    .scroll-arrow-btn.right {
-        right: -18px;
-    }
-
-    .scroll-arrow-btn.left {
-        left: -18px;
-        display: none; /* Hide the left arrow by default */
-    }
-
-    /* --- END OF SCROLLER CSS --- */
-
-
-    .see-all-button-wrapper {
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-        margin-bottom: 55px;
-    }
-
-    .see-all-button {
-        padding: 10px 40px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        background-color: white;
-        color: #0a2447;
-        font-weight: 600;
-        font-size: 15px;
-        cursor: pointer;
-        text-decoration: none;
-        transition: background-color 0.3s, border-color 0.3s;
-        display: inline-block;
-    }
-
-    .see-all-button:hover {
-        background-color: #f5f5f5;
-        border-color: #aaa;
-    }
-
-    /* ===== WHY CHOOSE SECTION ===== */
-    .why-choose {
-        padding: 50px 0;
-        background: #fafafa;
-    }
-
-    .why-choose-content {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 60px;
-    }
-
-    .why-title {
-        font-size: 26px;
-        font-weight: 700;
-        margin-bottom: 35px;
-        text-align: center;
-        color: #0a2447;
-    }
-
-    .features-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 28px;
-    }
-
-    .feature-item {
-        text-align: center;
-        padding: 20px;
-        transition: 0.3s;
-    }
-
-    .feature-item:hover {
-        transform: translateY(-5px);
-    }
-
-    .feature-item h3 {
-        font-size: 17px;
-        font-weight: 600;
-        margin-bottom: 12px;
-        color: #0a2447;
-    }
-
-    .feature-item p {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.6;
-    }
-
-    .feature-icon {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-        margin-bottom: 20px;
-    }
-
-    /* ===== REVIEWS SECTION ===== */
-    .reviews-section {
-        background: #f8f8f8;
-        border-radius: 12px;
-        padding: 55px 60px;
-        margin: 55px auto;
-        max-width: 1280px;
-    }
-
-    .reviews-title {
-        font-size: 26px;
-        font-weight: 700;
-        margin-bottom: 32px;
-        text-align: center;
-        color: #0a2447;
-    }
-
-    .reviews-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-    }
-
-    .review-card {
-        background: #b8c978;
-        border-radius: 12px;
-        padding: 35px;
-        color: white;
-        transition: 0.3s;
-    }
-
-    .review-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .quote-icon {
-        font-size: 48px;
-        margin-bottom: 20px;
-        font-family: Georgia, serif;
-        opacity: 0.9;
-    }
-
-    .review-text {
-        font-size: 14px;
-        line-height: 1.7;
-        margin-bottom: 25px;
-    }
-
-    .reviewer {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding-top: 25px;
-        border-top: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .reviewer-avatar {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: #ddd;
-    }
-
-    .reviewer-info {
-        background: #5a7a2a;
-        padding: 10px 18px;
-        border-radius: 6px;
-        flex: 1;
-        text-align: center;
-    }
-
-    .reviewer-name {
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    /* ===== FOOTER ===== */
-    .footer {
-        background: #5a7a2a;
-        color: white;
-        padding: 50px 60px 25px;
-        margin-top: 55px;
-    }
-
-    .footer-content {
-        max-width: 1280px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr 2fr;
-        gap: 50px;
-        padding-bottom: 30px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .footer-section h3 {
-        font-size: 18px;
-        margin-bottom: 20px;
-        font-weight: 600;
-    }
-
-    .footer-section p {
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.85);
-        line-height: 1.6;
-    }
-
-    .footer-links {
-        list-style: none;
-    }
-
-        .footer-links li {
-            margin-bottom: 12px;
+        .destinations-wrapper {
+            position: relative;
+            margin-bottom: 20px;
         }
 
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.85);
+        /* --- NEW/MODIFIED CSS FOR SCROLLER --- */
+        .destinations-container {
+            overflow-x: scroll;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .destinations-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .destinations-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            padding-bottom: 10px;
+        }
+
+        .destination-card {
+            flex: 0 0 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             text-decoration: none;
-            font-size: 14px;
+            color: inherit;
+        }
+
+            .destination-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            }
+
+        .destination-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .destination-info {
+            padding: 18px 20px;
+            background: white;
+        }
+
+            .destination-info h3 {
+                font-size: 17px;
+                font-weight: 600;
+                color: #0a2447;
+                margin-bottom: 4px;
+            }
+
+            .destination-info p {
+                font-size: 13px;
+                color: #999;
+            }
+
+        .scroll-arrow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .scroll-arrow-btn:hover {
+                background: #f5f5f5;
+                transform: scale(1.1) translateY(-45%);
+            }
+
+        .scroll-arrow-btn.right {
+            right: -18px;
+        }
+
+        .scroll-arrow-btn.left {
+            left: -18px;
+            display: none;
+        }
+
+        .see-all-button-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 55px;
+        }
+
+        .see-all-button {
+            padding: 10px 40px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: white;
+            color: #0a2447;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, border-color 0.3s;
+            display: inline-block;
+        }
+
+            .see-all-button:hover {
+                background-color: #f5f5f5;
+                border-color: #aaa;
+            }
+
+        /* ===== WHY CHOOSE SECTION ===== */
+        .why-choose {
+            padding: 50px 0;
+            background: #fafafa;
+        }
+
+        .why-choose-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .why-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 35px;
+            text-align: center;
+            color: #0a2447;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
             transition: 0.3s;
         }
 
-            .footer-links a:hover {
-                color: #fff;
-                padding-left: 5px;
+            .feature-item:hover {
+                transform: translateY(-5px);
             }
 
-    .newsletter-input {
-        display: flex;
-        margin-top: 16px;
-    }
+            .feature-item h3 {
+                font-size: 17px;
+                font-weight: 600;
+                margin-bottom: 12px;
+                color: #0a2447;
+            }
 
-        .newsletter-input input {
-            flex: 1;
-            padding: 12px 18px;
-            border: none;
-            border-radius: 6px 0 0 6px;
-            outline: none;
-            font-size: 14px;
+            .feature-item p {
+                font-size: 14px;
+                color: #666;
+                line-height: 1.6;
+            }
+
+        .feature-icon {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 20px;
         }
 
-        .newsletter-input button {
-            padding: 12px 28px;
+        /* ===== REVIEWS SECTION ===== */
+        .reviews-section {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 55px 60px;
+            margin: 55px auto;
+            max-width: 1280px;
+            position: relative;
+        }
+
+        .reviews-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            text-align: center;
+            color: #0a2447;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .review-card {
+            background: #b8c978;
+            border-radius: 12px;
+            padding: 35px;
+            color: white;
+            transition: 0.3s;
+        }
+
+            .review-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            }
+
+        .quote-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-family: Georgia, serif;
+            opacity: 0.9;
+        }
+
+        .review-text {
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .reviewer-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .reviewer-info {
+            background: #5a7a2a;
+            padding: 10px 18px;
+            border-radius: 6px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .reviewer-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ===== FEEDBACK BUTTON ===== */
+        .feedback-button {
+            position: absolute;
+            top: 55px;
+            right: 60px;
             background: #8fb91c;
             color: white;
             border: none;
-            border-radius: 0 6px 6px 0;
-            cursor: pointer;
+            padding: 12px 24px;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+            .feedback-button:hover {
+                background: #7da619;
+                transform: translateY(-2px);
+            }
+
+        /* ===== FEEDBACK MODAL ===== */
+        .feedback-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback-modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0a2447;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
             transition: 0.3s;
         }
 
-            .newsletter-input button:hover {
+            .close-button:hover {
+                color: #333;
+            }
+
+        .contact-info {
+            margin-bottom: 25px;
+        }
+
+        .contact-row {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .contact-label {
+            width: 140px;
+            font-weight: 600;
+            color: #0a2447;
+        }
+
+        .contact-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .phone-input-container {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .phone-prefix {
+            padding: 8px 12px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .phone-input {
+            border-radius: 0 4px 4px 0;
+            border-left: none;
+            flex: 1;
+        }
+
+
+        .rating-section {
+            margin-bottom: 25px;
+        }
+
+        .rating-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0a2447;
+        }
+
+        .emoji-rating {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .emoji-option {
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 5px;
+            border-radius: 6px;
+        }
+
+            .emoji-option:hover {
+                background: #f5f5f5;
+            }
+
+            .emoji-option.selected {
+                background: #e8f4d9;
+                transform: scale(1.1);
+            }
+
+        .emoji {
+            font-size: 28px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .emoji-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .comments-section {
+            margin-bottom: 25px;
+        }
+
+        .comments-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0a2447;
+        }
+
+        .comments-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            background: #8fb91c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .submit-button:hover {
                 background: #7da619;
             }
 
-    .social-icons {
-        display: flex;
-        gap: 12px;
-        margin-top: 20px;
-    }
-
-    .social-icon {
-        width: 36px;
-        height: 36px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-        .social-icon:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-</style>
-
-<div class="hero-section">
-    <div class="hero-content">
-        <h1>Discover NCR's Parks, Museums, And Hidden Treasures—All In One Place.</h1>
-        <p>Find your next destination in every corner of NCR.</p>
-        <div class="hero-search-box">
-            <input type="text" placeholder="Explore Quezon City" />
-            <button>Search</button>
-        </div>
-    </div>
-</div>
-
-<div class="main-content">
-    <div class="section-header">
-        <h2 class="section-title">Top Attractions</h2>
-        <a href="@Url.Action("MuseumTopAttractions", "Home")" class="see-all">See all</a>
-    </div>
-
-    <div class="attractions-grid">
-        @if (topAttractions.Any(p => p.Name == "La Mesa Ecopark"))
-        {
-            var place = topAttractions.First(p => p.Name == "La Mesa Ecopark");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/la-mesa-ecopark.jpg" alt="La Mesa Ecopark" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>La Mesa Ecopark</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #5a7a2a;
+            color: white;
+            padding: 50px 60px 25px;
+            margin-top: 55px;
         }
 
-        @if (topAttractions.Any(p => p.Name == "Rizal Park (Luneta)"))
-        {
-            var place = topAttractions.First(p => p.Name == "Rizal Park (Luneta)");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/rizal-park.jpg" alt="Rizal Park" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Rizal Park (Luneta)</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.3fr 2fr;
+            gap: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        @if (topAttractions.Any(p => p.Name == "Quezon Memorial Circle"))
-        {
-            var place = topAttractions.First(p => p.Name == "Quezon Memorial Circle");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/quezon-memorial.jpg" alt="Quezon Memorial Circle" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Quezon Memorial Circle</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
-        @if (topAttractions.Any(p => p.Name == "National Museum of Fine Arts"))
-        {
-            var place = topAttractions.First(p => p.Name == "National Museum of Fine Arts");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/national-museum.jpg" alt="National Museum" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>National Museum of Fine Arts</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
+        .footer-section p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
         }
 
-        @if (topAttractions.Any(p => p.Name == "Intramuros"))
-        {
-            var place = topAttractions.First(p => p.Name == "Intramuros");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/intramuros.jpg" alt="Intramuros" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Intramuros</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
+        .footer-links {
+            list-style: none;
         }
 
-        @if (topAttractions.Any(p => p.Name == "Manila Cathedral"))
-        {
-            var place = topAttractions.First(p => p.Name == "Manila Cathedral");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/manila-cathedral.jpg" alt="Manila Cathedral" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Manila Cathedral</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
-        }
-
-        @if (topAttractions.Any(p => p.Name == "Manila Ocean Park"))
-        {
-            var place = topAttractions.First(p => p.Name == "Manila Ocean Park");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/manila-ocean-park.jpg" alt="Manila Ocean Park" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Manila Ocean Park</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
-        }
-
-        @if (topAttractions.Any(p => p.Name == "The Mind Museum"))
-        {
-            var place = topAttractions.First(p => p.Name == "The Mind Museum");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/mindmuseum.jpg" alt="The Mind Museum" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>The Mind Museum</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
-        }
-
-        @if (topAttractions.Any(p => p.Name == "Yuchengco Museum"))
-        {
-            var place = topAttractions.First(p => p.Name == "Yuchengco Museum");
-            <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
-                <img src="~/Content/Images/yuchengco-museum-gallery.jpg" alt="Yuchengco Museum" class="attraction-image" />
-                <div class="attraction-info">
-                    <h3>Yuchengco Museum</h3>
-                    <p>@place.City</p>
-                </div>
-            </a>
-        }
-    </div>
-
-    <div class="section-header">
-        <h2 class="section-title">Where to next?</h2>
-    </div>
-
-    <div class="destinations-wrapper">
-
-        <button class="scroll-arrow-btn left" id="scroll-left">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <div class="destinations-container" id="destinations-container">
-
-            <div class="destinations-grid">
-
-                @foreach (var place in destinationCities)
-                {
-                    // --- *** NEW IMAGE MAPPER LOGIC *** ---
-                    // This switch maps your C# city name to the exact filename
-                    // from your image folder to fix inconsistencies.
-                    string filename = "";
-                    switch (place.City)
-                    {
-                        case "Manila":
-                            filename = "manila-city.jpg";
-                            break;
-                        case "Quezon City":
-                            filename = "quezon-city.jpg";
-                            break;
-                        case "Taguig":
-                            filename = "taguig-city.jpg";
-                            break;
-                        case "Pasay":
-                            filename = "pasay-city.jpg";
-                            break;
-                        case "Caloocan":
-                            filename = "caloocan-placeholder.jpg";
-                            break;
-                        case "Makati":
-                            filename = "makati-city-building.jpg";
-                            break;
-                        case "Pasig":
-                            filename = "pasig-city-placeholder.jpg";
-                            break;
-                        case "Mandaluyong":
-                            filename = "mandaluyong-city-placeholder.jpg";
-                            break;
-                        case "Las Piñas":
-                            filename = "laspinas-placeholder.jpg";
-                            break;
-                        case "Muntinlupa":
-                            filename = "muntinlupa-placeholder.jpg";
-                            break;
-                        case "Malabon":
-                            filename = "malabon-placeholder.jpg";
-                            break;
-                        case "Marikina":
-                            filename = "marikina-placeholder.jpg";
-                            break;
-                        case "Navotas":
-                            filename = "navotas.jpg";
-                            break;
-                        case "Parañaque":
-                            filename = "paranaque-city-placeholder.jpg";
-                            break;
-                        case "San Juan":
-                            filename = "sanjuan-placeholder.jpg";
-                            break;
-                        case "Valenzuela":
-                            filename = "valenzuela-placeholder.jpg";
-                            break;
-                        // ---
-                        // ADD YOUR OTHER CITIES HERE
-                        // case "YourCityName":
-                        //    filename = "your-image-name.jpg";
-                        //    break;
-                        // ---
-                        default:
-                            // Fallback for any cities not listed above
-                            filename = "ncr-hero.jpg"; // Or a default placeholder
-                            break;
-                    }
-
-                    string imageUrl = $"~/Content/Images/{filename}";
-
-                    <a href="@Url.Action("CitySummary", "Places", new { city = place.City })" class="destination-card">
-                        <img src="@Url.Content(imageUrl)" alt="@place.City City" class="destination-image" />
-                        <div class="destination-info">
-                            <h3>@place.City</h3>
-                            <p>Explore @place.City</p>
-                        </div>
-                    </a>
-                }
-            </div>
-        </div>
-
-        <button class="scroll-arrow-btn right" id="scroll-right">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-    </div>
-    <div class="see-all-button-wrapper">
-        <a href="@Url.Action("Cities", "Home")" class="see-all-button">See All</a>
-    </div>
-</div>
-
-<div class="why-choose">
-    <div class="why-choose-content">
-        <h2 class="why-title">Why choose GreenGo</h2>
-        <div class="features-grid">
-            <div class="feature-item">
-                <img src="~/Content/Images/whyus1.png" alt="Discover More Places" class="feature-icon" />
-                <h3>Discover more places</h3>
-                <p>From parks to museums, explore a wide range of destinations within the NCR</p>
-            </div>
-            <div class="feature-item">
-                <img src="~/Content/Images/whyus2.png" alt="Memorable Experiences" class="feature-icon" />
-                <h3>Memorable experiences</h3>
-                <p>Browse and book tours and activities so incredible, you'll want to tell your friends</p>
-            </div>
-            <div class="feature-item">
-                <img src="~/Content/Images/whyus3.png" alt="Quality at Our Core" class="feature-icon" />
-                <h3>Quality at our core</h3>
-                <p>High-quality standards</p>
-            </div>
-            <div class="feature-item">
-                <img src="~/Content/Images/whyus4.png" alt="Pay with Convenience" class="feature-icon" />
-                <h3>Pay with convenience</h3>
-                <p>Securely purchase tickets, rentals, or passes directly on the platform.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="reviews-section">
-    <h2 class="reviews-title">Reviews from our customers</h2>
-    <div class="reviews-grid">
-        <div class="review-card">
-            <div class="quote-icon">"</div>
-            <p class="review-text">Et aliquam netus ut sapien pellentesque mollis nec eleifend mauris orci duis. Felis pharetra potentit habitasse odio justo fauciat. In cursus turpis.</p>
-            <div class="reviewer">
-                <div class="reviewer-avatar"></div>
-                <div class="reviewer-info">
-                    <div class="reviewer-name">Emanuel Boyle</div>
-                </div>
-            </div>
-        </div>
-        <div class="review-card">
-            <div class="quote-icon">"</div>
-            <p class="review-text">Fusce consequetus verius quis vitae innaestur erros mattis. Sem velsed duom sed. Pede tincidunt ut amet adipiscing ligula.</p>
-            <div class="reviewer">
-                <div class="reviewer-avatar"></div>
-                <div class="reviewer-info">
-                    <div class="reviewer-name">River Graves</div>
-                </div>
-            </div>
-        </div>
-        <div class="review-card">
-            <div class="quote-icon">"</div>
-            <p class="review-text">Quam magna odio urus elemsend tellus. Id, sociis a utatus meters. In quamvis semper sed cursus scelerisque. Nisl nam quis sed pellentesque vestibule sit.</p>
-            <div class="reviewer">
-                <div class="reviewer-avatar"></div>
-                <div class="reviewer-info">
-                    <div class="reviewer-name">Ryder Malone</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="footer">
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Company</h3>
-            <p>Travel help companies manage payments easily</p>
-            <div class="social-icons">
-                <div class="social-icon">in</div>
-                <div class="social-icon">IG</div>
-                <div class="social-icon">tw</div>
-                <div class="social-icon">yt</div>
-            </div>
-        </div>
-        <div class="footer-section">
-            <h3>Company</h3>
-            <ul class="footer-links">
-                <li><a href="">About Us</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Sustainability</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <h3>Destinations</h3>
-            <ul class="footer-links">
-                <li><a href="#">Manila</a></li>
-                <li><a href="#">Makati City</a></li>
-                <li><a href="#">Quezon City</a></li>
-                <li><a href="#">Taguig</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <h3>Join Our Newsletter</h3>
-            <div class="newsletter-input">
-                <input type="email" placeholder="Your email address" />
-                <button>Subscribe</button>
-            </div>
-            <p style="margin-top: 12px; font-size: 12px;">* We'll send you weekly updates for your better tour packages.</p>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get the elements by their IDs
-        const container = document.getElementById("destinations-container");
-        const leftBtn = document.getElementById("scroll-left");
-        const rightBtn = document.getElementById("scroll-right");
-
-        // Make sure all elements exist before running code
-        if (container && leftBtn && rightBtn) {
-
-            // Set the distance to scroll (width of one card + gap)
-            const scrollAmount = 280 + 20; // 300px
-
-            // Function to show/hide arrows
-            function checkScrollButtons() {
-                // Check scroll position
-                let currentScroll = container.scrollLeft;
-                let maxScroll = container.scrollWidth - container.clientWidth;
-
-                // Show/hide LEFT button
-                if (currentScroll > 0) {
-                    leftBtn.style.display = "block";
-                } else {
-                    leftBtn.style.display = "none";
-                }
-
-                // Show/hide RIGHT button
-                // (Added a 5px buffer for precision)
-                if (currentScroll >= (maxScroll - 5)) {
-                    rightBtn.style.display = "none";
-                } else {
-                    rightBtn.style.display = "block";
-                }
+            .footer-links li {
+                margin-bottom: 12px;
             }
 
-            // --- Event Listeners ---
+            .footer-links a {
+                color: rgba(255, 255, 255, 0.85);
+                text-decoration: none;
+                font-size: 14px;
+                transition: 0.3s;
+            }
 
-            // Click right button
-            rightBtn.addEventListener("click", function () {
-                container.scrollLeft += scrollAmount;
-            });
+                .footer-links a:hover {
+                    color: #fff;
+                    padding-left: 5px;
+                }
 
-            // Click left button
-            leftBtn.addEventListener("click", function () {
-                container.scrollLeft -= scrollAmount;
-            });
-
-            // Check buttons when the container is scrolled (e.g., by touch)
-            container.addEventListener("scroll", checkScrollButtons);
-
-            // Initial check when the page loads
-            checkScrollButtons();
+        .newsletter-input {
+            display: flex;
+            margin-top: 16px;
         }
-    });
-</script>
+
+            .newsletter-input input {
+                flex: 1;
+                padding: 12px 18px;
+                border: none;
+                border-radius: 6px 0 0 6px;
+                outline: none;
+                font-size: 14px;
+            }
+
+            .newsletter-input button {
+                padding: 12px 28px;
+                background: #8fb91c;
+                color: white;
+                border: none;
+                border-radius: 0 6px 6px 0;
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 14px;
+                transition: 0.3s;
+            }
+
+                .newsletter-input button:hover {
+                    background: #7da619;
+                }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .social-icon:hover {
+                background: rgba(255, 255, 255, 0.25);
+                transform: translateY(-2px);
+            }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Discover NCR's Parks, Museums, And Hidden Treasures—All In One Place.</h1>
+            <p>Find your next destination in every corner of NCR.</p>
+            <div class="hero-search-box">
+                <input type="text" placeholder="Explore Quezon City" />
+                <button>Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="section-header">
+            <h2 class="section-title">Top Attractions</h2>
+            <a href="@Url.Action("MuseumTopAttractions", "Home")" class="see-all">See all</a>
+        </div>
+
+        <div class="attractions-grid">
+            @if (topAttractions.Any(p => p.Name == "La Mesa Ecopark"))
+            {
+                var place = topAttractions.First(p => p.Name == "La Mesa Ecopark");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/la-mesa-ecopark.jpg" alt="La Mesa Ecopark" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>La Mesa Ecopark</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "Rizal Park (Luneta)"))
+            {
+                var place = topAttractions.First(p => p.Name == "Rizal Park (Luneta)");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/rizal-park.jpg" alt="Rizal Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Rizal Park (Luneta)</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "Quezon Memorial Circle"))
+            {
+                var place = topAttractions.First(p => p.Name == "Quezon Memorial Circle");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/quezon-memorial.jpg" alt="Quezon Memorial Circle" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Quezon Memorial Circle</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "National Museum of Fine Arts"))
+            {
+                var place = topAttractions.First(p => p.Name == "National Museum of Fine Arts");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/national-museum.jpg" alt="National Museum" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>National Museum of Fine Arts</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "Intramuros"))
+            {
+                var place = topAttractions.First(p => p.Name == "Intramuros");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/intramuros.jpg" alt="Intramuros" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Intramuros</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "Manila Cathedral"))
+            {
+                var place = topAttractions.First(p => p.Name == "Manila Cathedral");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/manila-cathedral.jpg" alt="Manila Cathedral" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Manila Cathedral</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "Manila Ocean Park"))
+            {
+                var place = topAttractions.First(p => p.Name == "Manila Ocean Park");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/manila-ocean-park.jpg" alt="Manila Ocean Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Manila Ocean Park</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "The Mind Museum"))
+            {
+                var place = topAttractions.First(p => p.Name == "The Mind Museum");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/mindmuseum.jpg" alt="The Mind Museum" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>The Mind Museum</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (topAttractions.Any(p => p.Name == "Yuchengco Museum"))
+            {
+                var place = topAttractions.First(p => p.Name == "Yuchengco Museum");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/yuchengco-museum-gallery.jpg" alt="Yuchengco Museum" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Yuchengco Museum</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title">Where to next?</h2>
+        </div>
+
+        <div class="destinations-wrapper">
+            <button class="scroll-arrow-btn left" id="scroll-left">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <div class="destinations-container" id="destinations-container">
+                <div class="destinations-grid">
+                    @foreach (var place in destinationCities)
+                    {
+                        string filename = "";
+                        switch (place.City)
+                        {
+                            case "Manila":
+                                filename = "manila-city.jpg";
+                                break;
+                            case "Quezon City":
+                                filename = "quezon-city.jpg";
+                                break;
+                            case "Taguig":
+                                filename = "taguig-city.jpg";
+                                break;
+                            case "Pasay":
+                                filename = "pasay-city.jpg";
+                                break;
+                            case "Caloocan":
+                                filename = "caloocan-placeholder.jpg";
+                                break;
+                            case "Makati":
+                                filename = "makati-city-building.jpg";
+                                break;
+                            case "Pasig":
+                                filename = "pasig-city-placeholder.jpg";
+                                break;
+                            case "Mandaluyong":
+                                filename = "mandaluyong-city-placeholder.jpg";
+                                break;
+                            case "Las Piñas":
+                                filename = "laspinas-placeholder.jpg";
+                                break;
+                            case "Muntinlupa":
+                                filename = "muntinlupa-placeholder.jpg";
+                                break;
+                            case "Malabon":
+                                filename = "malabon-placeholder.jpg";
+                                break;
+                            case "Marikina":
+                                filename = "marikina-placeholder.jpg";
+                                break;
+                            case "Navotas":
+                                filename = "navotas.jpg";
+                                break;
+                            case "Parañaque":
+                                filename = "paranaque-city-placeholder.jpg";
+                                break;
+                            case "San Juan":
+                                filename = "sanjuan-placeholder.jpg";
+                                break;
+                            case "Valenzuela":
+                                filename = "valenzuela-placeholder.jpg";
+                                break;
+                            default:
+                                filename = "ncr-hero.jpg";
+                                break;
+                        }
+
+                        string imageUrl = $"~/Content/Images/{filename}";
+
+                        <a href="@Url.Action("CitySummary", "Places", new { city = place.City })" class="destination-card">
+                            <img src="@Url.Content(imageUrl)" alt="@place.City City" class="destination-image" />
+                            <div class="destination-info">
+                                <h3>@place.City</h3>
+                                <p>Explore @place.City</p>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <button class="scroll-arrow-btn right" id="scroll-right">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="see-all-button-wrapper">
+            <a href="@Url.Action("Cities", "Home")" class="see-all-button">See All</a>
+        </div>
+    </div>
+
+    <!-- Why Choose Section -->
+    <div class="why-choose">
+        <div class="why-choose-content">
+            <h2 class="why-title">Why choose GreenGo</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <img src="~/Content/Images/whyus1.png" alt="Discover More Places" class="feature-icon" />
+                    <h3>Discover more places</h3>
+                    <p>From parks to museums, explore a wide range of destinations within the NCR</p>
+                </div>
+                <div class="feature-item">
+                    <img src="~/Content/Images/whyus2.png" alt="Memorable Experiences" class="feature-icon" />
+                    <h3>Memorable experiences</h3>
+                    <p>Browse and book tours and activities so incredible, you'll want to tell your friends</p>
+                </div>
+                <div class="feature-item">
+                    <img src="~/Content/Images/whyus3.png" alt="Quality at Our Core" class="feature-icon" />
+                    <h3>Quality at our core</h3>
+                    <p>High-quality standards</p>
+                </div>
+                <div class="feature-item">
+                    <img src="~/Content/Images/whyus4.png" alt="Pay with Convenience" class="feature-icon" />
+                    <h3>Pay with convenience</h3>
+                    <p>Securely purchase tickets, rentals, or passes directly on the platform.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+        <h2 class="reviews-title">Reviews from our customers</h2>
+        <button class="feedback-button" id="feedback-button">Feedback</button>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="quote-icon">"</div>
+                <p class="review-text">It appears matter at capture publications or make new-related finance cost data. Fees generate potential bulk trade with a unit's benefit, in surplus target.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar"></div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Power Curtain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="quote-icon">"</div>
+                <p class="review-text">Laser consequent vertex rate while transmittal vertex matrix. Some related claims hold. Pools shoulder set arrest sulphurized joints.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar"></div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Drained Rayle</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="quote-icon">"</div>
+                <p class="review-text">Others may not add error difference. Unlike, let record a surface reaction. In quantum weapon and criminal technologies, this latter value will probe stronger, with both oil.</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar"></div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Ryder Makers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="feedback-modal" id="feedback-modal">
+        <div class="feedback-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Share your experience in scaling</h3>
+                <button class="close-button" id="close-modal">&times;</button>
+            </div>
+            <div class="contact-info">
+                <div class="contact-row">
+                    <span class="contact-label">Name</span>
+                    <input type="text" class="contact-input" placeholder="Enter your name" value="">
+                </div>
+                <div class="contact-row">
+                    <span class="contact-label">Contact Number</span>
+                    <div class="phone-input-container">
+                        <span class="phone-prefix">(63+)</span>
+                        <input type="text" class="contact-input phone-input" id="phone-input" placeholder="Enter 10-digit number" value="" maxlength="10">
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <span class="contact-label">Email Address</span>
+                    <input type="email" class="contact-input" placeholder="Enter your email" value="">
+                </div>
+            </div>
+            <div class="rating-section">
+                <div class="rating-title">Rate your experience</div>
+                <div class="emoji-rating">
+                    <div class="emoji-option" data-rating="1">
+                        <span class="emoji">😖</span>
+                        <span class="emoji-label">Worst</span>
+                    </div>
+                    <div class="emoji-option" data-rating="2">
+                        <span class="emoji">😔</span>
+                        <span class="emoji-label">Not Good</span>
+                    </div>
+                    <div class="emoji-option" data-rating="3">
+                        <span class="emoji">😐</span>
+                        <span class="emoji-label">Fine</span>
+                    </div>
+                    <div class="emoji-option" data-rating="4">
+                        <span class="emoji">😃</span>
+                        <span class="emoji-label">Look Good</span>
+                    </div>
+                    <div class="emoji-option" data-rating="5">
+                        <span class="emoji">🤩</span>
+                        <span class="emoji-label">Very Good</span>
+                    </div>
+                </div>
+            </div>
+            <div class="comments-section">
+                <label class="comments-label" for="comments">Add your comments...</label>
+                <textarea class="comments-input" id="comments" placeholder="Tell us about your experience..."></textarea>
+            </div>
+            <button class="submit-button" id="submit-button">SUBMIT</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <p>Travel help companies manage payments easily</p>
+                <div class="social-icons">
+                    <div class="social-icon">in</div>
+                    <div class="social-icon">IG</div>
+                    <div class="social-icon">tw</div>
+                    <div class="social-icon">yt</div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="@Url.Action("About", "Home")">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Destinations</h3>
+                <ul class="footer-links">
+                    <li><a href="">Manila</a></li>
+                    <li><a href="#">Pasay City</a></li>
+                    <li><a href="#">Quezon City</a></li>
+                    <li><a href="#">Taguig</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Terms of Use</h3>
+                <ul class="footer-links">
+                    <li><a href="@Url.Action("GeneralTerms", "Home")">General Terms of Use</a></li>
+                    <li><a href="@Url.Action("PrivacyPolicy", "Home")">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Join Our Newsletter</h3>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Your email address" />
+                    <button>Subscribe</button>
+                </div>
+                <p style="margin-top: 12px; font-size: 12px;">* We'll send you weekly updates for your better tour packages.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the elements by their IDs
+            const container = document.getElementById("destinations-container");
+            const leftBtn = document.getElementById("scroll-left");
+            const rightBtn = document.getElementById("scroll-right");
+
+            // Make sure all elements exist before running code
+            if (container && leftBtn && rightBtn) {
+
+                // Set the distance to scroll (width of one card + gap)
+                const scrollAmount = 280 + 20; // 300px
+
+                // Function to show/hide arrows
+                function checkScrollButtons() {
+                    // Check scroll position
+                    let currentScroll = container.scrollLeft;
+                    let maxScroll = container.scrollWidth - container.clientWidth;
+
+                    // Show/hide LEFT button
+                    if (currentScroll > 0) {
+                        leftBtn.style.display = "block";
+                    } else {
+                        leftBtn.style.display = "none";
+                    }
+
+                    // Show/hide RIGHT button
+                    // (Added a 5px buffer for precision)
+                    if (currentScroll >= (maxScroll - 5)) {
+                        rightBtn.style.display = "none";
+                    } else {
+                        rightBtn.style.display = "block";
+                    }
+                }
+
+                // --- Event Listeners ---
+
+                // Click right button
+                rightBtn.addEventListener("click", function () {
+                    container.scrollLeft += scrollAmount;
+                });
+
+                // Click left button
+                leftBtn.addEventListener("click", function () {
+                    container.scrollLeft -= scrollAmount;
+                });
+
+                // Check buttons when the container is scrolled (e.g., by touch)
+                container.addEventListener("scroll", checkScrollButtons);
+
+                // Initial check when the page loads
+                checkScrollButtons();
+            }
+
+            // Feedback modal functionality
+            const feedbackButton = document.getElementById("feedback-button");
+            const feedbackModal = document.getElementById("feedback-modal");
+            const closeModal = document.getElementById("close-modal");
+            const emojiOptions = document.querySelectorAll('.emoji-option');
+            const phoneInput = document.getElementById('phone-input');
+            let selectedRating = 0;
+
+            if (feedbackButton && feedbackModal && closeModal) {
+                feedbackButton.addEventListener("click", function () {
+                    feedbackModal.style.display = "flex";
+                });
+
+                closeModal.addEventListener("click", function () {
+                    feedbackModal.style.display = "none";
+                });
+
+                // Close modal when clicking outside the content
+                window.addEventListener("click", function (event) {
+                    if (event.target === feedbackModal) {
+                        feedbackModal.style.display = "none";
+                    }
+                });
+            }
+
+            // Emoji rating selection
+            emojiOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    // Remove selected class from all options
+                    emojiOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+
+                    // Store the selected rating
+                    selectedRating = this.getAttribute('data-rating');
+                    console.log('Selected rating:', selectedRating);
+                });
+            });
+
+            // Phone number validation - simple 10-digit limit
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function () {
+                    // Remove any non-digit characters and limit to 10 digits
+                    let value = this.value.replace(/\D/g, '');
+                    if (value.length > 10) {
+                        value = value.substring(0, 10);
+                    }
+                    this.value = value;
+                });
+
+                // Prevent non-digit input
+                phoneInput.addEventListener('keypress', function (e) {
+                    if (!/\d/.test(e.key)) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
