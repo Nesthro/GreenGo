@@ -1,0 +1,571 @@
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .settings-container {
+        padding: 1rem 2rem;
+        background-color: #f5f5f5;
+        min-height: 100vh;
+    }
+
+    .settings-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 1rem;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .profile-image-container {
+        position: relative;
+    }
+
+    .profile-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .camera-icon {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #2d3748;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid white;
+        cursor: pointer;
+    }
+
+    .camera-icon svg {
+        width: 16px;
+        height: 16px;
+        color: white;
+    }
+
+    .profile-info h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin: 0 0 0.25rem 0;
+    }
+
+    .profile-info .role {
+        color: #718096;
+        font-size: 0.95rem;
+        margin: 0 0 0.25rem 0;
+    }
+
+    .profile-info .location {
+        color: #4a5568;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .section-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .section-header h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin: 0;
+    }
+
+    .edit-btn {
+        background: #84cc16;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.25rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background 0.2s;
+    }
+
+    .edit-btn:hover {
+        background: #65a30d;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .info-field label {
+        display: block;
+        font-size: 0.875rem;
+        color: #4a5568;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .info-field .value {
+        color: #2d3748;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.2s;
+    }
+
+    .modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    
+
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: slideUp 0.3s;
+    }
+
+    
+
+    .modal-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-header h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin: 0;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #718096;
+        cursor: pointer;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background 0.2s;
+    }
+
+    .close-btn:hover {
+        background: #f7fafc;
+        color: #2d3748;
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        font-size: 0.875rem;
+        color: #4a5568;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .form-group input {
+        padding: 0.625rem 0.875rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        color: #2d3748;
+        transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #84cc16;
+        box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
+    }
+
+    .modal-footer {
+        padding: 1.5rem 2rem;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+    }
+
+    .btn-cancel {
+        background: white;
+        color: #4a5568;
+        border: 1px solid #e2e8f0;
+        padding: 0.625rem 1.5rem;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-cancel:hover {
+        background: #f7fafc;
+        border-color: #cbd5e0;
+    }
+
+    .btn-save {
+        background: #84cc16;
+        color: white;
+        border: none;
+        padding: 0.625rem 1.5rem;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .btn-save:hover {
+        background: #65a30d;
+    }
+
+    @@media (max-width: 768px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="settings-container">
+    <h1 class="settings-title">Settings</h1>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-image-container">
+                <img src="https://via.placeholder.com/120" alt="Profile Picture" class="profile-image" id="profileImg">
+                <div class="camera-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2 id="profileName">Jenn Mercado</h2>
+                <p class="role" id="profileRole">Admin</p>
+                <p class="location" id="profileLocation">Quezon City, Metro Manila</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Personal Information -->
+    <div class="section-card">
+        <div class="section-header">
+            <h3>Personal Information</h3>
+            <button class="edit-btn" onclick="openModal('personalModal')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+                Edit
+            </button>
+        </div>
+        <div class="info-grid">
+            <div class="info-field">
+                <label>First Name</label>
+                <div class="value" id="firstName">Jenn</div>
+            </div>
+            <div class="info-field">
+                <label>Last Name</label>
+                <div class="value" id="lastName">Mercado</div>
+            </div>
+            <div class="info-field">
+                <label>Date of Birth</label>
+                <div class="value" id="dateOfBirth">12-21-2004</div>
+            </div>
+            <div class="info-field">
+                <label>Email Address</label>
+                <div class="value" id="emailAddress">Jennmercado@gmail.com</div>
+            </div>
+            <div class="info-field">
+                <label>Phone Number</label>
+                <div class="value" id="phoneNumber">0999999999</div>
+            </div>
+            <div class="info-field">
+                <label>User role</label>
+                <div class="value" id="userRole">Admin</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address -->
+    <div class="section-card">
+        <div class="section-header">
+            <h3>Address</h3>
+            <button class="edit-btn" onclick="openModal('addressModal')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+                Edit
+            </button>
+        </div>
+        <div class="info-grid">
+            <div class="info-field">
+                <label>Province</label>
+                <div class="value" id="province">Metro Manila</div>
+            </div>
+            <div class="info-field">
+                <label>City</label>
+                <div class="value" id="city">Quezon City</div>
+            </div>
+            <div class="info-field">
+                <label>Postal Code</label>
+                <div class="value" id="postalCode">1119</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Personal Information Modal -->
+<div id="personalModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit Personal Information</h3>
+            <button class="close-btn" onclick="closeModal('personalModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="personalInfoForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" id="editFirstName" value="Jenn">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" id="editLastName" value="Mercado">
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="editDateOfBirth" value="2004-12-21">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="editPhoneNumber" value="0999999999">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Email Address</label>
+                        <input type="email" id="editEmailAddress" value="Jennmercado@gmail.com">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal('personalModal')">Cancel</button>
+            <button class="btn-save" onclick="savePersonalInfo()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Address Modal -->
+<div id="addressModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit Address</h3>
+            <button class="close-btn" onclick="closeModal('addressModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="addressForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Province</label>
+                        <input type="text" id="editProvince" value="Metro Manila">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="editCity" value="Quezon City">
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" id="editPostalCode" value="1119">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal('addressModal')">Cancel</button>
+            <button class="btn-save" onclick="saveAddress()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+        if (event.target.classList.contains('modal')) {
+            closeModal(event.target.id);
+        }
+    }
+
+    function savePersonalInfo() {
+        // Get form values
+        const firstName = document.getElementById('editFirstName').value;
+        const lastName = document.getElementById('editLastName').value;
+        const dateOfBirth = document.getElementById('editDateOfBirth').value;
+        const phoneNumber = document.getElementById('editPhoneNumber').value;
+        const emailAddress = document.getElementById('editEmailAddress').value;
+
+        // Update display values
+        document.getElementById('firstName').textContent = firstName;
+        document.getElementById('lastName').textContent = lastName;
+        document.getElementById('dateOfBirth').textContent = formatDate(dateOfBirth);
+        document.getElementById('phoneNumber').textContent = phoneNumber;
+        document.getElementById('emailAddress').textContent = emailAddress;
+        document.getElementById('profileName').textContent = firstName + ' ' + lastName;
+
+        // Here you would typically send an AJAX request to your server
+        // Example:
+        // $.ajax({
+        //     url: '/Profile/UpdatePersonalInfo',
+        //     method: 'POST',
+        //     data: {
+        //         FirstName: firstName,
+        //         LastName: lastName,
+        //         DateOfBirth: dateOfBirth,
+        //         PhoneNumber: phoneNumber,
+        //         EmailAddress: emailAddress
+        //     },
+        //     success: function(response) {
+        //         closeModal('personalModal');
+        //     }
+        // });
+
+        closeModal('personalModal');
+    }
+
+    function saveAddress() {
+        // Get form values
+        const province = document.getElementById('editProvince').value;
+        const city = document.getElementById('editCity').value;
+        const postalCode = document.getElementById('editPostalCode').value;
+
+        // Update display values
+        document.getElementById('province').textContent = province;
+        document.getElementById('city').textContent = city;
+        document.getElementById('postalCode').textContent = postalCode;
+        document.getElementById('profileLocation').textContent = city + ', ' + province;
+
+        // Here you would typically send an AJAX request to your server
+        // Example:
+        // $.ajax({
+        //     url: '/Profile/UpdateAddress',
+        //     method: 'POST',
+        //     data: {
+        //         Province: province,
+        //         City: city,
+        //         PostalCode: postalCode
+        //     },
+        //     success: function(response) {
+        //         closeModal('addressModal');
+        //     }
+        // });
+
+        closeModal('addressModal');
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${month}-${day}-${year}`;
+    }
+</script>

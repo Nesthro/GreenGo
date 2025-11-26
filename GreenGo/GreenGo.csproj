@@ -131,6 +131,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminProfileViewModel.cs" />
     <Compile Include="Models\CardPaymentModel.cs" />
     <Compile Include="Models\PaymentDetailsSession.cs" />
     <Compile Include="Models\PaymentViewModel.cs" />
@@ -315,6 +316,8 @@
     <Content Include="Views\Payment\Verification.cshtml" />
     <Content Include="Views\Home\GeneralTerms.cshtml" />
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Admin\Profile.cshtml" />
+    <Content Include="Views\Admin\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Categories\" />

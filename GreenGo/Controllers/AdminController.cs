@@ -48,5 +48,14 @@ namespace GreenGo.Controllers
         {
             return View();
         }
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
     }
 }
