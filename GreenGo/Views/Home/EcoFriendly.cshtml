@@ -1,0 +1,474 @@
+﻿@model IEnumerable<GreenGo.Models.Place>
+@using GreenGo.Models
+@{
+    ViewBag.Title = "Top Attractions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* --- Main Container --- */
+    .attractions-container {
+        max-width: 1280px;
+        margin: 28px auto;
+        padding: 12px 60px;
+    }
+
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .page-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #0a2447;
+        margin-bottom: 24px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 12px;
+    }
+
+    .page-subtitle {
+        display: none;
+    }
+
+    /* --- Filter Buttons --- */
+    .filter-tabs {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 32px;
+    }
+
+    .tab-button {
+        padding: 10px 22px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #0a2447;
+        background: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .tab-button:hover {
+            background: #e9e9e9;
+            border-color: #ccc;
+        }
+
+        .tab-button.active {
+            background: #576b24;
+            color: #ffffff;
+            border-color: #576b24;
+        }
+
+    /* --- Attractions Grid --- */
+    .attractions-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    /* --- Card Styles (Matching Reference Code) --- */
+    .attraction-card {
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        text-decoration: none;
+        color: inherit;
+        background: #fff;
+    }
+
+        .attraction-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-image-container {
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        background: #f0f0f0;
+        position: relative;
+    }
+
+    .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .card-image-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-size: 14px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .card-content {
+        padding: 18px 20px;
+        background: white;
+    }
+
+    .card-title {
+        font-size: 17px;
+        font-weight: 600;
+        color: #0a2447;
+        margin-bottom: 4px;
+    }
+
+    .card-location {
+        font-size: 13px;
+        color: #999;
+        margin: 0;
+    }
+</style>
+
+
+<div class="attractions-container">
+    <div class="page-header">
+        <h1 class="page-title">Eco-Friendly Destinations</h1>
+        <p class="page-subtitle">Discover eco-friendly top attractions and green spaces across NCR</p>
+
+        <div class="filter-tabs">
+            <button class="tab-button active">
+                <i class="fas fa-tree"></i> top attractions
+            </button>
+        </div>
+    </div>
+
+    <div class="attractions-grid">
+
+        <!-- Rizal Park (Luneta) -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/rizal-park.jpg" alt="Rizal Park (Luneta)" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Rizal Park (Luneta)</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Rizal Park (Luneta)</h3>
+                <p class="card-location">Manila</p>
+            </div>
+        </div>
+
+        <!-- Ayala Triangle Gardens -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/ayala-triangle-gardens.jpg" alt="Ayala Triangle Gardens" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Ayala Triangle Gardens</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Ayala Triangle Gardens</h3>
+                <p class="card-location">Makati</p>
+            </div>
+        </div>
+
+        <!-- Washington SyCip Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/washington-sycip-park.jpg" alt="Washington SyCip Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Washington SyCip Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Washington SyCip Park</h3>
+                <p class="card-location">Makati</p>
+            </div>
+        </div>
+
+        <!-- Legazpi Active Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/legazpi-active-park.jpg" alt="Legazpi Active Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Legazpi Active Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Legazpi Active Park</h3>
+                <p class="card-location">Makati</p>
+            </div>
+        </div>
+
+        <!-- Quezon Memorial Circle -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/quezon-memorial-circle.jpg" alt="Quezon Memorial Circle" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Quezon Memorial Circle</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Quezon Memorial Circle</h3>
+                <p class="card-location">Quezon City</p>
+            </div>
+        </div>
+
+        <!-- Ninoy Aquino Parks and Wildlife Center -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/ninoy-aquino-wildlife.jpg" alt="Ninoy Aquino Parks and Wildlife Center" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Ninoy Aquino Parks and Wildlife Center</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Ninoy Aquino Parks and Wildlife Center</h3>
+                <p class="card-location">Quezon City</p>
+            </div>
+        </div>
+
+        <!-- La Mesa Ecopark -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/la-mesa-ecopark.jpg" alt="La Mesa Ecopark" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">La Mesa Ecopark</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">La Mesa Ecopark</h3>
+                <p class="card-location">Quezon City</p>
+            </div>
+        </div>
+
+        <!-- UP Sunken Garden -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/up-sunken-garden.jpg" alt="UP Sunken Garden" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">UP Sunken Garden</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">UP Sunken Garden</h3>
+                <p class="card-location">Quezon City</p>
+            </div>
+        </div>
+
+        <!-- Terra 28th Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/terra-28th-park.jpg" alt="Terra 28th Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Terra 28th Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Terra 28th Park</h3>
+                <p class="card-location">Taguig</p>
+            </div>
+        </div>
+
+        <!-- Track 30th Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/track-30th-park.jpg" alt="Track 30th Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Track 30th Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Track 30th Park</h3>
+                <p class="card-location">Taguig</p>
+            </div>
+        </div>
+
+        <!-- Kasalikasan Garden Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/kasalikasan-garden-park.jpg" alt="Kasalikasan Garden Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Kasalikasan Garden Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Kasalikasan Garden Park</h3>
+                <p class="card-location">Taguig</p>
+            </div>
+        </div>
+
+        <!-- Libertad Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/libertad-park.jpg" alt="Libertad Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Libertad Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Libertad Park</h3>
+                <p class="card-location">Pasay</p>
+            </div>
+        </div>
+
+        <!-- Blue Bay Walk Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/blue-bay-walk-park.jpg" alt="Blue Bay Walk Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Blue Bay Walk Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Blue Bay Walk Park</h3>
+                <p class="card-location">Pasay</p>
+            </div>
+        </div>
+
+        <!-- Rainforest Adventure Park (RAVE) -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/rainforest-adventure-rave.jpg" alt="Rainforest Adventure Park (RAVE)" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Rainforest Adventure Park (RAVE)</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Rainforest Adventure Park (RAVE)</h3>
+                <p class="card-location">Pasig</p>
+            </div>
+        </div>
+
+        <!-- Pasig City Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/pasig-city-park.jpg" alt="Pasig City Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Pasig City Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Pasig City Park</h3>
+                <p class="card-location">Pasig</p>
+            </div>
+        </div>
+
+        <!-- Hulo Mini Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/hulo-mini-park.jpg" alt="Hulo Mini Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Hulo Mini Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Hulo Mini Park</h3>
+                <p class="card-location">Mandaluyong</p>
+            </div>
+        </div>
+
+        <!-- Pinaglabanan Memorial Shrine Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/pinaglabanan-memorial.jpg" alt="Pinaglabanan Memorial Shrine Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Pinaglabanan Memorial Shrine Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Pinaglabanan Memorial Shrine Park</h3>
+                <p class="card-location">San Juan</p>
+            </div>
+        </div>
+
+        <!-- San Juan Mini Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/san-juan-mini-park.jpg" alt="San Juan Mini Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">San Juan Mini Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">San Juan Mini Park</h3>
+                <p class="card-location">San Juan</p>
+            </div>
+        </div>
+
+        <!-- Caloocan People's Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/caloocan-peoples-park.jpg" alt="Caloocan People's Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Caloocan People's Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Caloocan People's Park</h3>
+                <p class="card-location">Caloocan</p>
+            </div>
+        </div>
+
+        <!-- Marikina River Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/marikina-river-park.jpg" alt="Marikina River Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Marikina River Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Marikina River Park</h3>
+                <p class="card-location">Marikina</p>
+            </div>
+        </div>
+
+        <!-- Freedom Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/freedom-park.jpg" alt="Freedom Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Freedom Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Freedom Park</h3>
+                <p class="card-location">Marikina</p>
+            </div>
+        </div>
+
+        <!-- LPPCHEA -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/lppchea.jpg" alt="Las Piñas–Parañaque Critical Habitat & Ecotourism Area (Las Piñas–Parañaque Critical Habitat & Ecotourism Area)" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">LPPCHEA</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Las Piñas–Parañaque Critical Habitat & Ecotourism Area</h3>
+                <p class="card-location">Las Piñas</p>
+            </div>
+        </div>
+
+        <!-- Filinvest City Central Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/filinvest-central-park.jpg" alt="Filinvest City Central Park" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Filinvest City Central Park</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Filinvest City Central Park</h3>
+                <p class="card-location">Muntinlupa</p>
+            </div>
+        </div>
+
+        <!-- People's Park Valenzuela -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/peoples-park-valenzuela.jpg" alt="People's Park Valenzuela" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">People's Park Valenzuela</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">People's Park Valenzuela</h3>
+                <p class="card-location">Valenzuela</p>
+            </div>
+        </div>
+
+        <!-- Wawang Pulo Park -->
+        <div class="attraction-card">
+            <div class="card-image-container">
+                <img src="~/Images/wawang-pulo-park.jpg" alt="Wawang Pulo top attraction" class="card-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="card-image-placeholder" style="display:none;">Wawang Pulo top attraction</div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Wawang Pulo top attraction</h3>
+                <p class="card-location">Valenzuela</p>
+            </div>
+        </div>
+
+    </div>
+</div>

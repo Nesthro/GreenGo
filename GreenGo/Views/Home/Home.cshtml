@@ -6,7 +6,7 @@
     ViewBag.Title = "Home - GreenGo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    // *** TOP ATTRACTIONS LOGIC ***
+    // *** 1. TOP ATTRACTIONS LOGIC ***
     var topAttractions = new List<Place>();
     if (Model != null)
     {
@@ -21,14 +21,37 @@
             "Manila Ocean Park",
             "The Mind Museum",
             "Yuchengco Museum"
-                        };
+                };
 
         topAttractions = Model.Where(p => topAttractionNames.Contains(p.Name))
                               .OrderBy(p => Array.IndexOf(topAttractionNames, p.Name))
                               .Take(9).ToList();
     }
 
-    // --- Destinations (Where to next?) Logic ---
+    // *** 2. ECO-FRIENDLY DESTINATIONS LOGIC (Unique Parks) ***
+    var ecoAttractions = new List<Place>();
+    if (Model != null)
+    {
+        // Selected 9 unique parks that are NOT in Top Attractions
+        string[] ecoNames = new string[]
+        {
+            "Ayala Triangle Gardens",
+            "Washington SyCip Park",
+            "Legazpi Active Park",
+            "Ninoy Aquino Parks and Wildlife Center",
+            "UP Sunken Garden",
+            "Terra 28th Park",
+            "Track 30th Park",
+            "Kasalikasan Garden Park",
+            "Rainforest Adventure Park (RAVE)"
+                };
+
+        ecoAttractions = Model.Where(p => ecoNames.Contains(p.Name))
+                              .OrderBy(p => Array.IndexOf(ecoNames, p.Name))
+                              .Take(9).ToList();
+    }
+
+    // *** 3. DESTINATIONS (Where to next?) LOGIC ***
     var destinationCities = new List<Place>();
     if (Model != null)
     {
@@ -206,7 +229,7 @@
             margin-bottom: 20px;
         }
 
-        /* --- NEW/MODIFIED CSS FOR SCROLLER --- */
+        /* --- SCROLLER CSS --- */
         .destinations-container {
             overflow-x: scroll;
             scroll-behavior: smooth;
@@ -761,7 +784,6 @@
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
             <h1>Discover NCR's Parks, Museums, And Hidden Treasures—All In One Place.</h1>
@@ -773,7 +795,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <div class="section-header">
             <h2 class="section-title">Top Attractions</h2>
@@ -890,6 +911,121 @@
             }
         </div>
 
+        <div class="section-header" style="margin-top: 50px;">
+            <h2 class="section-title">Eco-Friendly Destination</h2>
+            <a href="@Url.Action("EcoFriendly", "Home")" class="see-all">See all</a>
+        </div>
+
+        <div class="attractions-grid">
+            @if (ecoAttractions.Any(p => p.Name == "Ayala Triangle Gardens"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Ayala Triangle Gardens");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/ayala-triangle-gardens.jpg" alt="Ayala Triangle Gardens" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Ayala Triangle Gardens</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "Washington SyCip Park"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Washington SyCip Park");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/washington-sycip-park.jpg" alt="Washington SyCip Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Washington SyCip Park</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "Legazpi Active Park"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Legazpi Active Park");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/legazpi-active-park.jpg" alt="Legazpi Active Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Legazpi Active Park</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "Ninoy Aquino Parks and Wildlife Center"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Ninoy Aquino Parks and Wildlife Center");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/ninoy-aquino-parks.jpg" alt="Ninoy Aquino Parks" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Ninoy Aquino Parks</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "UP Sunken Garden"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "UP Sunken Garden");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/up-sunken-garden.jpg" alt="UP Sunken Garden" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>UP Sunken Garden</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "Terra 28th Park"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Terra 28th Park");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/terra-28th-park.jpg" alt="Terra 28th Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Terra 28th Park</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "Track 30th Park"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Track 30th Park");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/track-30th-park.jpg" alt="Track 30th Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Track 30th Park</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "Kasalikasan Garden Park"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Kasalikasan Garden Park");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/kasalikasan-garden.jpg" alt="Kasalikasan Garden Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Kasalikasan Garden Park</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+
+            @if (ecoAttractions.Any(p => p.Name == "Rainforest Adventure Park (RAVE)"))
+            {
+                var place = ecoAttractions.First(p => p.Name == "Rainforest Adventure Park (RAVE)");
+                <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="attraction-card">
+                    <img src="~/Content/Images/rave-pasig.jpg" alt="Rainforest Adventure Park" class="attraction-image" />
+                    <div class="attraction-info">
+                        <h3>Rainforest Adventure Park</h3>
+                        <p>@place.City</p>
+                    </div>
+                </a>
+            }
+        </div>
+
         <div class="section-header">
             <h2 class="section-title">Where to next?</h2>
         </div>
@@ -906,57 +1042,23 @@
                         string filename = "";
                         switch (place.City)
                         {
-                            case "Manila":
-                                filename = "manila-city.jpg";
-                                break;
-                            case "Quezon City":
-                                filename = "quezon-city.jpg";
-                                break;
-                            case "Taguig":
-                                filename = "taguig-city.jpg";
-                                break;
-                            case "Pasay":
-                                filename = "pasay-city.jpg";
-                                break;
-                            case "Caloocan":
-                                filename = "caloocan-placeholder.jpg";
-                                break;
-                            case "Makati":
-                                filename = "makati-city-building.jpg";
-                                break;
-                            case "Pasig":
-                                filename = "pasig-city-placeholder.jpg";
-                                break;
-                            case "Mandaluyong":
-                                filename = "mandaluyong-city-placeholder.jpg";
-                                break;
-                            case "Las Piñas":
-                                filename = "laspinas-placeholder.jpg";
-                                break;
-                            case "Muntinlupa":
-                                filename = "muntinlupa-placeholder.jpg";
-                                break;
-                            case "Malabon":
-                                filename = "malabon-placeholder.jpg";
-                                break;
-                            case "Marikina":
-                                filename = "marikina-placeholder.jpg";
-                                break;
-                            case "Navotas":
-                                filename = "navotas.jpg";
-                                break;
-                            case "Parañaque":
-                                filename = "paranaque-city-placeholder.jpg";
-                                break;
-                            case "San Juan":
-                                filename = "sanjuan-placeholder.jpg";
-                                break;
-                            case "Valenzuela":
-                                filename = "valenzuela-placeholder.jpg";
-                                break;
-                            default:
-                                filename = "ncr-hero.jpg";
-                                break;
+                            case "Manila": filename = "manila-city.jpg"; break;
+                            case "Quezon City": filename = "quezon-city.jpg"; break;
+                            case "Taguig": filename = "taguig-city.jpg"; break;
+                            case "Pasay": filename = "pasay-city.jpg"; break;
+                            case "Caloocan": filename = "caloocan-placeholder.jpg"; break;
+                            case "Makati": filename = "makati-city-building.jpg"; break;
+                            case "Pasig": filename = "pasig-city-placeholder.jpg"; break;
+                            case "Mandaluyong": filename = "mandaluyong-city-placeholder.jpg"; break;
+                            case "Las Piñas": filename = "laspinas-placeholder.jpg"; break;
+                            case "Muntinlupa": filename = "muntinlupa-placeholder.jpg"; break;
+                            case "Malabon": filename = "malabon-placeholder.jpg"; break;
+                            case "Marikina": filename = "marikina-placeholder.jpg"; break;
+                            case "Navotas": filename = "navotas.jpg"; break;
+                            case "Parañaque": filename = "paranaque-city-placeholder.jpg"; break;
+                            case "San Juan": filename = "sanjuan-placeholder.jpg"; break;
+                            case "Valenzuela": filename = "valenzuela-placeholder.jpg"; break;
+                            default: filename = "ncr-hero.jpg"; break;
                         }
 
                         string imageUrl = $"~/Content/Images/{filename}";
@@ -982,7 +1084,6 @@
         </div>
     </div>
 
-    <!-- Why Choose Section -->
     <div class="why-choose">
         <div class="why-choose-content">
             <h2 class="why-title">Why choose GreenGo</h2>
@@ -1011,7 +1112,6 @@
         </div>
     </div>
 
-    <!-- Reviews Section -->
     <div class="reviews-section">
         <h2 class="reviews-title">Reviews from our customers</h2>
         <button class="feedback-button" id="feedback-button">Feedback</button>
@@ -1049,7 +1149,6 @@
         </div>
     </div>
 
-    <!-- Feedback Modal -->
     <div class="feedback-modal" id="feedback-modal">
         <div class="feedback-modal-content">
             <div class="modal-header">
@@ -1107,7 +1206,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -1182,7 +1280,6 @@
                     }
 
                     // Show/hide RIGHT button
-                    // (Added a 5px buffer for precision)
                     if (currentScroll >= (maxScroll - 5)) {
                         rightBtn.style.display = "none";
                     } else {

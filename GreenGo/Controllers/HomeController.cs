@@ -110,6 +110,12 @@ namespace GreenGo.Controllers
             return View("~/Views/Places/CitySummary.cshtml", parks);
         }
 
+        public ActionResult EcoFriendly()
+        {
+          
+            return View();
+        }
+
         public ActionResult Cities()
         {
             return View();

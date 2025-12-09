@@ -152,7 +152,7 @@
         }
     </div>
 
-    <div id="parks-grid" class="top-attaction-grid" style="display: none;">
+    <div id="parks-grid" class="top-attraction-grid" style="display: none;">
         @foreach (var place in parkAttractions)
         {
             <a href="@Url.Action("Details", "Places", new { id = place.Id, city = place.City, type = place.Type })" class="destination-card">
